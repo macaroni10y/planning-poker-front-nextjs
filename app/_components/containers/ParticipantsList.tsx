@@ -25,7 +25,9 @@ const ParticipantList = (props: Props) => (
 					<NameAndVote
 						key={participant.name}
 						name={participant.name}
-						showVote={props.participants.every((it) => isCountableVote(it.vote))}
+						showVote={props.participants.every((it) =>
+							isCountableVote(it.vote),
+						)}
 						vote={participant.vote}
 					/>
 				))}
