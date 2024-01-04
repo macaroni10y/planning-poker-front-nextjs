@@ -8,7 +8,6 @@ const meta = {
 	parameters: {
 		layout: "centered",
 	},
-	tags: ["autodocs"],
 	// More on argTypes: https://storybook.js.org/docs/api/argtypes
 	argTypes: {
 		text: {

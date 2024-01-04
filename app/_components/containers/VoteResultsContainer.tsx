@@ -1,5 +1,3 @@
-"use client";
-
 import OneVoteResult from "@/app/_components/uiparts/OneVoteResult";
 import { average, mode, scrumDecision } from "@/app/_lib/voteResultCalculate";
 import { CountableVote, Vote, isCountableVote } from "@/app/_types/types";
@@ -20,19 +18,19 @@ const VoteResultsContainer = ({ participantVotes }: Props) => {
 
 	const voteCompleted = participantVotes.every((it) => "not yet" !== it);
 	return (
-		<div className="flex justify-center items-center">
+		<div className="flex justify-center w-full max-w-5xl">
 			<OneVoteResult
-				name="average"
+				title="average"
 				value={average(availableVotes).toString()}
 				voteCompleted={voteCompleted}
 			/>
 			<OneVoteResult
-				name="mode"
+				title="mode"
 				value={mode(availableVotes).toString()}
 				voteCompleted={voteCompleted}
 			/>
 			<OneVoteResult
-				name="scrum"
+				title="scrum decision"
 				value={scrumDecision(availableVotes).toString()}
 				voteCompleted={voteCompleted}
 			/>

@@ -6,21 +6,17 @@ interface Props {
 }
 
 const ListHeader = () => (
-	<div className="justify-around items-center flex border-black border-2">
-		<div className="p-1 font-bold bg-amber-300 flex justify-center items-center">
-			name
-		</div>
-		<div className="p-1 font-bold bg-amber-400 flex justify-center items-center">
-			vote
-		</div>
+	<div className="justify-around items-center flex">
+		<div className="p-2 font-bold flex justify-center items-center">name</div>
+		<div className="p-2 font-bold flex justify-center items-center">vote</div>
 	</div>
 );
 
 const ParticipantList = (props: Props) => (
-	<div className="flex justify-center items-center w-full max-w-3xl">
-		<div className="rounded-2xl p-3 bg-cyan-400  w-full">
+	<div className="flex justify-center items-center w-full max-w-5xl">
+		<div className="rounded-xl p-3 w-full bg-white min-h-64">
 			<ListHeader />
-			<div className="overflow-y-scroll max-h-60">
+			<div className="overflow-y-auto max-h-60">
 				{props.participants.map((participant) => (
 					<NameAndVote
 						key={participant.name}

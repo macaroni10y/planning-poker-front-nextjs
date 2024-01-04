@@ -1,4 +1,3 @@
-"use client";
 import { Vote } from "@/app/_types/types";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa";
@@ -15,8 +14,8 @@ interface Props {
  */
 const NameAndVote = (props: Props) => (
 	<div className="flex justify-around items-center border-black">
-		<div className="p-1 bg-amber-100">{props.name}</div>
-		<div className="p-1 bg-amber-200">
+		<div className="p-2">{props.name}</div>
+		<div className="p-2">
 			{props.vote === "not yet" ? (
 				<div className="animate-spin">
 					<AiOutlineLoading3Quarters />

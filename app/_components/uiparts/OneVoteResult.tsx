@@ -1,6 +1,6 @@
 interface Props {
-	name: string;
-	value: string | undefined;
+	title: string;
+	value? : string;
 	voteCompleted: boolean;
 }
 
@@ -10,9 +10,13 @@ interface Props {
  * @constructor
  */
 const OneVoteResult = (voteResult: Props) => (
-	<div className="flex flex-col border-2 border-black rounded justify-center items-center flex-1 w-24">
-		<div>{voteResult.name}</div>
-		<div>{voteResult.voteCompleted ? voteResult.value : "wait..."}</div>
+	<div className="flex flex-col justify-center items-center flex-1">
+		<div>
+			{voteResult.title}
+		</div>
+		<div className="font-semibold text-2xl">
+			{voteResult.voteCompleted ? voteResult.value : "wait..."}
+		</div>
 	</div>
 );
 

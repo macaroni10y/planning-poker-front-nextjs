@@ -1,3 +1,5 @@
+"use client";
+import ButtonsContainer from "@/app/_components/containers/ButtonsContainer";
 import Cards from "@/app/_components/containers/Cards";
 import ParticipantList from "@/app/_components/containers/ParticipantsList";
 import VoteResultsContainer from "@/app/_components/containers/VoteResultsContainer";
@@ -10,54 +12,55 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 			name: "hoge",
 			vote: 2,
 		},
-		{
-			name: "piyo",
-			vote: "not yet",
-		},
-		{
-			name: "piyo",
-			vote: "not yet",
-		},
-		{
-			name: "piyo",
-			vote: "skip",
-		},
-		{
-			name: "piyo",
-			vote: "skip",
-		},
-		{
-			name: "piyo",
-			vote: "skip",
-		},
-		{
-			name: "piyo",
-			vote: "skip",
-		},
-		{
-			name: "piyo",
-			vote: "skip",
-		},
-		{
-			name: "piyo",
-			vote: "skip",
-		},
-		{
-			name: "piyo",
-			vote: "skip",
-		},
-		{
-			name: "piyo",
-			vote: "skip",
-		},
+		// {
+		// 	name: "piyo",
+		// 	vote: "not yet",
+		// },
+		// {
+		// 	name: "piyo",
+		// 	vote: "not yet",
+		// },
+		// {
+		// 	name: "piyo",
+		// 	vote: "skip",
+		// },
+		// {
+		// 	name: "piyo",
+		// 	vote: "skip",
+		// },
+		// {
+		// 	name: "piyo",
+		// 	vote: "skip",
+		// },
+		// {
+		// 	name: "piyo",
+		// 	vote: "skip",
+		// },
+		// {
+		// 	name: "piyo",
+		// 	vote: "skip",
+		// },
+		// {
+		// 	name: "piyo",
+		// 	vote: "skip",
+		// },
+		// {
+		// 	name: "piyo",
+		// 	vote: "skip",
+		// },
+		// {
+		// 	name: "piyo",
+		// 	vote: "skip",
+		// },
 	];
 	return (
-		<div className="flex flex-col items-center bg-amber-700">
+		<div className="flex flex-col items-center bg-pink-50">
 			<div>this room is {params.roomId}</div>
 			<VoteResultsContainer
 				participantVotes={participants.map((it) => it.vote)}
 			/>
 			<ParticipantList participants={participants} />
+			<ButtonsContainer onClickNextVote={() => {}} onClickReveal={() => {}} />
 			<Cards />
 		</div>
 	);

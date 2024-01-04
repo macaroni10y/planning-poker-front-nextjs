@@ -4,9 +4,9 @@ import React from "react";
 
 const Cards = () => {
 	return (
-		<div className="flex justify-center items-center">
+		<div className="ml-1 flex justify-center items-center">
 			{allCards.map((it) => (
-				<div className="-ml-8 transition hover:-translate-y-2">
+				<div className="-ml-11 transition hover:-translate-y-2">
 					<ScrumCard cardSymbol={it} />
 				</div>
 			))}
