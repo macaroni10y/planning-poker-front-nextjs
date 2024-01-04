@@ -1,5 +1,5 @@
+import { Meta, StoryObj } from "@storybook/react";
 import ScrumCard from "../app/_components/uiparts/ScrumCard";
-import {Meta, StoryObj} from "@storybook/react";
 
 const meta = {
 	title: "ScrumCard",
@@ -20,12 +20,12 @@ type Story = StoryObj<typeof meta>;
 
 export const one: Story = {
 	args: {
-		cardSymbol: 1
+		cardSymbol: 1,
 	},
 };
 
 export const skip: Story = {
 	args: {
-		cardSymbol: "skip"
+		cardSymbol: "skip",
 	},
 };

@@ -5,6 +5,7 @@ import ParticipantList from "@/app/_components/containers/ParticipantsList";
 import VoteResultsContainer from "@/app/_components/containers/VoteResultsContainer";
 import { Participant } from "@/app/_types/types";
 import React from "react";
+import CopyToClipBoard from "@/app/_components/uiparts/CopyToClipBoard";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
 	const participants: Participant[] = [
@@ -55,7 +56,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 	];
 	return (
 		<div className="flex flex-col items-center bg-pink-50">
-			<div>this room is {params.roomId}</div>
+			<CopyToClipBoard displayName="copy URL" copyTarget={window.location.href}></CopyToClipBoard>
 			<VoteResultsContainer
 				participantVotes={participants.map((it) => it.vote)}
 			/>
