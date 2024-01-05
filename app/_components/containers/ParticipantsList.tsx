@@ -1,5 +1,9 @@
 import NameAndVote from "@/app/_components/uiparts/NameAndVote";
-import {Participant, isCountableVote, isVotableVote} from "@/app/_types/types";
+import {
+	Participant,
+	isCountableVote,
+	isVotableVote,
+} from "@/app/_types/types";
 
 interface Props {
 	participants: Participant[];
@@ -16,17 +20,15 @@ const ParticipantList = (props: Props) => {
 	return (
 		<div className="flex justify-center items-center w-full max-w-5xl">
 			<div className="rounded-xl p-3 w-full bg-white min-h-64">
-				<ListHeader/>
+				<ListHeader />
 				<div className="overflow-y-auto max-h-60">
 					{props.participants.map((participant) => (
 						<NameAndVote
 							key={participant.name}
 							name={participant.name}
-							showVote={props.participants
-								.every((it) => {
-									console.log(it)
-									return isVotableVote(it.vote);
-								})}
+							showVote={props.participants.every((it) => {
+								return isVotableVote(it.vote);
+							})}
 							vote={participant.vote}
 						/>
 					))}

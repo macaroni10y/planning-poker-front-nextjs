@@ -6,15 +6,14 @@ import VoteResultsContainer from "@/app/_components/containers/VoteResultsContai
 import CopyToClipBoard from "@/app/_components/uiparts/CopyToClipBoard";
 import useWebSocket from "@/app/_lib/useWebSocket";
 import { Vote } from "@/app/_types/types";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
 	const [selectedCardNumber, selectCardNumber] = useState<Vote>("not yet");
 	const connection = useWebSocket({
-		url: "wss://sjy1ekd1t6.execute-api.ap-northeast-1.amazonaws.com/v1/",
 		roomId: params.roomId,
 		userName: "nextjs",
-		onReset: () => selectCardNumber(() => "not yet"),
+		onReset: useCallback(() => selectCardNumber(() => "not yet"), []),
 	});
 
 	return (
@@ -33,10 +32,13 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 					connection.revealAllCards(params.roomId);
 				}}
 			/>
-			<Cards onSelect={(target) => {
-				selectCardNumber(target);
-				connection.submitCard(params.roomId, target);
-			}} selectedCard={selectedCardNumber}/>
+			<Cards
+				onSelect={(target) => {
+					selectCardNumber(target);
+					connection.submitCard(params.roomId, target);
+				}}
+				selectedCard={selectedCardNumber}
+			/>
 		</div>
 	);
 };

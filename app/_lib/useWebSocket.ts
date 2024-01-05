@@ -1,4 +1,4 @@
-import {Participant, isVote, Vote} from "@/app/_types/types";
+import { Participant, Vote, isVote } from "@/app/_types/types";
 import { useEffect, useRef, useState } from "react";
 
 interface UseWebSocket {
@@ -10,7 +10,6 @@ interface UseWebSocket {
 }
 
 interface Props {
-	url: string;
 	roomId: string;
 	userName: string;
 	/**
@@ -19,18 +18,13 @@ interface Props {
 	onReset: () => void;
 }
 
-const useWebSocket = ({
-	url,
-	roomId,
-	userName,
-	onReset,
-}: Props): UseWebSocket => {
+const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 	const socket = useRef<WebSocket | null>(null);
 	const [participants, setParticipants] = useState<Participant[]>([]);
-
+	const url = "wss://sjy1ekd1t6.execute-api.ap-northeast-1.amazonaws.com/v1/";
 	useEffect(() => {
 		if (socket.current !== null) {
-			console.warn("already has current")
+			console.warn("already has current");
 			return;
 		}
 		socket.current = new WebSocket(url);
@@ -45,10 +39,10 @@ const useWebSocket = ({
 			}
 			const users: { name: string; cardNumber: Vote }[] = data.users;
 			const participants: Participant[] = users.map((value) => {
-				return ({
+				return {
 					name: value.name,
-					vote: value.cardNumber
-				});
+					vote: value.cardNumber,
+				};
 			});
 			setParticipants(() => participants);
 		};
@@ -60,7 +54,7 @@ const useWebSocket = ({
 		currentSocket.onerror = (error) => console.error("WebSocket Error", error);
 
 		return () => currentSocket?.close();
-	}, []);
+	}, [userName, roomId, onReset]);
 
 	const sendMessage = (message: string) => {
 		socket.current?.send(message);

@@ -3,7 +3,7 @@ import { CountableVote, VoteResult } from "@/app/_types/types";
 
 export const average = (votes: CountableVote[]) =>
 	votes.reduce((accumulator: number, current) => accumulator + current, 0) /
-	votes.length || "-";
+		votes.length || "-";
 
 /**
  * returns mode of votes. regardless of count of the mode, the result is returned as array
@@ -21,7 +21,7 @@ export const mode = (votes: CountableVote[]): string => {
 	const result = Object.keys(groupedByCount).filter(
 		(key) => groupedByCount[key] === maxCount,
 	);
-	return result.length === 0 ? "-": result.join(", ");
+	return result.length === 0 ? "-" : result.join(", ");
 };
 
 /**
