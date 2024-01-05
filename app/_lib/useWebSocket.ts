@@ -23,12 +23,11 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 	const [participants, setParticipants] = useState<Participant[]>([]);
 	const url = "wss://sjy1ekd1t6.execute-api.ap-northeast-1.amazonaws.com/v1/";
 	useEffect(() => {
-		if (socket.current !== null) {
-			console.warn("already has current");
-			return;
-		}
+		console.log("use effect run");
+		console.log(userName);
 		socket.current = new WebSocket(url);
 		const currentSocket = socket.current;
+		console.log("current socket:" + currentSocket);
 
 		currentSocket.onopen = () => joinRoom(roomId, userName);
 		currentSocket.onmessage = (event) => {
@@ -48,8 +47,7 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 		};
 
 		currentSocket.onclose = () => {
-			console.log("WebSocket Disconnected");
-			socket.current = null;
+			console.log("WebSocket Disconnected" + userName);
 		};
 		currentSocket.onerror = (error) => console.error("WebSocket Error", error);
 
@@ -57,10 +55,12 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 	}, [userName, roomId, onReset]);
 
 	const sendMessage = (message: string) => {
+		console.log(socket.current);
 		socket.current?.send(message);
 	};
 
 	const joinRoom = (roomId: string, userName: string) => {
+		console.log("joined." + userName);
 		sendMessage(
 			JSON.stringify({
 				action: "joinRoom",
