@@ -26,7 +26,7 @@ const VoteResultsContainer = ({ participantVotes }: Props) => {
 			/>
 			<OneVoteResult
 				title="mode"
-				value={mode(availableVotes).toString()}
+				value={mode(availableVotes)}
 				voteCompleted={voteCompleted}
 			/>
 			<OneVoteResult

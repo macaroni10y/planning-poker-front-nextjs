@@ -3,33 +3,13 @@ import { CountableVote, VoteResult } from "@/app/_types/types";
 
 export const average = (votes: CountableVote[]) =>
 	votes.reduce((accumulator: number, current) => accumulator + current, 0) /
-	votes.length;
-
-/**
- * count each votes by value, then put into object like below:
- * @param votes
- * @return {[p: number]: number}
- * @example
- * {
- *     0.5: 1,
- *     1: 2,
- *     5: 1
- * }
- */
-export const groupedByCount = (votes: CountableVote[]) =>
-	votes.reduce(
-		(accumulator: { [key: string]: number }, current: CountableVote) => {
-			accumulator[current] = (accumulator[current] || 0) + 1;
-			return accumulator;
-		},
-		{} as { [key: string]: number },
-	);
+	votes.length || "-";
 
 /**
  * returns mode of votes. regardless of count of the mode, the result is returned as array
  * @param votes
  */
-export const mode = (votes: CountableVote[]): string[] => {
+export const mode = (votes: CountableVote[]): string => {
 	const groupedByCount = votes.reduce(
 		(accumulator: { [key: string]: number }, current: CountableVote) => {
 			accumulator[current] = (accumulator[current] || 0) + 1;
@@ -38,9 +18,10 @@ export const mode = (votes: CountableVote[]): string[] => {
 		{} as { [key: string]: number },
 	);
 	const maxCount = Math.max(...Object.values(groupedByCount));
-	return Object.keys(groupedByCount).filter(
+	const result = Object.keys(groupedByCount).filter(
 		(key) => groupedByCount[key] === maxCount,
 	);
+	return result.length === 0 ? "-": result.join(", ");
 };
 
 /**
