@@ -13,11 +13,11 @@ const CopyToClipBoard = (props: Props) => {
 	const copy = async () => {
 		await global.navigator.clipboard.writeText(props.copyTarget);
 		setCopied(true);
-		setTimeout(() => setCopied(false), 3000);
+		setTimeout(() => setCopied(false), 2000);
 	};
 	return (
 		<div
-			className="bg-gray-300 flex items-center border-b border-black cursor-pointer"
+			className="flex-1 bg-pink-100 flex items-center cursor-pointer text-2xl"
 			onClick={copy}
 			onKeyUp={copy}
 		>

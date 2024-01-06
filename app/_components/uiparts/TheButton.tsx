@@ -4,11 +4,14 @@ interface Props {
 	onClick: React.MouseEventHandler<HTMLButtonElement>;
 	text: string;
 	isActive?: boolean;
+	className?: string;
 }
 
-const TheButton = ({ onClick, text, isActive = true }: Props) => (
+const TheButton = ({ onClick, text, isActive = true, className }: Props) => (
 	<button
-		className={`bg-pink-200 hover:bg-pink-300 m-4 rounded h-12 w-52 ${
+		className={`${
+			className || "h-12 w-52"
+		} transition bg-pink-200 hover:bg-pink-300 m-4 rounded ${
 			isActive ? "" : "opacity-50 cursor-not-allowed"
 		}`}
 		type="button"

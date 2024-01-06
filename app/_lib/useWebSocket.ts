@@ -1,4 +1,5 @@
-import { Participant, Vote, isVote } from "@/app/_types/types";
+import { nameNotSet } from "@/app/_lib/atoms";
+import { Participant, Vote } from "@/app/_types/types";
 import { useEffect, useRef, useState } from "react";
 
 interface UseWebSocket {
@@ -23,11 +24,10 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 	const [participants, setParticipants] = useState<Participant[]>([]);
 	const url = "wss://sjy1ekd1t6.execute-api.ap-northeast-1.amazonaws.com/v1/";
 	useEffect(() => {
-		console.log("use effect run");
-		console.log(userName);
+		console.log(`use effect with ${userName} ${roomId} ${onReset}`);
+		if (userName === nameNotSet) return () => {};
 		socket.current = new WebSocket(url);
 		const currentSocket = socket.current;
-		console.log("current socket:" + currentSocket);
 
 		currentSocket.onopen = () => joinRoom(roomId, userName);
 		currentSocket.onmessage = (event) => {
@@ -47,7 +47,7 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 		};
 
 		currentSocket.onclose = () => {
-			console.log("WebSocket Disconnected" + userName);
+			console.log(`WebSocket Disconnected with User ${userName}`);
 		};
 		currentSocket.onerror = (error) => console.error("WebSocket Error", error);
 
@@ -55,12 +55,10 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 	}, [userName, roomId, onReset]);
 
 	const sendMessage = (message: string) => {
-		console.log(socket.current);
 		socket.current?.send(message);
 	};
 
 	const joinRoom = (roomId: string, userName: string) => {
-		console.log("joined." + userName);
 		sendMessage(
 			JSON.stringify({
 				action: "joinRoom",

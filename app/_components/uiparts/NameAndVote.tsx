@@ -13,9 +13,9 @@ interface Props {
  * @constructor
  */
 const NameAndVote = (props: Props) => (
-	<div className="flex justify-around items-center border-black">
-		<div className="p-2">{props.name}</div>
-		<div className="p-2">
+	<div className="flex justify-around items-center border-black ">
+		<div className="p-2 flex-1 flex justify-center">{props.name}</div>
+		<div className="p-2 flex-1 flex justify-center">
 			{props.vote === "not yet" ? (
 				<div className="animate-spin">
 					<AiOutlineLoading3Quarters />
