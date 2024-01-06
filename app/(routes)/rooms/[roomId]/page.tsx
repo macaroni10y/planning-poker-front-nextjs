@@ -6,11 +6,11 @@ import VoteResultsContainer from "@/app/_components/containers/VoteResultsContai
 import CopyToClipBoard from "@/app/_components/uiparts/CopyToClipBoard";
 import CurrentName from "@/app/_components/uiparts/CurrentName";
 import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
-import {nameNotSet, userNameAtom} from "@/app/_lib/atoms";
+import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";
 import { Vote } from "@/app/_types/types";
 import { useAtom } from "jotai/index";
-import React, {useCallback, useEffect, useState} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
 	const extractedRoomId = params.roomId.substring(0, 12);
@@ -49,7 +49,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 			/>
 			<CurrentName onClick={() => setIsOpen(!isOpen)} displayName={userName} />
 			<EditNameDialog
-				isOpen={(userName === nameNotSet) || isOpen}
+				isOpen={userName === nameNotSet || isOpen}
 				onClick={(candidate: string) => {
 					setUserName(candidate);
 				}}

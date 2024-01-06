@@ -1,8 +1,5 @@
 import NameAndVote from "@/app/_components/uiparts/NameAndVote";
-import {
-	Participant,
-	isVotableVote,
-} from "@/app/_types/types";
+import { Participant, isVotableVote } from "@/app/_types/types";
 
 interface Props {
 	participants: Participant[];

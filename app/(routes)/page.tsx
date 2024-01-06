@@ -20,14 +20,16 @@ const Page = () => {
 	return (
 		<div className="flex flex-col">
 			<div className="flex justify-center">
-				<input maxLength={12}
+				<input
+					maxLength={12}
 					className="w-70 h-12 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 m-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-pink-300"
 					type="text"
 					placeholder="input room id"
 					onChange={(event) => setRoomId(event.target.value)}
 					onKeyDown={handleKeyDown}
 				/>
-				<TheButton className="w-12 h-12"
+				<TheButton
+					className="w-12 h-12"
 					onClick={() => enter(roomId)}
 					text="→"
 					isActive={isValid()}
