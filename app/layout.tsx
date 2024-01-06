@@ -4,9 +4,23 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const siteName = "macaroni poker";
+const description = "online planning poker application";
+const url = "https://macaroni-poker.vercel.app/";
 export const metadata: Metadata = {
-	title: "macaroni poker",
-	description: "online planning poker application",
+	title: siteName,
+	description: description,
+	openGraph: {
+		title: siteName,
+		description,
+		url,
+		siteName,
+	},
+	twitter: {
+		title: siteName,
+		description,
+		card: "summary",
+	}
 };
 
 export default function RootLayout({
