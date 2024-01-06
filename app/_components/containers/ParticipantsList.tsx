@@ -14,8 +14,8 @@ const ListHeader = () => (
 
 const ParticipantList = (props: Props) => {
 	return (
-		<div className="flex justify-center items-center w-full max-w-5xl">
-			<div className="rounded-t-xl p-3 w-full bg-white min-h-64">
+		<div className="flex justify-center w-full max-w-5xl grow">
+			<div className="rounded-t-xl p-3 w-full bg-white">
 				<ListHeader />
 				<div className="overflow-y-auto max-h-60">
 					{props.participants.map((participant) => (
