@@ -26,7 +26,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 	return (
 		<div className="h-screen bg-pink-50">
 			<Header roomId={extractedRoomId} onEdit={() => setIsOpen(true)} />
-			<div className="flex flex-col items-center">
+			<div className="flex flex-col items-center h-5/6">
 				<VoteResultsContainer
 					participantVotes={connection.participants.map((it) => it.vote)}
 				/>
