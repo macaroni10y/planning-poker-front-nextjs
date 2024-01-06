@@ -4,7 +4,7 @@ import { userNameAtom } from "@/app/_lib/atoms";
 import { useAtom } from "jotai/index";
 import Link from "next/link";
 import React from "react";
-import localImage from "@/public/icon.png"
+import localImage from "@/app/icon.png"
 import Image from "next/image";
 
 interface Props {
