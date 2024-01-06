@@ -34,10 +34,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-/.idea/codeStyles/codeStyleConfig.xml
-/.idea/git_toolbox_prj.xml
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/planning-poker-front-nextjs.iml
-/.idea/codeStyles/Project.xml
-/.idea/vcs.xml
+/.idea/
