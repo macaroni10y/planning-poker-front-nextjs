@@ -6,10 +6,11 @@ const inter = Inter({ subsets: ["latin"] });
 
 const siteName = "macaroni poker";
 const description = "online planning poker application";
-const url = "https://macaroni-poker.vercel.app/";
+const url = "https://macaroni-poker.vercel.app";
 export const metadata: Metadata = {
 	title: siteName,
 	description: description,
+	metadataBase: new URL(url),
 	openGraph: {
 		title: siteName,
 		description,
