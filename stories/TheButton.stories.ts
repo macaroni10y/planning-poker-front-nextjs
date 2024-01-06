@@ -1,5 +1,5 @@
+import TheButton from "@/app/_components/uiparts/TheButton";
 import type { Meta, StoryObj } from "@storybook/react";
-import TheButton from "../app/_components/uiparts/TheButton";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
