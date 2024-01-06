@@ -17,11 +17,11 @@ const CopyToClipBoard = (props: Props) => {
 	};
 	return (
 		<div
-			className="flex-1 bg-pink-100 flex items-center cursor-pointer text-2xl"
+			className="flex-1 bg-gray-600 rounded flex items-center cursor-pointer md:text-xl"
 			onClick={copy}
 			onKeyUp={copy}
 		>
-			<div>{props.displayName}</div>
+			<div className="mx-2">{props.displayName}</div>
 			{copied ? <FcCheckmark /> : <IoCopyOutline />}
 		</div>
 	);

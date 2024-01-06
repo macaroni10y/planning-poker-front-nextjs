@@ -1,5 +1,5 @@
+import OneVoteResult from "@/app/_components/uiparts/OneVoteResult";
 import { Meta, StoryObj } from "@storybook/react";
-import OneVoteResult from "../app/_components/uiparts/OneVoteResult";
 
 const meta = {
 	title: "OneVoteResult",

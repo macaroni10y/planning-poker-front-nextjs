@@ -9,9 +9,9 @@ interface Props {
 }
 
 const Cards = ({ onSelect, selectedCard }: Props) => (
-	<div className="ml-1 flex justify-center items-center m-2">
+	<div className="ml-12 flex justify-center items-center">
 		{allCards.map((it) => (
-			<div key={it} className="-ml-12 transition hover:-translate-y-4">
+			<div key={it} className="-ml-9 sm:-ml-8 transition hover:-translate-y-4">
 				<ScrumCard
 					cardSymbol={it}
 					onSelect={onSelect}
