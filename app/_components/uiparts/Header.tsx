@@ -4,6 +4,8 @@ import { userNameAtom } from "@/app/_lib/atoms";
 import { useAtom } from "jotai/index";
 import Link from "next/link";
 import React from "react";
+import localImage from "@/app/icon.png"
+import Image from "next/image";
 
 interface Props {
 	roomId?: string;
@@ -14,7 +16,8 @@ const Header = (props: Props) => {
 	return (
 		<nav className="bg-gray-800 p-2 md:p-4 text-white">
 			<div className="container mx-auto flex justify-between items-center">
-				<div>
+				<div className="flex">
+					<Image width={30} height={30} src={localImage} alt="macaroni poker icon"/>
 					<Link href="/" className="text-xl font-semibold">
 						macaroni poker
 					</Link>
