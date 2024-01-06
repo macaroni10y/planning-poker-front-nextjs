@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 		title: siteName,
 		description,
 		card: "summary",
-	}
+	},
 };
 
 export default function RootLayout({
