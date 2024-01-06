@@ -69,4 +69,5 @@ const EditNameDialog = (props: Props) => {
 	);
 };
 
+ReactModal.setAppElement("body");
 export default EditNameDialog;
