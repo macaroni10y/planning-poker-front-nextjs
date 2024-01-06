@@ -1,4 +1,4 @@
-name: reformat dart
+name: Biome Apply Format and Lint
 
 on:
   workflow_dispatch:
