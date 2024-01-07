@@ -19,9 +19,11 @@ const Page = () => {
 	};
 
 	return (
-		<div className="h-screen bg-pink-50">
-			<Header />
-			<div className="flex flex-col">
+		<>
+			<div className="absolute w-full">
+				<Header />
+			</div>
+			<div className="h-screen bg-pink-50 flex flex-col justify-center ">
 				<div className="flex justify-center">
 					<input
 						maxLength={12}
@@ -45,7 +47,7 @@ const Page = () => {
 					/>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 export default Page;
