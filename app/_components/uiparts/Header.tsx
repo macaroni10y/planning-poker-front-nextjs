@@ -14,7 +14,7 @@ interface Props {
 const Header = (props: Props) => {
 	const [userName, setUserName] = useAtom(userNameAtom);
 	return (
-		<nav className="bg-gray-800 p-2 md:p-4 text-white">
+		<nav className="bg-gray-800 h-20 md:h-16 p-2 md:p-4 text-white flex">
 			<div className="container mx-auto flex justify-between items-center">
 				<div className="flex">
 					<Image

@@ -19,7 +19,11 @@ const EditNameDialog = (props: Props) => {
 	};
 
 	const handleKeyDown: KeyboardEventHandler = (event) => {
-		if (event.key === "Enter" && isValid(nameCandidate)) {
+		if (
+			event.key === "Enter" &&
+			event.keyCode === 13 &&
+			isValid(nameCandidate)
+		) {
 			props.onClick(nameCandidate);
 			props.onClose();
 		}
@@ -33,6 +37,7 @@ const EditNameDialog = (props: Props) => {
 			width: "350px",
 			height: "120px",
 			transform: "translate(-50%, -50%)",
+			borderRadius: "8px",
 		},
 	};
 
@@ -45,7 +50,7 @@ const EditNameDialog = (props: Props) => {
 			<div
 				onClick={props.onClose}
 				onKeyDown={props.onClose}
-				className="absolute top-1 right-1"
+				className="absolute top-1 right-1 cursor-pointer"
 			>
 				<IoCloseSharp />
 			</div>
