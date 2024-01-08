@@ -9,14 +9,14 @@ import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";
 import { Vote } from "@/app/_types/types";
 import { useAtom } from "jotai/index";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
 	const extractedRoomId = params.roomId.substring(0, 12);
 	const [selectedCardNumber, selectCardNumber] = useState<Vote>("not yet");
 	const [userName, setUserName] = useAtom(userNameAtom);
 
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
 	const connection = useWebSocket({
 		roomId: extractedRoomId,
@@ -24,35 +24,37 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 		onReset: useCallback(() => selectCardNumber(() => "not yet"), []),
 	});
 	return (
-		<div className="h-screen bg-pink-50">
-			<Header roomId={extractedRoomId} onEdit={() => setIsOpen(true)} />
-			<div className="flex flex-col items-center h-5/6">
-				<VoteResultsContainer
-					participantVotes={connection.participants.map((it) => it.vote)}
-				/>
-				<ParticipantList participants={connection.participants} />
-				<ButtonsContainer
-					onClickNextVote={() => connection.resetRoom(extractedRoomId)}
-					onClickReveal={() => {
-						connection.revealAllCards(extractedRoomId);
-					}}
-				/>
-				<Cards
-					onSelect={(target) => {
-						selectCardNumber(target);
-						connection.submitCard(extractedRoomId, target);
-					}}
-					selectedCard={selectedCardNumber}
-				/>
-				<EditNameDialog
-					isOpen={userName === nameNotSet || isOpen}
-					onClick={(candidate: string) => {
-						setUserName(candidate);
-					}}
-					onClose={() => setIsOpen(false)}
-				/>
+		<>
+			<div className="h-screen bg-pink-50">
+				<Header roomId={extractedRoomId} onEdit={() => setIsDialogOpen(true)} />
+				<div className="flex flex-col items-center h-5/6">
+					<VoteResultsContainer
+						participantVotes={connection.participants.map((it) => it.vote)}
+					/>
+					<ParticipantList participants={connection.participants} />
+					<ButtonsContainer
+						onClickNextVote={() => connection.resetRoom(extractedRoomId)}
+						onClickReveal={() => {
+							connection.revealAllCards(extractedRoomId);
+						}}
+					/>
+					<Cards
+						onSelect={(target) => {
+							selectCardNumber(target);
+							connection.submitCard(extractedRoomId, target);
+						}}
+						selectedCard={selectedCardNumber}
+					/>
+				</div>
 			</div>
-		</div>
+			<EditNameDialog
+				isOpen={userName === nameNotSet || isDialogOpen}
+				onClick={(candidate: string) => {
+					setUserName(candidate);
+				}}
+				onClose={() => setIsDialogOpen(false)}
+			/>
+		</>
 	);
 };
 
