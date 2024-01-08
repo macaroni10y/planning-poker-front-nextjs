@@ -1,13 +1,18 @@
 "use client";
+import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
 import TheButton from "@/app/_components/uiparts/TheButton";
+import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
+import { useAtom } from "jotai/index";
 import { useRouter } from "next/navigation";
-import { KeyboardEventHandler, useState } from "react";
+import React, { KeyboardEventHandler, useState } from "react";
 
 const Page = () => {
 	const router = useRouter();
 	const [roomId, setRoomId] = useState<string>("");
+	const [userName, setUserName] = useAtom(userNameAtom);
+	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
 	const isValid = () => !!roomId && !/\s/.test(roomId) && !roomId.includes("/");
 
@@ -22,7 +27,7 @@ const Page = () => {
 	return (
 		<>
 			<div className="absolute w-full">
-				<Header />
+				<Header onEdit={() => setIsDialogOpen(true)} />
 			</div>
 			<div className="h-screen bg-pink-50 flex items-center justify-center">
 				<div className="bg-white rounded-xl w-2/3 max-w-sm h-2/5 flex flex-col justify-evenly">
@@ -54,6 +59,13 @@ const Page = () => {
 					</div>
 				</div>
 			</div>
+			<EditNameDialog
+				isOpen={userName === nameNotSet || isDialogOpen}
+				onClick={(candidate: string) => {
+					setUserName(candidate);
+				}}
+				onClose={() => setIsDialogOpen(false)}
+			/>
 		</>
 	);
 };
