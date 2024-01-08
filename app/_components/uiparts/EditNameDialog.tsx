@@ -57,7 +57,7 @@ const EditNameDialog = (props: Props) => {
 			<div className="flex justify-center items-center">
 				<input
 					maxLength={15}
-					className="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-pink-300"
+					className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-pink-300"
 					type="text"
 					placeholder="input name"
 					onChange={(event) => setNameCandidate(event.target.value)}
