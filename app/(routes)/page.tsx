@@ -38,7 +38,7 @@ const Page = () => {
 								maxLength={12}
 								className="w-1/2 h-12 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 mx-2 my-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-pink-300"
 								type="text"
-								placeholder="input room id"
+								placeholder="room id"
 								onChange={(event) => setRoomId(event.target.value)}
 								onKeyDown={handleKeyDown}
 							/>

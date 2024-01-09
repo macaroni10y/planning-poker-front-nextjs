@@ -14,10 +14,10 @@ const ListHeader = () => (
 
 const ParticipantList = (props: Props) => {
 	return (
-		<div className="flex justify-center w-full max-w-5xl grow">
-			<div className="rounded-t-xl p-3 w-full bg-white">
+		<div className="flex justify-center w-full max-w-5xl h-1/2">
+			<div className="rounded-t-xl w-full bg-white flex flex-col">
 				<ListHeader />
-				<div className="overflow-y-auto max-h-60">
+				<div className="overflow-y-auto max-h-full">
 					{props.participants.map((participant) => (
 						<NameAndVote
 							key={participant.name}

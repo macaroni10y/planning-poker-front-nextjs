@@ -7,7 +7,7 @@ interface Props {
 }
 
 const ButtonsContainer = (props: Props) => (
-	<div className="flex p-6 w-full max-w-5xl bg-white justify-center rounded-b-xl">
+	<div className="flex p-3 w-full max-w-5xl bg-white justify-center rounded-b-xl">
 		<TheButton onClick={props.onClickReveal} text="REVEAL" />
 		<TheButton onClick={props.onClickNextVote} text="NEXT VOTE" />
 	</div>
