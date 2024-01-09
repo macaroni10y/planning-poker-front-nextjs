@@ -24,7 +24,6 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 	const [participants, setParticipants] = useState<Participant[]>([]);
 	const url = "wss://sjy1ekd1t6.execute-api.ap-northeast-1.amazonaws.com/v1/";
 	useEffect(() => {
-		console.log(`use effect with ${userName} ${roomId} ${onReset}`);
 		if (userName === nameNotSet) return () => {};
 		socket.current = new WebSocket(url);
 		const currentSocket = socket.current;
@@ -32,7 +31,6 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 		currentSocket.onopen = () => joinRoom(roomId, userName);
 		currentSocket.onmessage = (event) => {
 			const data = JSON.parse(event.data);
-			console.log(data);
 			if (data.shouldReset) {
 				onReset();
 			}
@@ -45,11 +43,6 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 			});
 			setParticipants(() => participants);
 		};
-
-		currentSocket.onclose = () => {
-			console.log(`WebSocket Disconnected with User ${userName}`);
-		};
-		currentSocket.onerror = (error) => console.error("WebSocket Error", error);
 
 		return () => currentSocket?.close();
 	}, [userName, roomId, onReset]);
