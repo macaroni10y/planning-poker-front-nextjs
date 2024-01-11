@@ -21,14 +21,33 @@ interface Props {
 
 const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 	const socket = useRef<WebSocket | null>(null);
+	const heartbeatInterval = useRef<NodeJS.Timeout | null>(null);
 	const [participants, setParticipants] = useState<Participant[]>([]);
 	const url = "wss://sjy1ekd1t6.execute-api.ap-northeast-1.amazonaws.com/v1/";
+
+	const startHeartbeat = () =>
+		heartbeatInterval.current = setInterval(() => {
+			console.log("send ping");
+			sendMessage("ping");
+		}, 1000 * 60 * 9);
+
+	const stopHeartbeat = () => {
+		if (heartbeatInterval.current) {
+			clearInterval(heartbeatInterval.current);
+			heartbeatInterval.current = null;
+		}
+	};
+
 	useEffect(() => {
 		if (userName === nameNotSet) return () => {};
 		socket.current = new WebSocket(url);
 		const currentSocket = socket.current;
 
-		currentSocket.onopen = () => joinRoom(roomId, userName);
+		currentSocket.onopen = () => {
+			console.log("WebSocket connected");
+			startHeartbeat();
+			joinRoom(roomId, userName);
+		};
 		currentSocket.onmessage = (event) => {
 			const data = JSON.parse(event.data);
 			if (data.shouldReset) {
@@ -43,6 +62,10 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 			});
 			setParticipants(() => participants);
 		};
+		currentSocket.onclose = () => {
+			console.log("WebSocket closed");
+			stopHeartbeat();
+		}
 
 		return () => currentSocket?.close();
 	}, [userName, roomId, onReset]);
