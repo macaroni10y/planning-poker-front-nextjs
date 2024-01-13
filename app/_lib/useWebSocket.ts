@@ -1,10 +1,9 @@
 import { nameNotSet } from "@/app/_lib/atoms";
 import { Participant, Vote } from "@/app/_types/types";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UseWebSocket {
 	participants: Participant[];
-	joinRoom: (roomId: string, userName: string) => void;
 	submitCard: (roomId: string, selectedCardNumber: Vote) => void;
 	resetRoom: (roomId: string) => void;
 	revealAllCards: (roomId: string) => void;
@@ -23,12 +22,63 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 	const socket = useRef<WebSocket | null>(null);
 	const [participants, setParticipants] = useState<Participant[]>([]);
 	const url = "wss://sjy1ekd1t6.execute-api.ap-northeast-1.amazonaws.com/v1/";
+
+	const joinRoom = useCallback((roomId: string, userName: string) => {
+		if (socket.current?.readyState === WebSocket.OPEN) {
+			socket.current?.send(
+				JSON.stringify({
+					action: "joinRoom",
+					roomId,
+					userName,
+				}),
+			);
+		}
+	}, []);
+
+	const submitCard = (roomId: string, selectedCardNumber: Vote) => {
+		socket.current?.send(
+			JSON.stringify({
+				action: "submitCard",
+				roomId,
+				cardNumber: selectedCardNumber,
+			}),
+		);
+	};
+
+	const resetRoom = (roomId: string) => {
+		socket.current?.send(
+			JSON.stringify({
+				action: "resetRoom",
+				roomId,
+			}),
+		);
+	};
+
+	const revealAllCards = (roomId: string) => {
+		socket.current?.send(
+			JSON.stringify({
+				action: "revealAllCards",
+				roomId,
+			}),
+		);
+	};
+
 	useEffect(() => {
 		if (userName === nameNotSet) return () => {};
 		socket.current = new WebSocket(url);
 		const currentSocket = socket.current;
 
-		currentSocket.onopen = () => joinRoom(roomId, userName);
+		currentSocket.onopen = () => {
+			const heartbeatInterval = setInterval(
+				() => socket.current?.send("ping"),
+				1000 * 60 * 9,
+			);
+			joinRoom(roomId, userName);
+			return () => {
+				currentSocket?.close();
+				clearInterval(heartbeatInterval);
+			};
+		};
 		currentSocket.onmessage = (event) => {
 			const data = JSON.parse(event.data);
 			if (data.shouldReset) {
@@ -43,53 +93,10 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 			});
 			setParticipants(() => participants);
 		};
+		currentSocket.onclose = () => {};
+	}, [userName, roomId, onReset, joinRoom]);
 
-		return () => currentSocket?.close();
-	}, [userName, roomId, onReset]);
-
-	const sendMessage = (message: string) => {
-		socket.current?.send(message);
-	};
-
-	const joinRoom = (roomId: string, userName: string) => {
-		sendMessage(
-			JSON.stringify({
-				action: "joinRoom",
-				roomId: roomId,
-				userName: userName,
-			}),
-		);
-	};
-
-	const submitCard = (roomId: string, selectedCardNumber: Vote) => {
-		sendMessage(
-			JSON.stringify({
-				action: "submitCard",
-				roomId,
-				cardNumber: selectedCardNumber,
-			}),
-		);
-	};
-
-	const resetRoom = (roomId: string) => {
-		sendMessage(
-			JSON.stringify({
-				action: "resetRoom",
-				roomId: roomId,
-			}),
-		);
-	};
-
-	const revealAllCards = (roomId: string) => {
-		sendMessage(
-			JSON.stringify({
-				action: "revealAllCards",
-				roomId: roomId,
-			}),
-		);
-	};
-
-	return { participants, joinRoom, submitCard, resetRoom, revealAllCards };
+	return { participants, submitCard, resetRoom, revealAllCards };
 };
 
 export default useWebSocket;
