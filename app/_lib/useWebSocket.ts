@@ -94,6 +94,7 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 			setParticipants(() => participants);
 		};
 		currentSocket.onclose = () => {};
+		return () => currentSocket?.close()
 	}, [userName, roomId, onReset, joinRoom]);
 
 	return { participants, submitCard, resetRoom, revealAllCards };
