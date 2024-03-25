@@ -1,4 +1,4 @@
-import { Vote } from "@/app/_types/types";
+import type { Vote } from "@/app/_types/types";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa";
 

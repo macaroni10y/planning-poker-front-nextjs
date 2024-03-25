@@ -1,5 +1,5 @@
 import TheButton from "@/app/_components/uiparts/TheButton";
-import React, { KeyboardEventHandler, useState } from "react";
+import React, { type KeyboardEventHandler, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import ReactModal from "react-modal";
 

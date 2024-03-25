@@ -1,5 +1,5 @@
 import { nameNotSet } from "@/app/_lib/atoms";
-import { Participant, Vote } from "@/app/_types/types";
+import type { Participant, Vote } from "@/app/_types/types";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UseWebSocket {

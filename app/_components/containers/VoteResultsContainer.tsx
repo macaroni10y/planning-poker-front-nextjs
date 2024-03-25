@@ -1,7 +1,11 @@
 import DummyOneVoteResult from "@/app/_components/uiparts/DummyOneVoteResult";
 import OneVoteResult from "@/app/_components/uiparts/OneVoteResult";
 import { average, mode, scrumDecision } from "@/app/_lib/voteResultCalculate";
-import { CountableVote, Vote, isCountableVote } from "@/app/_types/types";
+import {
+	type CountableVote,
+	type Vote,
+	isCountableVote,
+} from "@/app/_types/types";
 
 interface Props {
 	participantVotes: Vote[];
