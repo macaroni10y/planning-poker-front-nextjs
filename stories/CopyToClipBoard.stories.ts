@@ -1,5 +1,5 @@
 import CopyToClipBoard from "@/app/_components/uiparts/CopyToClipBoard";
-import { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
 	title: "CopyToClipBoard",

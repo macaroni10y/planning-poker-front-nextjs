@@ -1,4 +1,4 @@
-import { CountableVote, Vote } from "@/app/_types/types";
+import type { CountableVote, Vote } from "@/app/_types/types";
 
 /**
  * an array containing all countable cards used when voting

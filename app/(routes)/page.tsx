@@ -6,7 +6,7 @@ import TheButton from "@/app/_components/uiparts/TheButton";
 import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import { useAtom } from "jotai/index";
 import { useRouter } from "next/navigation";
-import React, { KeyboardEventHandler, useState } from "react";
+import React, { type KeyboardEventHandler, useState } from "react";
 
 const Page = () => {
 	const router = useRouter();
