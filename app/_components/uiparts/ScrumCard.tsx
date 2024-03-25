@@ -1,4 +1,4 @@
-import { Vote } from "@/app/_types/types";
+import type { Vote } from "@/app/_types/types";
 
 interface Props {
 	cardSymbol: Vote;

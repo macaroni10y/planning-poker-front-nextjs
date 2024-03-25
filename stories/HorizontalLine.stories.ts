@@ -1,5 +1,5 @@
 import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
-import { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
 	title: "HorizontalLine",

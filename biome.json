@@ -1,7 +1,8 @@
 {
 	"$schema": "https://biomejs.dev/schemas/1.2.2/schema.json",
 	"organizeImports": {
-		"enabled": true
+		"enabled": true,
+		"ignore": [".next/"]
 	},
 	"linter": {
 		"enabled": true,
@@ -9,5 +10,9 @@
 		"rules": {
 			"recommended": true
 		}
+	},
+	"formatter": {
+		"enabled": true,
+		"ignore": [".next/"]
 	}
 }

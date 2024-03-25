@@ -1,6 +1,6 @@
 import ScrumCard from "@/app/_components/uiparts/ScrumCard";
 import { allCards } from "@/app/_lib/variables";
-import { Vote } from "@/app/_types/types";
+import type { Vote } from "@/app/_types/types";
 import React from "react";
 
 interface Props {

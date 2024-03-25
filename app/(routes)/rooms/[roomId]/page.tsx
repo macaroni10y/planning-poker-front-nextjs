@@ -7,7 +7,7 @@ import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";
-import { Vote } from "@/app/_types/types";
+import type { Vote } from "@/app/_types/types";
 import { useAtom } from "jotai/index";
 import React, { useCallback, useState } from "react";
 

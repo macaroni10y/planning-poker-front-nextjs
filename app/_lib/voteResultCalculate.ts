@@ -1,5 +1,5 @@
 import { allCountableCards } from "@/app/_lib/variables";
-import { CountableVote, VoteResult } from "@/app/_types/types";
+import type { CountableVote, VoteResult } from "@/app/_types/types";
 
 export const average = (votes: CountableVote[]) =>
 	votes.reduce((accumulator: number, current) => accumulator + current, 0) /
