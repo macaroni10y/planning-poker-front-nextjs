@@ -227,3 +227,18 @@
     transform: rotate(0deg);
   }
 }
+
+@keyframes placeholderShimmer {
+  0% {
+    background-position: -20rem 0;
+  }
+  100% {
+    background-position: 20rem 0;
+  }
+}
+
+.animatePlaceholder {
+  animation: placeholderShimmer 2s infinite linear;
+  background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
+  background-size: 20rem 100%;
+}
