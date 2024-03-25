@@ -11,8 +11,8 @@ interface Props {
 	participantVotes: Vote[];
 }
 
-function getDiv(availableVotes: CountableVote[], voteCompleted: boolean) {
-	if (availableVotes.length === 0) {
+const VoteResults = (participantVotes: Vote[], availableVotes: CountableVote[], voteCompleted: boolean) => {
+	if (participantVotes.length === 0) {
 		return (
 			<>
 				<DummyOneVoteResult title="average" />
@@ -40,7 +40,7 @@ function getDiv(availableVotes: CountableVote[], voteCompleted: boolean) {
 			/>
 		</>
 	);
-}
+};
 
 /**
  * contain multiple vote results such as average, mode...
@@ -55,7 +55,7 @@ const VoteResultsContainer = ({ participantVotes }: Props) => {
 	const voteCompleted = participantVotes.every((it) => "not yet" !== it);
 	return (
 		<div className="flex justify-center w-full max-w-5xl">
-			{getDiv(availableVotes, voteCompleted)}
+			{VoteResults(participantVotes, availableVotes, voteCompleted)}
 		</div>
 	);
 };
