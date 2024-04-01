@@ -10,7 +10,7 @@ interface Props {
 const TheButton = ({ onClick, text, isActive = true, className }: Props) => (
 	<button
 		className={`${
-			className || "h-12 w-52"
+			className || "h-12 w-52 shadow"
 		} transition bg-pink-200 hover:bg-pink-300 m-4 rounded ${
 			isActive ? "" : "opacity-50 cursor-not-allowed"
 		}`}

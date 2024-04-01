@@ -30,7 +30,7 @@ const Page = () => {
 				<Header onEdit={() => setIsDialogOpen(true)} />
 			</div>
 			<div className="h-screen bg-pink-50 flex items-center justify-center">
-				<div className="bg-white rounded-xl w-2/3 max-w-sm h-2/5 flex flex-col justify-evenly">
+				<div className="bg-white rounded-xl w-2/3 max-w-sm h-2/5 flex flex-col justify-evenly shadow-xl">
 					<div className="flex flex-col">
 						<div className="text-2xl font-bold text-center">Join room</div>
 						<div className="flex justify-center">
