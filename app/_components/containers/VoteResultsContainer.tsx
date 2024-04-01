@@ -11,7 +11,11 @@ interface Props {
 	participantVotes: Vote[];
 }
 
-const VoteResults = (participantVotes: Vote[], availableVotes: CountableVote[], voteCompleted: boolean) => {
+const VoteResults = (
+	participantVotes: Vote[],
+	availableVotes: CountableVote[],
+	voteCompleted: boolean,
+) => {
 	if (participantVotes.length === 0) {
 		return (
 			<>
