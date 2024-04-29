@@ -22,6 +22,9 @@ export const metadata: Metadata = {
 		description,
 		card: "summary_large_image",
 	},
+	other: {
+		google: "notranslate"
+	}
 };
 
 export default function RootLayout({
