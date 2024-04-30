@@ -5,11 +5,12 @@ import localImage from "@/app/icon.png";
 import { useAtom } from "jotai/index";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { type ReactElement } from "react";
 
 interface Props {
 	roomId?: string;
 	onEdit?: () => void;
+	renderTimer?: () => ReactElement;
 }
 const Header = (props: Props) => {
 	const [userName, setUserName] = useAtom(userNameAtom);
@@ -36,6 +37,7 @@ const Header = (props: Props) => {
 					) : (
 						""
 					)}
+					{props.renderTimer ? props.renderTimer() : ""}
 					{props.onEdit ? (
 						<CurrentName onClick={props.onEdit} displayName={userName} />
 					) : (
