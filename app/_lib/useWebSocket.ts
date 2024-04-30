@@ -24,23 +24,26 @@ interface Props {
 	 */
 	onResetVote: () => void;
 	/**
-	 * a function invoked when "resume" operation is from a websocket message
+	 * a function invoked when "reset" operation is from a websocket message
 	 */
-	onReceiveResumeTimerMessage?: (time: number) => void;
+	onReceiveResetTimerMessage: () => void;
 	/**
 	 * a function invoked when "pause" operation is from a websocket message
 	 */
-	onReceivePauseTimerMessage?: (time: number) => void;
+	onReceivePauseTimerMessage: (time: number) => void;
 	/**
-	 * a function invoked when "reset" operation is from a websocket message
+	 * a function invoked when "resume" operation is from a websocket message
 	 */
-	onReceiveResetTimerMessage?: () => void;
+	onReceiveResumeTimerMessage: (time: number) => void;
 }
 
 const useWebSocket = ({
 	roomId,
 	userName,
 	onResetVote,
+	onReceiveResetTimerMessage,
+	onReceivePauseTimerMessage,
+	onReceiveResumeTimerMessage
 }: Props): UseWebSocket => {
 	const socket = useRef<WebSocket | null>(null);
 	const [participants, setParticipants] = useState<Participant[]>([]);
@@ -150,6 +153,20 @@ const useWebSocket = ({
 		};
 		currentSocket.onmessage = (event) => {
 			const data = JSON.parse(event.data);
+
+			if(data.type === "resetTimer") {
+				onReceiveResetTimerMessage();
+				return;
+			}
+			if(data.type === "pauseTimer") {
+				onReceivePauseTimerMessage(data.time);
+				return;
+			}
+			if(data.type === "resumeTimer") {
+				onReceiveResumeTimerMessage(data.time);
+				return;
+			}
+
 			if (data.shouldReset) {
 				onResetVote();
 			}
