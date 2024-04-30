@@ -17,18 +17,30 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 	const [selectedCardNumber, selectCardNumber] = useState<Vote>("not yet");
 	const [userName, setUserName] = useAtom(userNameAtom);
 
+	// dialog
+	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
 	// timer
 	const [currentTime, setCurrentTime] = useState<number>(0);
 	const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
-
-	// dialog
-	const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
 	// websocket
 	const connection = useWebSocket({
 		roomId: extractedRoomId,
 		userName: userName,
-		onReset: useCallback(() => selectCardNumber(() => "not yet"), []),
+		onResetVote: useCallback(() => selectCardNumber(() => "not yet"), []),
+		onReceiveResumeTimerMessage: useCallback(
+			(time: number) => handleReceptionOfResumeTimerOperation(time),
+			[],
+		),
+		onReceivePauseTimerMessage: useCallback(
+			(time: number) => handleReceptionOfPauseTimerOperation(time),
+			[],
+		),
+		onReceiveResetTimerMessage: useCallback(
+			() => handleReceptionOfResetTimerOperation(),
+			[],
+		),
 	});
 
 	/**
@@ -46,33 +58,32 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 	useEffect(() => startTimer(), [startTimer]);
 
 	/**
-	 * a handler method of resume(▶) button
+	 * an operation when a message to resume timers with specified time is received
 	 */
-	const handleResume = () => {
+	const handleReceptionOfResumeTimerOperation = (resumeFrom: number) => {
 		if (timerId) {
 			clearInterval(timerId);
 			setTimerId(null);
-		} else {
-			startTimer();
 		}
+		setCurrentTime(resumeFrom);
+		startTimer();
 	};
 
 	/**
-	 * a handler method of pause(⏸) button
+	 * an operation when a message to pause timers is received
 	 */
-	const handlePause = () => {
+	const handleReceptionOfPauseTimerOperation = (time: number) => {
 		if (timerId) {
 			clearInterval(timerId);
 			setTimerId(null);
-		} else {
-			startTimer();
 		}
+		setCurrentTime(time);
 	};
 
 	/**
-	 * a handler method of reset　🔄button
+	 * an operation when a message to reset timers is received
 	 */
-	const handleResetTimer = () => {
+	const handleReceptionOfResetTimerOperation = () => {
 		if (timerId) {
 			clearInterval(timerId);
 		}
@@ -84,9 +95,13 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 		<Timer
 			currentTime={currentTime}
 			isPaused={!timerId}
-			onTapPauseButton={handlePause}
-			onTapResumeButton={handleResume}
-			onTapResetButton={handleResetTimer}
+			onTapPauseButton={() =>
+				connection.timerControls.pause(extractedRoomId, currentTime)
+			}
+			onTapResumeButton={() =>
+				connection.timerControls.resume(extractedRoomId, currentTime)
+			}
+			onTapResetButton={() => connection.timerControls.reset(extractedRoomId)}
 		/>
 	);
 
@@ -104,15 +119,17 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 					/>
 					<ParticipantList participants={connection.participants} />
 					<ButtonsContainer
-						onClickNextVote={() => connection.resetRoom(extractedRoomId)}
+						onClickNextVote={() =>
+							connection.cardControls.reset(extractedRoomId)
+						}
 						onClickReveal={() => {
-							connection.revealAllCards(extractedRoomId);
+							connection.cardControls.revealAll(extractedRoomId);
 						}}
 					/>
 					<Cards
 						onSelect={(target) => {
 							selectCardNumber(target);
-							connection.submitCard(extractedRoomId, target);
+							connection.cardControls.submit(extractedRoomId, target);
 						}}
 						selectedCard={selectedCardNumber}
 					/>
