@@ -8,7 +8,10 @@
 		"enabled": true,
 		"ignore": [".next/"],
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"correctness": {
+				"useExhaustiveDependencies": "off"
+			}
 		}
 	},
 	"formatter": {

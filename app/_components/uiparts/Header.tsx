@@ -28,7 +28,7 @@ const Header = (props: Props) => {
 						macaroni poker
 					</Link>
 				</div>
-				<div className="md:flex md:flex-row">
+				<div className="grid grid-rows-2 grid-cols-2 md:flex md:flex-row">
 					{props.renderTimer ? props.renderTimer() : ""}
 					{props.roomId ? (
 						<CopyToClipBoard
