@@ -4,9 +4,16 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UseWebSocket {
 	participants: Participant[];
-	submitCard: (roomId: string, selectedCardNumber: Vote) => void;
-	resetRoom: (roomId: string) => void;
-	revealAllCards: (roomId: string) => void;
+	cardControls: {
+		submit: (roomId: string, selectedCardNumber: Vote) => void;
+		reset: (roomId: string) => void;
+		revealAll: (roomId: string) => void;
+	};
+	timerControls: {
+		reset: (roomId: string) => void;
+		resume: (roomId: string, time: number) => void;
+		pause: (roomId: string, time: number) => void;
+	};
 }
 
 interface Props {
@@ -15,10 +22,29 @@ interface Props {
 	/**
 	 * a function invoked when "shouldReset" property in a websocket message is true
 	 */
-	onReset: () => void;
+	onResetVote: () => void;
+	/**
+	 * a function invoked when "reset" operation is from a websocket message
+	 */
+	onReceiveResetTimerMessage: () => void;
+	/**
+	 * a function invoked when "pause" operation is from a websocket message
+	 */
+	onReceivePauseTimerMessage: (time: number) => void;
+	/**
+	 * a function invoked when "resume" operation is from a websocket message
+	 */
+	onReceiveResumeTimerMessage: (time: number) => void;
 }
 
-const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
+const useWebSocket = ({
+	roomId,
+	userName,
+	onResetVote,
+	onReceiveResetTimerMessage,
+	onReceivePauseTimerMessage,
+	onReceiveResumeTimerMessage,
+}: Props): UseWebSocket => {
 	const socket = useRef<WebSocket | null>(null);
 	const [participants, setParticipants] = useState<Participant[]>([]);
 	const url = "wss://sjy1ekd1t6.execute-api.ap-northeast-1.amazonaws.com/v1/";
@@ -63,6 +89,49 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 		);
 	};
 
+	/**
+	 * send a message to reset timers for specified room
+	 * @param roomId
+	 */
+	const resetTimer = (roomId: string) => {
+		socket.current?.send(
+			JSON.stringify({
+				action: "resetTimer",
+				roomId,
+			}),
+		);
+	};
+
+	/**
+	 * send a message to resume timers for specified room
+	 * @param roomId
+	 * @param time continue with
+	 */
+	const resumeTimer = (roomId: string, time: number) => {
+		socket.current?.send(
+			JSON.stringify({
+				action: "resumeTimer",
+				roomId,
+				time,
+			}),
+		);
+	};
+
+	/**
+	 * send a message to pause timers for specified room
+	 * @param roomId
+	 * @param time pause with
+	 */
+	const pauseTimer = (roomId: string, time: number) => {
+		socket.current?.send(
+			JSON.stringify({
+				action: "pauseTimer",
+				roomId,
+				time,
+			}),
+		);
+	};
+
 	useEffect(() => {
 		if (userName === nameNotSet) return () => {};
 		if (socket.current?.readyState === WebSocket.OPEN) {
@@ -84,8 +153,22 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 		};
 		currentSocket.onmessage = (event) => {
 			const data = JSON.parse(event.data);
+
+			if (data.type === "resetTimer") {
+				onReceiveResetTimerMessage();
+				return;
+			}
+			if (data.type === "pauseTimer") {
+				onReceivePauseTimerMessage(data.time);
+				return;
+			}
+			if (data.type === "resumeTimer") {
+				onReceiveResumeTimerMessage(data.time);
+				return;
+			}
+
 			if (data.shouldReset) {
-				onReset();
+				onResetVote();
 			}
 			const users: { name: string; cardNumber: Vote }[] = data.users;
 			const participants: Participant[] = users.map((value) => {
@@ -98,9 +181,21 @@ const useWebSocket = ({ roomId, userName, onReset }: Props): UseWebSocket => {
 		};
 		currentSocket.onclose = () => {};
 		return () => currentSocket.close();
-	}, [userName, roomId, onReset, joinRoom]);
+	}, [userName, roomId, onResetVote, joinRoom]);
 
-	return { participants, submitCard, resetRoom, revealAllCards };
+	return {
+		participants,
+		cardControls: {
+			submit: submitCard,
+			reset: resetRoom,
+			revealAll: revealAllCards,
+		},
+		timerControls: {
+			reset: resetTimer,
+			resume: resumeTimer,
+			pause: pauseTimer,
+		},
+	};
 };
 
 export default useWebSocket;

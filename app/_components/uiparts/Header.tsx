@@ -5,11 +5,12 @@ import localImage from "@/app/icon.png";
 import { useAtom } from "jotai/index";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { type ReactElement } from "react";
 
 interface Props {
 	roomId?: string;
 	onEdit?: () => void;
+	renderTimer?: () => ReactElement;
 }
 const Header = (props: Props) => {
 	const [userName, setUserName] = useAtom(userNameAtom);
@@ -27,7 +28,8 @@ const Header = (props: Props) => {
 						macaroni poker
 					</Link>
 				</div>
-				<div className="md:flex md:flex-row">
+				<div className="grid grid-rows-2 grid-cols-2 md:flex md:flex-row">
+					{props.renderTimer ? props.renderTimer() : ""}
 					{props.roomId ? (
 						<CopyToClipBoard
 							copyTarget={globalThis.window?.location.href}
