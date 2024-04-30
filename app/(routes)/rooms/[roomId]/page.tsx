@@ -31,45 +31,61 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 		onReset: useCallback(() => selectCardNumber(() => "not yet"), []),
 	});
 
-	useEffect(() => {
-		const timer = setInterval(() => {
+	/**
+	 * start new timer
+	 * @return a timeout created in this function
+	 */
+	const startTimer = useCallback(() => {
+		const created = setInterval(() => {
 			setCurrentTime((current) => current + 1);
 		}, 1000);
-		setTimerId(timer);
-
-		return () => {
-			clearInterval(timer);
-		};
+		setTimerId(created);
+		return () => clearInterval(created);
 	}, []);
 
-	const handlePauseResume = () => {
+	useEffect(() => startTimer(), [startTimer]);
+
+	/**
+	 * a handler method of resume(▶) button
+	 */
+	const handleResume = () => {
 		if (timerId) {
 			clearInterval(timerId);
 			setTimerId(null);
 		} else {
-			const newTimerId = setInterval(() => {
-				setCurrentTime((current) => current + 1);
-			}, 1000);
-			setTimerId(newTimerId);
+			startTimer();
 		}
 	};
 
+	/**
+	 * a handler method of pause(⏸) button
+	 */
+	const handlePause = () => {
+		if (timerId) {
+			clearInterval(timerId);
+			setTimerId(null);
+		} else {
+			startTimer();
+		}
+	};
+
+	/**
+	 * a handler method of reset　🔄button
+	 */
 	const handleResetTimer = () => {
 		if (timerId) {
 			clearInterval(timerId);
 		}
 		setCurrentTime(0);
-		setTimerId(
-			setInterval(() => {
-				setCurrentTime((current) => current + 1);
-			}, 1000),
-		);
+		startTimer();
 	};
 
 	const timerElement = (
 		<Timer
 			currentTime={currentTime}
-			onTapPauseButton={handlePauseResume}
+			isPaused={!timerId}
+			onTapPauseButton={handlePause}
+			onTapResumeButton={handleResume}
 			onTapResetButton={handleResetTimer}
 		/>
 	);

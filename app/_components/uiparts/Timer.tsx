@@ -1,11 +1,28 @@
 import React from "react";
+import { FiPause, FiPlay } from "react-icons/fi";
 import { GrPowerReset } from "react-icons/gr";
-import { HiOutlinePlayPause } from "react-icons/hi2";
 
 interface Props {
+	/**
+	 * time to display as second(s)
+	 */
 	currentTime: number;
+	/**
+	 * whether this timer is paused or not (used to toggle pause/play button)
+	 */
+	isPaused: boolean;
+	/**
+	 * executed when the reset 🔄 button is tapped
+	 */
 	onTapResetButton: () => void;
+	/**
+	 * executed when the pause(⏸) button is tapped
+	 */
 	onTapPauseButton: () => void;
+	/**
+	 * executed when the resume(▶) button is tapped
+	 */
+	onTapResumeButton: () => void;
 }
 
 /**
@@ -24,17 +41,23 @@ const formatSeconds = (seconds: number): string => {
 	return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
 };
 
+const PauseResumeButton = (props: Props) => {
+	const onTap = props.isPaused
+		? props.onTapResumeButton
+		: props.onTapPauseButton;
+	const icon = props.isPaused ? <FiPlay /> : <FiPause />;
+	return (
+		<div className="m-1" onClick={onTap} onKeyUp={onTap}>
+			{icon}
+		</div>
+	);
+};
+
 const Timer = (props: Props) => {
 	return (
 		<div className="flex-1 bg-gray-600 rounded flex items-center cursor-pointer md:text-xl m-2">
 			<div className="mx-2">{formatSeconds(props.currentTime)}</div>
-			<div
-				className="m-1"
-				onClick={props.onTapPauseButton}
-				onKeyUp={props.onTapPauseButton}
-			>
-				<HiOutlinePlayPause />
-			</div>
+			<PauseResumeButton {...props} />
 			<div
 				className="m-1"
 				onClick={props.onTapResetButton}
