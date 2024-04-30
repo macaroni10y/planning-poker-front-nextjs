@@ -43,7 +43,7 @@ const useWebSocket = ({
 	onResetVote,
 	onReceiveResetTimerMessage,
 	onReceivePauseTimerMessage,
-	onReceiveResumeTimerMessage
+	onReceiveResumeTimerMessage,
 }: Props): UseWebSocket => {
 	const socket = useRef<WebSocket | null>(null);
 	const [participants, setParticipants] = useState<Participant[]>([]);
@@ -154,15 +154,15 @@ const useWebSocket = ({
 		currentSocket.onmessage = (event) => {
 			const data = JSON.parse(event.data);
 
-			if(data.type === "resetTimer") {
+			if (data.type === "resetTimer") {
 				onReceiveResetTimerMessage();
 				return;
 			}
-			if(data.type === "pauseTimer") {
+			if (data.type === "pauseTimer") {
 				onReceivePauseTimerMessage(data.time);
 				return;
 			}
-			if(data.type === "resumeTimer") {
+			if (data.type === "resumeTimer") {
 				onReceiveResumeTimerMessage(data.time);
 				return;
 			}

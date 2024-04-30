@@ -10,7 +10,7 @@ import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";
 import type { Vote } from "@/app/_types/types";
 import { useAtom } from "jotai/index";
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
 	const extractedRoomId = params.roomId.substring(0, 12);
@@ -30,21 +30,19 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 		roomId: extractedRoomId,
 		userName: userName,
 		onResetVote: useCallback(() => selectCardNumber(() => "not yet"), []),
-		onReceiveResetTimerMessage:
-			() => handleReceptionOfResetTimerOperation(),
-		onReceivePauseTimerMessage:
-			(time: number) => handleReceptionOfPauseTimerOperation(time),
-		onReceiveResumeTimerMessage:
-			(time: number) => handleReceptionOfResumeTimerOperation(time),
+		onReceiveResetTimerMessage: () => handleReceptionOfResetTimerOperation(),
+		onReceivePauseTimerMessage: (time: number) =>
+			handleReceptionOfPauseTimerOperation(time),
+		onReceiveResumeTimerMessage: (time: number) =>
+			handleReceptionOfResumeTimerOperation(time),
 	});
 
 	/**
 	 * start new timer
 	 * @return a timeout created in this function
 	 */
-	const startTimer = useCallback(() => {
+	const startTimer = () => {
 		if (timerId.current) {
-			console.log("clear by start: " + timerId.current);
 			clearInterval(timerId.current);
 		}
 		const created = setInterval(() => {
@@ -52,52 +50,43 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 		}, 1000);
 		timerId.current = created;
 		setIsPaused(false);
-		console.log("created: " + created);
-		return () => {
-			console.log("clear by callback: " + created);
-			clearInterval(created);
-		};
-	}, [timerId]);
+		return () => clearInterval(created);
+	};
 
-	const clearTimer = useCallback(() => {
-		console.log(`clear timer: ${timerId.current}`);
+	const clearTimer = () => {
 		if (timerId.current) {
 			clearInterval(timerId.current);
 			timerId.current = null;
 			setIsPaused(true);
 		}
-	}, [timerId, startTimer]);
+	};
 
-	useEffect(() => {
-		const clearSelf = startTimer();
-		return () => clearSelf();
-	}, []);
+	useEffect(() => startTimer(), []);
 
 	/**
 	 * an operation when a message to resume timers with specified time is received
 	 */
-	const handleReceptionOfResumeTimerOperation = useCallback(((resumeFrom: number) => {
+	const handleReceptionOfResumeTimerOperation = (resumeFrom: number) => {
 		setCurrentTime(resumeFrom);
 		startTimer();
-	}), [startTimer]);
+	};
 
 	/**
 	 * an operation when a message to pause timers is received
 	 */
-	const handleReceptionOfPauseTimerOperation = useCallback((time: number) => {
+	const handleReceptionOfPauseTimerOperation = (time: number) => {
 		setCurrentTime(time);
 		clearTimer();
-	},[clearTimer]);
+	};
 
 	/**
 	 * an operation when a message to reset timers is received
 	 */
-	const handleReceptionOfResetTimerOperation = useCallback(() => {
-		console.log(`reset timerId:${timerId.current}`);
+	const handleReceptionOfResetTimerOperation = () => {
 		clearTimer();
 		setCurrentTime(0);
 		startTimer();
-	}, [startTimer, clearTimer]);
+	};
 
 	const timerElement = (
 		<Timer
