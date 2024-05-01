@@ -61,8 +61,6 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 		}
 	};
 
-	useEffect(() => startTimer(), []);
-
 	/**
 	 * an operation when a message to resume timers with specified time is received
 	 */
