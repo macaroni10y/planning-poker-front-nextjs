@@ -10,7 +10,7 @@ import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";
 import type { Vote } from "@/app/_types/types";
 import { useAtom } from "jotai/index";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
 	const extractedRoomId = params.roomId.substring(0, 12);
@@ -114,12 +114,13 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 					/>
 					<ParticipantList participants={connection.participants} />
 					<ButtonsContainer
-						onClickNextVote={() =>
-							connection.cardControls.reset(extractedRoomId)
-						}
-						onClickReveal={() => {
-							connection.cardControls.revealAll(extractedRoomId);
+						onClickNextVote={() => {
+							connection.cardControls.reset(extractedRoomId);
+							connection.timerControls.reset(extractedRoomId);
 						}}
+						onClickReveal={() =>
+							connection.cardControls.revealAll(extractedRoomId)
+						}
 					/>
 					<Cards
 						onSelect={(target) => {
@@ -132,9 +133,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 			</div>
 			<EditNameDialog
 				isOpen={userName === nameNotSet || isDialogOpen}
-				onClick={(candidate: string) => {
-					setUserName(candidate);
-				}}
+				onClick={(candidate: string) => setUserName(candidate)}
 				onClose={() => setIsDialogOpen(false)}
 			/>
 		</>
