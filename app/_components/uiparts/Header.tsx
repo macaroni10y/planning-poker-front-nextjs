@@ -13,6 +13,10 @@ interface Props {
 	renderTimer?: () => ReactElement;
 }
 const Header = (props: Props) => {
+	const additionalStyles =
+		props.roomId && props.onEdit && props.renderTimer
+			? "grid grid-rows-2 grid-cols-2"
+			: "";
 	const [userName, setUserName] = useAtom(userNameAtom);
 	return (
 		<nav className="bg-gray-800 h-20 md:h-16 p-2 md:p-4 text-white flex">
@@ -28,7 +32,7 @@ const Header = (props: Props) => {
 						macaroni poker
 					</Link>
 				</div>
-				<div className="grid grid-rows-2 grid-cols-2 md:flex md:flex-row">
+				<div className={`md:flex md:flex-row ${additionalStyles}`}>
 					{props.renderTimer ? props.renderTimer() : ""}
 					{props.roomId ? (
 						<CopyToClipBoard
