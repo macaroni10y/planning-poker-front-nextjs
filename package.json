@@ -11,6 +11,7 @@
 		"build-storybook": "storybook build"
 	},
 	"dependencies": {
+		"@supabase/ssr": "^0.3.0",
 		"@supabase/supabase-js": "^2.43.4",
 		"@types/react-modal": "^3.16.3",
 		"jotai": "^2.6.1",
