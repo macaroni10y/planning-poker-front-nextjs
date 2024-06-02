@@ -31,19 +31,15 @@ const Header = (props: Props) => {
 					</Link>
 				</div>
 				<div className={`md:flex md:flex-row ${additionalStyles}`}>
-					{props.renderTimer ? props.renderTimer() : ""}
-					{props.roomId ? (
+					{props.renderTimer && props.renderTimer()}
+					{props.roomId && (
 						<CopyToClipBoard
 							copyTarget={globalThis.window?.location.href}
 							displayName={props.roomId}
 						/>
-					) : (
-						""
 					)}
-					{props.onEdit ? (
+					{props.onEdit && (
 						<CurrentName onClick={props.onEdit} displayName={props.userName || "no name"} />
-					) : (
-						""
 					)}
 				</div>
 			</div>
