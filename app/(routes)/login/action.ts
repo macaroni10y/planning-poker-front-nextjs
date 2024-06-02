@@ -5,6 +5,11 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
 
+/**
+ * Login the user
+ * expects email and password in the form data
+ * @param formData
+ */
 export async function login(formData: FormData) {
 	const supabase = createClient();
 
@@ -16,13 +21,19 @@ export async function login(formData: FormData) {
 	const { error } = await supabase.auth.signInWithPassword(data);
 
 	if (error) {
-		redirect("/error");
+		redirect("/login?error=login_failed")
 	}
 
 	revalidatePath("/", "layout");
 	redirect("/");
 }
 
+
+/**
+ * Signup the user
+ * expects email, password and nickname in the form data
+ * @param formData
+ */
 export async function signup(formData: FormData) {
 	const supabase = createClient();
 
@@ -39,7 +50,7 @@ export async function signup(formData: FormData) {
 	const { error } = await supabase.auth.signUp(data);
 
 	if (error) {
-		redirect("/error");
+		redirect("/login?error=signup_failed")
 	}
 
 	revalidatePath("/", "layout");
