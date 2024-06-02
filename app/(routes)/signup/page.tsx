@@ -38,6 +38,7 @@ const Page = () => {
                             name="email"
                             placeholder="email"
                             required={true}
+                            pattern={"[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$"}
                         />
                         <label className={labelStyle} htmlFor="password">
                             password
@@ -48,6 +49,7 @@ const Page = () => {
                             name="password"
                             placeholder="password"
                             required={true}
+                            minLength={6}
                         />
                         <ActionButton text="Sign Up" formAction={signup}/>
                         <Link href="/login" className="text-gray-500 text-xs hover:underline">
