@@ -3,10 +3,11 @@ import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
 import TheButton from "@/app/_components/uiparts/TheButton";
-import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
+import { userNameAtom } from "@/app/_lib/atoms";
+import { createClient } from "@/utils/supabase/client";
 import { useAtom } from "jotai/index";
 import { useRouter } from "next/navigation";
-import React, { type KeyboardEventHandler, useState } from "react";
+import React, { type KeyboardEventHandler, useEffect, useState } from "react";
 
 const Page = () => {
 	const router = useRouter();
@@ -24,10 +25,19 @@ const Page = () => {
 		}
 	};
 
+	const supabase = createClient();
+	useEffect(() => {
+		supabase.auth.getUser().then((user) => {
+			if (user) {
+				setUserName(user.data.user?.user_metadata.nickname || "no name");
+			}
+		});
+	}, []);
+
 	return (
 		<>
 			<div className="absolute w-full">
-				<Header onEdit={() => setIsDialogOpen(true)} />
+				<Header userName={userName} onEdit={() => setIsDialogOpen(true)} />
 			</div>
 			<div className="h-screen bg-pink-50 flex items-center justify-center">
 				<div className="bg-white rounded-xl w-2/3 max-w-sm h-2/5 flex flex-col justify-evenly shadow-xl">
@@ -60,9 +70,12 @@ const Page = () => {
 				</div>
 			</div>
 			<EditNameDialog
-				isOpen={userName === nameNotSet || isDialogOpen}
-				onClick={(candidate: string) => {
+				isOpen={isDialogOpen}
+				onClick={async (candidate: string) => {
 					setUserName(candidate);
+					await supabase.auth.updateUser({
+						data: { nickname: candidate },
+					});
 				}}
 				onClose={() => setIsDialogOpen(false)}
 			/>
