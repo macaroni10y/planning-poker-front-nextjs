@@ -4,10 +4,10 @@ import Header from "@/app/_components/uiparts/Header";
 import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
 import TheButton from "@/app/_components/uiparts/TheButton";
 import { userNameAtom } from "@/app/_lib/atoms";
+import { createClient } from "@/utils/supabase/client";
 import { useAtom } from "jotai/index";
 import { useRouter } from "next/navigation";
-import React, {type KeyboardEventHandler, useEffect, useState} from "react";
-import {createClient} from "@/utils/supabase/client";
+import React, { type KeyboardEventHandler, useEffect, useState } from "react";
 
 const Page = () => {
 	const router = useRouter();
@@ -27,11 +27,11 @@ const Page = () => {
 
 	const supabase = createClient();
 	useEffect(() => {
-			supabase.auth.getUser().then((user) => {
-				if (user) {
-					setUserName(user.data.user?.user_metadata.nickname || "no name");
-				}
-			});
+		supabase.auth.getUser().then((user) => {
+			if (user) {
+				setUserName(user.data.user?.user_metadata.nickname || "no name");
+			}
+		});
 	}, []);
 
 	return (
@@ -74,7 +74,7 @@ const Page = () => {
 				onClick={async (candidate: string) => {
 					setUserName(candidate);
 					await supabase.auth.updateUser({
-						data: {nickname: candidate},
+						data: { nickname: candidate },
 					});
 				}}
 				onClose={() => setIsDialogOpen(false)}

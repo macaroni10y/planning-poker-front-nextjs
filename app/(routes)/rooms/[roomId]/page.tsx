@@ -9,9 +9,9 @@ import Timer from "@/app/_components/uiparts/Timer";
 import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";
 import type { Vote } from "@/app/_types/types";
+import { createClient } from "@/utils/supabase/client";
 import { useAtom } from "jotai/index";
 import React, { useCallback, useRef, useState } from "react";
-import {createClient} from "@/utils/supabase/client";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
 	const extractedRoomId = params.roomId.substring(0, 12);
@@ -139,7 +139,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 				isOpen={userName === nameNotSet || isDialogOpen}
 				onClick={async (candidate: string) => {
 					await supabaseClient.auth.updateUser({
-						data: {nickname: candidate},
+						data: { nickname: candidate },
 					});
 					setUserName(candidate);
 				}}
