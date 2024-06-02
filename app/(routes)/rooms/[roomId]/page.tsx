@@ -11,6 +11,7 @@ import useWebSocket from "@/app/_lib/useWebSocket";
 import type { Vote } from "@/app/_types/types";
 import { useAtom } from "jotai/index";
 import React, { useCallback, useRef, useState } from "react";
+import {createClient} from "@/utils/supabase/client";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
 	const extractedRoomId = params.roomId.substring(0, 12);
@@ -36,6 +37,8 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 		onReceiveResumeTimerMessage: (time: number) =>
 			handleReceptionOfResumeTimerOperation(time),
 	});
+
+	const supabaseClient = createClient();
 
 	/**
 	 * start new timer
@@ -107,6 +110,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 					roomId={extractedRoomId}
 					onEdit={() => setIsDialogOpen(true)}
 					renderTimer={() => timerElement}
+					userName={userName}
 				/>
 				<div className="flex flex-col items-center h-5/6">
 					<VoteResultsContainer
@@ -133,7 +137,12 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 			</div>
 			<EditNameDialog
 				isOpen={userName === nameNotSet || isDialogOpen}
-				onClick={(candidate: string) => setUserName(candidate)}
+				onClick={async (candidate: string) => {
+					await supabaseClient.auth.updateUser({
+						data: {nickname: candidate},
+					});
+					setUserName(candidate);
+				}}
 				onClose={() => setIsDialogOpen(false)}
 			/>
 		</>

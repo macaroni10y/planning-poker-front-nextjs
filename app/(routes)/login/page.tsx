@@ -6,7 +6,6 @@ import React, { useState } from "react";
 
 const Page = () => {
 	const [isLogin, setIsLogin] = useState(true);
-
 	const inputStyle = "w-full text-xs h-10 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-pink-300";
 	const labelStyle = "m-1 text-xs text-left w-full";
 
@@ -32,6 +31,7 @@ const Page = () => {
 									type="text"
 									name="nickname"
 									placeholder="nickname"
+									required={true}
 								/>
 							</>
 						)}
@@ -43,6 +43,7 @@ const Page = () => {
 							type="email"
 							name="email"
 							placeholder="email"
+							required={true}
 						/>
 						<label className={labelStyle} htmlFor="password">
 							password
@@ -52,13 +53,14 @@ const Page = () => {
 							type="password"
 							name="password"
 							placeholder="password"
+							required={true}
 						/>
 						{isLogin ? (
 							<>
 								<ActionButton text="Sign In" formAction={login} />
 								<button
 									type="button"
-									className="text-blue-500"
+									className="text-gray-500 text-xs hover:underline"
 									onClick={() => setIsLogin(false)}
 								>
 									Not yet registered? Sign Up
@@ -69,10 +71,10 @@ const Page = () => {
 								<ActionButton text="Sign Up" formAction={signup} />
 								<button
 									type="button"
-									className="text-blue-500"
+									className="text-gray-500 text-xs hover:underline"
 									onClick={() => setIsLogin(true)}
 								>
-									Sign In
+									Already registered? Sign In
 								</button>
 							</>
 						)}
