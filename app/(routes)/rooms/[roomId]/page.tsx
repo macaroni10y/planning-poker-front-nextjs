@@ -11,8 +11,8 @@ import useWebSocket from "@/app/_lib/useWebSocket";
 import type { Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
 import { useAtom } from "jotai/index";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useRef, useState } from "react";
-import {useRouter} from "next/navigation";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
 	const router = useRouter();

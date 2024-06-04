@@ -3,11 +3,11 @@ import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
 import TheButton from "@/app/_components/uiparts/TheButton";
-import {nameNotSet, userNameAtom} from "@/app/_lib/atoms";
-import {createClient} from "@/utils/supabase/client";
-import {useAtom} from "jotai/index";
-import {useRouter} from "next/navigation";
-import React, {type KeyboardEventHandler, useEffect, useState} from "react";
+import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
+import { createClient } from "@/utils/supabase/client";
+import { useAtom } from "jotai/index";
+import { useRouter } from "next/navigation";
+import React, { type KeyboardEventHandler, useEffect, useState } from "react";
 
 const Page = () => {
 	const router = useRouter();
@@ -42,7 +42,11 @@ const Page = () => {
 	return (
 		<>
 			<div className="absolute w-full">
-				<Header userName={userName} onEdit={() => setIsDialogOpen(true)} onLogout={handleLogout}/>
+				<Header
+					userName={userName}
+					onEdit={() => setIsDialogOpen(true)}
+					onLogout={handleLogout}
+				/>
 			</div>
 			<div className="h-screen bg-pink-50 flex items-center justify-center">
 				<div className="bg-white rounded-xl w-2/3 max-w-sm h-2/5 flex flex-col justify-evenly shadow-xl">

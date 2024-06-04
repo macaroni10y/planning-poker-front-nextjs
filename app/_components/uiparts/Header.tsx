@@ -4,7 +4,7 @@ import localImage from "@/app/icon.png";
 import Image from "next/image";
 import Link from "next/link";
 import React, { type ReactElement } from "react";
-import {MdLogout} from "react-icons/md";
+import { MdLogout } from "react-icons/md";
 
 interface Props {
 	roomId?: string;
@@ -47,7 +47,11 @@ const Header = (props: Props) => {
 						/>
 					)}
 					{props.onLogout && (
-						<button onClick={props.onLogout} className="flex-1 bg-gray-600 rounded flex items-center cursor-pointer md:text-xl m-2">
+						<button
+							type="button"
+							onClick={props.onLogout}
+							className="flex-1 bg-gray-600 rounded flex items-center cursor-pointer md:text-xl m-2"
+						>
 							<div className="items-center">
 								<MdLogout />
 							</div>
