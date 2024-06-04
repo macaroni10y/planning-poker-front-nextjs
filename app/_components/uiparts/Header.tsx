@@ -4,11 +4,13 @@ import localImage from "@/app/icon.png";
 import Image from "next/image";
 import Link from "next/link";
 import React, { type ReactElement } from "react";
+import { MdLogout } from "react-icons/md";
 
 interface Props {
 	roomId?: string;
 	onEdit?: () => void;
 	renderTimer?: () => ReactElement;
+	onLogout?: () => void;
 	userName?: string;
 }
 const Header = (props: Props) => {
@@ -43,6 +45,17 @@ const Header = (props: Props) => {
 							onClick={props.onEdit}
 							displayName={props.userName || "no name"}
 						/>
+					)}
+					{props.onLogout && (
+						<button
+							type="button"
+							onClick={props.onLogout}
+							className="flex-1 bg-gray-600 rounded flex items-center cursor-pointer md:text-xl m-2"
+						>
+							<div className="items-center">
+								<MdLogout />
+							</div>
+						</button>
 					)}
 				</div>
 			</div>

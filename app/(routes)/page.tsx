@@ -3,7 +3,7 @@ import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
 import TheButton from "@/app/_components/uiparts/TheButton";
-import { userNameAtom } from "@/app/_lib/atoms";
+import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import { createClient } from "@/utils/supabase/client";
 import { useAtom } from "jotai/index";
 import { useRouter } from "next/navigation";
@@ -25,11 +25,16 @@ const Page = () => {
 		}
 	};
 
+	const handleLogout = async () => {
+		await supabase.auth.signOut();
+		router.push("/login");
+	};
+
 	const supabase = createClient();
 	useEffect(() => {
 		supabase.auth.getUser().then((user) => {
 			if (user) {
-				setUserName(user.data.user?.user_metadata.nickname || "no name");
+				setUserName(user.data.user?.user_metadata.nickname || nameNotSet);
 			}
 		});
 	}, []);
@@ -37,7 +42,11 @@ const Page = () => {
 	return (
 		<>
 			<div className="absolute w-full">
-				<Header userName={userName} onEdit={() => setIsDialogOpen(true)} />
+				<Header
+					userName={userName}
+					onEdit={() => setIsDialogOpen(true)}
+					onLogout={handleLogout}
+				/>
 			</div>
 			<div className="h-screen bg-pink-50 flex items-center justify-center">
 				<div className="bg-white rounded-xl w-2/3 max-w-sm h-2/5 flex flex-col justify-evenly shadow-xl">
