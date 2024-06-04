@@ -8,9 +8,13 @@ import { createClient } from "@/utils/supabase/server";
 /**
  * Signup the user
  * expects email, password and nickname in the form data
+ * @param prevState
  * @param formData
  */
-export async function signup(formData: FormData) {
+export async function signup(
+	prevState: { message: string },
+	formData: FormData,
+) {
 	const supabase = createClient();
 
 	const data = {
@@ -26,7 +30,7 @@ export async function signup(formData: FormData) {
 	const { error } = await supabase.auth.signUp(data);
 
 	if (error) {
-		redirect("/signup?error=signup_failed");
+		return { message: error.message };
 	}
 
 	revalidatePath("/", "layout");

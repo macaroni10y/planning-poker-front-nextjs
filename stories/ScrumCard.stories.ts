@@ -21,11 +21,13 @@ type Story = StoryObj<typeof meta>;
 export const one: Story = {
 	args: {
 		cardSymbol: 1,
+		onSelect: () => alert("clicked"),
 	},
 };
 
 export const skip: Story = {
 	args: {
 		cardSymbol: "skip",
+		onSelect: () => alert("clicked"),
 	},
 };
