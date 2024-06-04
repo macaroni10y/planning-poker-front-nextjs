@@ -3,12 +3,33 @@ import { login } from "@/app/(routes)/login/action";
 import ActionButton from "@/app/_components/uiparts/ActionButton";
 import Header from "@/app/_components/uiparts/Header";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
+import { useFormState } from "react-dom";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Page = () => {
 	const inputStyle =
 		"w-full text-xs h-10 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-pink-300";
 	const labelStyle = "m-1 text-xs text-left w-full";
+
+	const [state, formAction] = useFormState(login, { message: "" });
+
+	useEffect(() => {
+		if (state.message) {
+			toast.error(state.message, {
+				position: "bottom-center",
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+				transition: Bounce,
+			});
+		}
+	}, [state]);
 
 	return (
 		<>
@@ -38,7 +59,7 @@ const Page = () => {
 							placeholder="password"
 							required={true}
 						/>
-						<ActionButton text="Sign In" formAction={login} />
+						<ActionButton text="Sign In" formAction={formAction} />
 						<Link
 							href="/signup"
 							className="text-gray-500 text-xs hover:underline"
@@ -48,6 +69,20 @@ const Page = () => {
 					</form>
 				</div>
 			</div>
+			<ToastContainer
+				className={"absolute"}
+				position="bottom-center"
+				autoClose={3000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="light"
+				transition={Bounce}
+			/>
 		</>
 	);
 };

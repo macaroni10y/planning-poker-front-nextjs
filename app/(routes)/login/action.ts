@@ -8,9 +8,13 @@ import { createClient } from "@/utils/supabase/server";
 /**
  * Login the user
  * expects email and password in the form data
+ * @param prevState
  * @param formData
  */
-export async function login(formData: FormData) {
+export async function login(
+	prevState: { message: string },
+	formData: FormData,
+) {
 	const supabase = createClient();
 
 	const data = {
@@ -21,7 +25,7 @@ export async function login(formData: FormData) {
 	const { error } = await supabase.auth.signInWithPassword(data);
 
 	if (error) {
-		redirect("/login?error=login_failed");
+		return { message: error.message };
 	}
 
 	revalidatePath("/", "layout");
