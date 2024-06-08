@@ -1,7 +1,7 @@
 import TheButton from "@/app/_components/uiparts/TheButton";
-import React, { type KeyboardEventHandler, useState } from "react";
+import React, {type KeyboardEventHandler, useState} from "react";
 import { IoCloseSharp } from "react-icons/io5";
-import ReactModal from "react-modal";
+import {Dialog, DialogContent} from "@mui/material";
 
 interface Props {
 	isOpen: boolean;
@@ -29,51 +29,38 @@ const EditNameDialog = (props: Props) => {
 		}
 	};
 
-	const styles: ReactModal.Styles = {
-		content: {
-			position: "absolute",
-			top: "50%",
-			left: "50%",
-			width: "350px",
-			height: "120px",
-			transform: "translate(-50%, -50%)",
-			borderRadius: "8px",
-			boxShadow: "0 1px 1px rgba(0, 0, 0, 0.1)",
-		},
-	};
-
 	return (
-		<ReactModal
-			style={styles}
-			isOpen={props.isOpen}
-			onRequestClose={props.onClose}
+		<Dialog
+			open={props.isOpen}
+			onClose={props.onClose}
 		>
-			<div
-				onClick={props.onClose}
-				onKeyDown={props.onClose}
-				className="absolute top-1 right-1 cursor-pointer"
-			>
-				<IoCloseSharp />
-			</div>
-			<div className="flex justify-center items-center">
-				<input
-					maxLength={15}
-					className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-pink-300"
-					type="text"
-					placeholder="input name"
-					onChange={(event) => setNameCandidate(event.target.value)}
-					onKeyDown={handleKeyDown}
-				/>
-				<TheButton
-					isActive={isValid(nameCandidate)}
-					className="w-10 h-10"
-					onClick={handleSubmit}
-					text="→"
-				/>
-			</div>
-		</ReactModal>
+			<DialogContent>
+				<div
+					onClick={props.onClose}
+					onKeyDown={props.onClose}
+					className="absolute top-1 right-1 cursor-pointer"
+				>
+					<IoCloseSharp />
+				</div>
+				<div className="flex justify-center items-center">
+					<input
+						maxLength={15}
+						className="w-2/3 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-pink-300"
+						type="text"
+						placeholder="input name"
+						onChange={(event) => setNameCandidate(event.target.value)}
+						onKeyDown={handleKeyDown}
+					/>
+					<TheButton
+						isActive={isValid(nameCandidate)}
+						className="w-10 h-10"
+						onClick={handleSubmit}
+						text="→"
+					/>
+				</div>
+			</DialogContent>
+		</Dialog>
 	);
 };
 
-ReactModal.setAppElement("body");
 export default EditNameDialog;
