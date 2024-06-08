@@ -145,7 +145,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 			</div>
 			<EditNameDialog
 				isOpen={userName === nameNotSet || isDialogOpen}
-				onClick={async (candidate: string) => {
+				onSubmit={async (candidate: string) => {
 					await supabase.auth.updateUser({
 						data: { nickname: candidate },
 					});

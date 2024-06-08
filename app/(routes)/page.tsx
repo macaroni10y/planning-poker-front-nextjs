@@ -80,7 +80,7 @@ const Page = () => {
 			</div>
 			<EditNameDialog
 				isOpen={isDialogOpen}
-				onClick={async (candidate: string) => {
+				onSubmit={async (candidate: string) => {
 					setUserName(candidate);
 					await supabase.auth.updateUser({
 						data: { nickname: candidate },

@@ -5,7 +5,7 @@ import {Dialog, DialogContent} from "@mui/material";
 
 interface Props {
 	isOpen: boolean;
-	onClick: (value: string) => void;
+	onSubmit: (value: string) => void;
 	onClose: () => void;
 }
 const EditNameDialog = (props: Props) => {
@@ -14,7 +14,7 @@ const EditNameDialog = (props: Props) => {
 
 	const handleSubmit = () => {
 		if (!isValid(nameCandidate)) return;
-		props.onClick(nameCandidate);
+		props.onSubmit(nameCandidate);
 		props.onClose();
 	};
 
@@ -24,7 +24,7 @@ const EditNameDialog = (props: Props) => {
 			event.keyCode === 13 &&
 			isValid(nameCandidate)
 		) {
-			props.onClick(nameCandidate);
+			props.onSubmit(nameCandidate);
 			props.onClose();
 		}
 	};

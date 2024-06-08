@@ -12,7 +12,7 @@ const meta = {
 			control: "boolean",
 			description: "whether this dialog is shown or not",
 		},
-		onClick: {
+		onSubmit: {
 			description: "behavior on click",
 		},
 		onClose: {
@@ -28,7 +28,7 @@ export const hoge: Story = {
 	name: "text is hoge",
 	args: {
 		isOpen: true,
-		onClick: () => alert("clicked"),
+		onSubmit: () => alert("clicked"),
 		onClose: () => alert("closed"),
 	},
 };
