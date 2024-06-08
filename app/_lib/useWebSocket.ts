@@ -171,12 +171,14 @@ const useWebSocket = ({
 				onResetVote();
 			}
 			const users: { name: string; cardNumber: Vote }[] = data.users;
-			const participants: Participant[] = users.map((value) => {
-				return {
-					name: value.name,
-					vote: value.cardNumber,
-				};
-			});
+			const participants: Participant[] = users
+				? users.map((value) => {
+						return {
+							name: value.name,
+							vote: value.cardNumber,
+						};
+					})
+				: [];
 			setParticipants(() => participants);
 		};
 		currentSocket.onclose = () => {};

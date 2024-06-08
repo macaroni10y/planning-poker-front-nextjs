@@ -1,7 +1,7 @@
 import TheButton from "@/app/_components/uiparts/TheButton";
-import React, {useState} from "react";
+import { Dialog, DialogContent } from "@mui/material";
+import React, { useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
-import {Dialog, DialogContent} from "@mui/material";
 
 interface Props {
 	isOpen: boolean;
@@ -20,10 +20,7 @@ const EditNameDialog = (props: Props) => {
 	};
 
 	return (
-		<Dialog
-			open={props.isOpen}
-			onClose={props.onClose}
-		>
+		<Dialog open={props.isOpen} onClose={props.onClose}>
 			<DialogContent>
 				<div
 					onClick={props.onClose}
