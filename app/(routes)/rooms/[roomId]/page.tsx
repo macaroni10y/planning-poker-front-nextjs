@@ -6,7 +6,7 @@ import VoteResultsContainer from "@/app/_components/containers/VoteResultsContai
 import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import Timer from "@/app/_components/uiparts/Timer";
-import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
+import { userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";
 import type { Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
@@ -115,7 +115,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 			<div className="h-screen bg-pink-50">
 				<Header
 					roomId={extractedRoomId}
-					onEdit={() => setIsDialogOpen(true)}
+					onTapUserName={() => setIsDialogOpen(true)}
 					renderTimer={() => timerElement}
 					onLogout={handleLogout}
 					userName={userName}
@@ -144,7 +144,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 				</div>
 			</div>
 			<EditNameDialog
-				isOpen={userName === nameNotSet || isDialogOpen}
+				isOpen={isDialogOpen}
 				onSubmit={async (candidate: string) => {
 					await supabase.auth.updateUser({
 						data: { nickname: candidate },

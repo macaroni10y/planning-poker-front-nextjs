@@ -1,5 +1,5 @@
 import TheButton from "@/app/_components/uiparts/TheButton";
-import React, {type KeyboardEventHandler, useState} from "react";
+import React, {useState} from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import {Dialog, DialogContent} from "@mui/material";
 
@@ -15,18 +15,8 @@ const EditNameDialog = (props: Props) => {
 	const handleSubmit = () => {
 		if (!isValid(nameCandidate)) return;
 		props.onSubmit(nameCandidate);
+		setNameCandidate("");
 		props.onClose();
-	};
-
-	const handleKeyDown: KeyboardEventHandler = (event) => {
-		if (
-			event.key === "Enter" &&
-			event.keyCode === 13 &&
-			isValid(nameCandidate)
-		) {
-			props.onSubmit(nameCandidate);
-			props.onClose();
-		}
 	};
 
 	return (
@@ -49,7 +39,6 @@ const EditNameDialog = (props: Props) => {
 						type="text"
 						placeholder="input name"
 						onChange={(event) => setNameCandidate(event.target.value)}
-						onKeyDown={handleKeyDown}
 					/>
 					<TheButton
 						isActive={isValid(nameCandidate)}

@@ -44,7 +44,7 @@ const Page = () => {
 			<div className="absolute w-full">
 				<Header
 					userName={userName}
-					onEdit={() => setIsDialogOpen(true)}
+					onTapUserName={() => setIsDialogOpen(true)}
 					onLogout={handleLogout}
 				/>
 			</div>
