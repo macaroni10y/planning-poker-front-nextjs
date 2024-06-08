@@ -20,7 +20,7 @@ const config: StorybookConfig = {
 	docs: {},
 	staticDirs: ["../public"],
 	webpackFinal: (config) => {
-		if(!config.resolve) return config;
+		if (!config.resolve) return config;
 		config.resolve.alias = {
 			...config.resolve.alias,
 			"@": path.resolve(__dirname, "../"),
