@@ -1,4 +1,4 @@
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { Box, CircularProgress } from "@mui/material";
 
 interface Props {
 	title: string;
@@ -17,8 +17,10 @@ const OneVoteResult = (voteResult: Props) => (
 		{voteResult.voteCompleted ? (
 			<div className="font-semibold text-2xl">{voteResult.value}</div>
 		) : (
-			<div className="animate-spin text-2xl p-1">
-				<AiOutlineLoading3Quarters />
+			<div className="p-1">
+				<Box sx={{ display: "flex" }}>
+					<CircularProgress size={24} color="inherit" />
+				</Box>
 			</div>
 		)}
 	</div>

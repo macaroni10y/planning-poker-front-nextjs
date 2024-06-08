@@ -1,5 +1,5 @@
 import type { Vote } from "@/app/_types/types";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { Box, CircularProgress } from "@mui/material";
 import { FaCheck } from "react-icons/fa";
 
 interface Props {
@@ -17,9 +17,9 @@ const NameAndVote = (props: Props) => (
 		<div className="p-2 flex-1 flex justify-center">{props.name}</div>
 		<div className="p-2 flex-1 flex justify-center">
 			{props.vote === "not yet" ? (
-				<div className="animate-spin">
-					<AiOutlineLoading3Quarters />
-				</div>
+				<Box sx={{ display: "flex" }}>
+					<CircularProgress size={16} color="inherit" />
+				</Box>
 			) : props.showVote ? (
 				props.vote
 			) : (

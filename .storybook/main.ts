@@ -2,7 +2,6 @@ import * as path from "node:path";
 import type { StorybookConfig } from "@storybook/nextjs";
 
 const config: StorybookConfig = {
-	typescript: { reactDocgen: false },
 	stories: [
 		"../stories/**/*.mdx",
 		"../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
@@ -12,15 +11,16 @@ const config: StorybookConfig = {
 		"@storybook/addon-essentials",
 		"@storybook/addon-onboarding",
 		"@storybook/addon-interactions",
+		"@chromatic-com/storybook",
 	],
 	framework: {
 		name: "@storybook/nextjs",
 		options: {},
 	},
-	docs: {
-		autodocs: "tag",
-	},
-	webpackFinal(config) {
+	docs: {},
+	staticDirs: ["../public"],
+	webpackFinal: (config) => {
+		if (!config.resolve) return config;
 		config.resolve.alias = {
 			...config.resolve.alias,
 			"@": path.resolve(__dirname, "../"),

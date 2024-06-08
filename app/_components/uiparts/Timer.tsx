@@ -55,7 +55,7 @@ const PauseResumeButton = (props: Props) => {
 
 const Timer = (props: Props) => {
 	return (
-		<div className="flex-1 bg-gray-600 rounded flex items-center cursor-pointer md:text-xl m-2">
+		<div className="flex-1 bg-gray-600 rounded flex items-center cursor-pointer sm:text-xl m-2">
 			<div className="mx-2">{formatSeconds(props.currentTime)}</div>
 			<PauseResumeButton {...props} />
 			<div
