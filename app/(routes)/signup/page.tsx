@@ -40,34 +40,34 @@ const Page = () => {
 				<div className="h-1/2 bg-white rounded-xl w-2/3 max-w-sm flex flex-col justify-evenly shadow-xl items-center">
 					<form className="flex flex-col w-10/12 items-center">
 						<label className={labelStyle} htmlFor="nickname">
-							nickname
+							Nickname
 						</label>
 						<input
 							className={inputStyle}
 							type="text"
 							name="nickname"
-							placeholder="nickname"
+							placeholder="Nickname"
 							required={true}
 						/>
 						<label className={labelStyle} htmlFor="email">
-							email
+							Email Address
 						</label>
 						<input
 							className={inputStyle}
 							type="email"
 							name="email"
-							placeholder="email"
+							placeholder="foo@example.com"
 							required={true}
 							pattern={"[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$"}
 						/>
 						<label className={labelStyle} htmlFor="password">
-							password
+							Password
 						</label>
 						<input
 							className={inputStyle}
 							type="password"
 							name="password"
-							placeholder="password"
+							placeholder="Password"
 							required={true}
 							minLength={6}
 						/>
