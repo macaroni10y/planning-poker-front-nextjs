@@ -40,7 +40,7 @@ const Page = () => {
 				<div className="h-2/5 bg-white rounded-xl w-2/3 max-w-sm flex flex-col justify-evenly shadow-xl items-center">
 					<form className="flex flex-col w-10/12 items-center">
 						<label className={labelStyle} htmlFor="email">
-							email
+							Email Address
 						</label>
 						<input
 							className={inputStyle}
@@ -50,7 +50,7 @@ const Page = () => {
 							required={true}
 						/>
 						<label className={labelStyle} htmlFor="password">
-							password
+							Password
 						</label>
 						<input
 							className={inputStyle}
