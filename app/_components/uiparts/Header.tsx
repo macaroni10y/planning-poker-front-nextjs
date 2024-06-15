@@ -17,14 +17,12 @@ import Link from "next/link";
 import type React from "react";
 import { type ReactElement, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { MdLogout } from "react-icons/md";
 import { RxAvatar } from "react-icons/rx";
 
 interface Props {
 	roomId?: string;
 	onTapUserName?: () => void;
 	renderTimer?: () => ReactElement;
-	onLogout?: () => void;
 	userName?: string;
 }
 const Header = (props: Props) => {
@@ -90,14 +88,6 @@ const Header = (props: Props) => {
 											<CiEdit />
 										</ListItemIcon>
 										Edit name
-									</MenuItem>
-								)}
-								{props.onLogout && (
-									<MenuItem onClick={props.onLogout}>
-										<ListItemIcon>
-											<MdLogout />
-										</ListItemIcon>
-										Logout
 									</MenuItem>
 								)}
 							</Menu>

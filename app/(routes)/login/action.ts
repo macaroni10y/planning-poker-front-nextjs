@@ -31,3 +31,32 @@ export async function login(
 	revalidatePath("/", "layout");
 	redirect("/");
 }
+
+/**
+ * Login the user anonymously
+ * expects nickname in the form data
+ * @param prevState
+ * @param formData
+ */
+export async function loginAnonymously(
+	prevState: { message: string },
+	formData: FormData,
+) {
+	const supabase = createClient();
+
+	const input = {
+		nickname: formData.get("nickname") as string,
+	};
+
+	const { data, error } = await supabase.auth.signInAnonymously();
+
+	if (error) {
+		return { message: error.message };
+	}
+	await supabase.auth.updateUser({
+		data: input,
+	});
+
+	revalidatePath("/", "layout");
+	redirect("/");
+}
