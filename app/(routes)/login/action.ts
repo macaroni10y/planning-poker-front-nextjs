@@ -45,7 +45,7 @@ export async function loginAnonymously(
 	const supabase = createClient();
 
 	const input = {
-		nickname: formData.get("nickname") as string,
+		display_name: formData.get("nickname") as string,
 	};
 
 	const { data, error } = await supabase.auth.signInAnonymously();

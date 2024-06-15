@@ -139,7 +139,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 				isOpen={isDialogOpen}
 				onSubmit={async (candidate: string) => {
 					await supabase.auth.updateUser({
-						data: { nickname: candidate },
+						data: { display_name: candidate },
 					});
 					setUserName(candidate);
 				}}
