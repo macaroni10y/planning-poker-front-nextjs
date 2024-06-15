@@ -16,7 +16,7 @@ const ListHeader = () => (
 const NamesAndVotes = (props: Props) =>
 	props.participants.map((participant) => (
 		<NameAndVote
-			key={participant.name}
+			key={participant.clientId}
 			name={participant.name}
 			showVote={props.participants.every((it) => {
 				return isVotableVote(it.vote);

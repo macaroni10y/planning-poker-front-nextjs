@@ -1,9 +1,10 @@
-import { allCards, allCountableCards } from "@/app/_lib/variables";
+import { allCards } from "@/app/_lib/variables";
 
 export type CountableVote = 0.5 | 1 | 2 | 3 | 5 | 8 | 13 | 20 | 40 | 100;
 export type VotableVote = CountableVote | "skip";
 export type Vote = CountableVote | "skip" | "not yet";
 export type Participant = {
+	clientId: string;
 	name: string;
 	vote: Vote;
 };

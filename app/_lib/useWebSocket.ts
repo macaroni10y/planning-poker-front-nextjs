@@ -170,10 +170,12 @@ const useWebSocket = ({
 			if (data.shouldReset) {
 				onResetVote();
 			}
-			const users: { name: string; cardNumber: Vote }[] = data.users;
+			const users: { clientId: string; name: string; cardNumber: Vote }[] =
+				data.users;
 			const participants: Participant[] = users
 				? users.map((value) => {
 						return {
+							clientId: value.clientId,
 							name: value.name,
 							vote: value.cardNumber,
 						};
