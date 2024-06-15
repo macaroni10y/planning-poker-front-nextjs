@@ -11,11 +11,9 @@ import useWebSocket from "@/app/_lib/useWebSocket";
 import type { Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
 import { useAtom } from "jotai/index";
-import { useRouter } from "next/navigation";
 import React, { useCallback, useRef, useState } from "react";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
-	const router = useRouter();
 	const extractedRoomId = params.roomId.substring(0, 12);
 	const [selectedCardNumber, selectCardNumber] = useState<Vote>("not yet");
 	const [userName, setUserName] = useAtom(userNameAtom);
@@ -41,11 +39,6 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 	});
 
 	const supabase = createClient();
-
-	const handleLogout = async () => {
-		await supabase.auth.signOut();
-		router.push("/login");
-	};
 
 	/**
 	 * start new timer
@@ -117,7 +110,6 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 					roomId={extractedRoomId}
 					onTapUserName={() => setIsDialogOpen(true)}
 					renderTimer={() => timerElement}
-					onLogout={handleLogout}
 					userName={userName}
 				/>
 				<div className="flex flex-col items-center h-5/6">

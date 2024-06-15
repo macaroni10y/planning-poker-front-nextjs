@@ -25,11 +25,6 @@ const Page = () => {
 		}
 	};
 
-	const handleLogout = async () => {
-		await supabase.auth.signOut();
-		router.push("/login");
-	};
-
 	const supabase = createClient();
 	useEffect(() => {
 		supabase.auth.getUser().then((user) => {
@@ -45,7 +40,6 @@ const Page = () => {
 				<Header
 					userName={userName}
 					onTapUserName={() => setIsDialogOpen(true)}
-					onLogout={handleLogout}
 				/>
 			</div>
 			<div className="h-screen bg-pink-50 flex items-center justify-center">
