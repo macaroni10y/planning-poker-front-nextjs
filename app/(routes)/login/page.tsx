@@ -3,7 +3,7 @@ import { loginAnonymously } from "@/app/(routes)/login/action";
 import ActionButton from "@/app/_components/uiparts/ActionButton";
 import Header from "@/app/_components/uiparts/Header";
 import React, { useEffect } from "react";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -36,7 +36,7 @@ const Page = () => {
 				"macaroni poker now supports anonymous sign-in instead of e-mail sign-in. All accounts created with e-mail have been deleted. Thanks for your understanding and cooperation!",
 				{
 					position: "top-center",
-					autoClose: false,
+					autoClose: 7000,
 					hideProgressBar: true,
 					closeOnClick: true,
 					pauseOnHover: true,
@@ -67,7 +67,7 @@ const Page = () => {
 							placeholder="John Doe"
 							required={true}
 						/>
-						<ActionButton text="Continue" formAction={formAction} />
+						<FormButton formAction={formAction} />
 					</form>
 				</div>
 			</div>
@@ -86,6 +86,21 @@ const Page = () => {
 				transition={Bounce}
 			/>
 		</>
+	);
+};
+
+interface FormButtonProps {
+	formAction: (formData: FormData) => void;
+}
+
+const FormButton = (props: FormButtonProps) => {
+	const { pending } = useFormStatus();
+	return (
+		<ActionButton
+			text="Continue"
+			formAction={props.formAction}
+			isActive={!pending}
+		/>
 	);
 };
 

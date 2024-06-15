@@ -29,7 +29,7 @@ const Page = () => {
 	useEffect(() => {
 		supabase.auth.getUser().then((user) => {
 			if (user) {
-				setUserName(user.data.user?.user_metadata.nickname || nameNotSet);
+				setUserName(user.data.user?.user_metadata.display_name || nameNotSet);
 			}
 		});
 	}, []);
@@ -77,7 +77,7 @@ const Page = () => {
 				onSubmit={async (candidate: string) => {
 					setUserName(candidate);
 					await supabase.auth.updateUser({
-						data: { nickname: candidate },
+						data: { display_name: candidate },
 					});
 				}}
 				onClose={() => setIsDialogOpen(false)}
