@@ -61,7 +61,7 @@ const useWebSocket = ({
 		}
 	}, []);
 
-	const submitCard = (roomId: string, selectedCardNumber: Vote) => {
+	const submitCard = useCallback((roomId: string, selectedCardNumber: Vote) => {
 		socket.current?.send(
 			JSON.stringify({
 				action: "submitCard",
@@ -69,45 +69,45 @@ const useWebSocket = ({
 				cardNumber: selectedCardNumber,
 			}),
 		);
-	};
+	}, []);
 
-	const resetRoom = (roomId: string) => {
+	const resetRoom = useCallback((roomId: string) => {
 		socket.current?.send(
 			JSON.stringify({
 				action: "resetRoom",
 				roomId,
 			}),
 		);
-	};
+	}, []);
 
-	const revealAllCards = (roomId: string) => {
+	const revealAllCards = useCallback((roomId: string) => {
 		socket.current?.send(
 			JSON.stringify({
 				action: "revealAllCards",
 				roomId,
 			}),
 		);
-	};
+	}, []);
 
 	/**
 	 * send a message to reset timers for specified room
 	 * @param roomId
 	 */
-	const resetTimer = (roomId: string) => {
+	const resetTimer = useCallback((roomId: string) => {
 		socket.current?.send(
 			JSON.stringify({
 				action: "resetTimer",
 				roomId,
 			}),
 		);
-	};
+	}, []);
 
 	/**
 	 * send a message to resume timers for specified room
 	 * @param roomId
 	 * @param time continue with
 	 */
-	const resumeTimer = (roomId: string, time: number) => {
+	const resumeTimer = useCallback((roomId: string, time: number) => {
 		socket.current?.send(
 			JSON.stringify({
 				action: "resumeTimer",
@@ -115,14 +115,14 @@ const useWebSocket = ({
 				time,
 			}),
 		);
-	};
+	}, []);
 
 	/**
 	 * send a message to pause timers for specified room
 	 * @param roomId
 	 * @param time pause with
 	 */
-	const pauseTimer = (roomId: string, time: number) => {
+	const pauseTimer = useCallback((roomId: string, time: number) => {
 		socket.current?.send(
 			JSON.stringify({
 				action: "pauseTimer",
@@ -130,7 +130,7 @@ const useWebSocket = ({
 				time,
 			}),
 		);
-	};
+	}, []);
 
 	useEffect(() => {
 		if (userName === nameNotSet) return () => {};
@@ -171,17 +171,13 @@ const useWebSocket = ({
 				onResetVote();
 			}
 			const users: { clientId: string; name: string; cardNumber: Vote }[] =
-				data.users;
-			const participants: Participant[] = users
-				? users.map((value) => {
-						return {
-							clientId: value.clientId,
-							name: value.name,
-							vote: value.cardNumber,
-						};
-					})
-				: [];
-			setParticipants(() => participants);
+				data.users || [];
+			const participants: Participant[] = users.map((value) => ({
+				clientId: value.clientId,
+				name: value.name,
+				vote: value.cardNumber,
+			}));
+			setParticipants(participants);
 		};
 		currentSocket.onclose = () => {};
 		return () => currentSocket.close();
