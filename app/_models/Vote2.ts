@@ -40,8 +40,8 @@ export const vote2Schema = v.object({
 	id: v.string(),
 	roomId: v.string(),
 	userId: v.string(),
+	userName: v.string(),
 	value: voteValueSchema,
-	isVisible: v.boolean(),
 });
 
 export type Vote2 = v.InferOutput<typeof vote2Schema>;

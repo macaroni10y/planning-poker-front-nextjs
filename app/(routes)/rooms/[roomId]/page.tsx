@@ -12,6 +12,7 @@ import type { Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
 import { useAtom } from "jotai/index";
 import React, { useCallback, useRef, useState } from "react";
+import {useVotes} from "@/app/_lib/useVotes";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
 	const extractedRoomId = params.roomId.substring(0, 12);
@@ -37,6 +38,8 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 		onReceiveResumeTimerMessage: (time: number) =>
 			handleReceptionOfResumeTimerOperation(time),
 	});
+
+	const connection2 = useVotes(extractedRoomId);
 
 	const supabase = createClient();
 
