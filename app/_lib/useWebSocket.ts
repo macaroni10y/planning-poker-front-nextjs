@@ -143,7 +143,7 @@ const useWebSocket = ({
 		currentSocket.onopen = () => {
 			const heartbeatInterval = setInterval(
 				() => socket.current?.send("ping"),
-				1000 * 60 * 9,
+				1000 * 60 * 5,
 			);
 			joinRoom(roomId, userName);
 			return () => {
@@ -177,6 +177,9 @@ const useWebSocket = ({
 				name: value.name,
 				vote: value.cardNumber,
 			}));
+			if(participants.length === 0) {
+				return;
+			}
 			setParticipants(participants);
 		};
 		currentSocket.onclose = () => {};
