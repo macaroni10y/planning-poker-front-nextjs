@@ -30,24 +30,6 @@ const Page = () => {
 		}
 	}, [state]);
 
-	useEffect(() => {
-		if (state.message === "") {
-			toast.info(
-				"macaroni poker now supports anonymous sign-in instead of e-mail sign-in. All accounts created with e-mail have been deleted. Thanks for your understanding and cooperation!",
-				{
-					position: "top-center",
-					autoClose: 7000,
-					hideProgressBar: true,
-					closeOnClick: true,
-					pauseOnHover: true,
-					progress: undefined,
-					theme: "light",
-					transition: Bounce,
-				},
-			);
-		}
-	}, [state]);
-
 	return (
 		<>
 			<div className="absolute w-full">
