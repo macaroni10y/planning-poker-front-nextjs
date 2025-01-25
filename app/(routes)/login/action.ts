@@ -12,24 +12,24 @@ import { createClient } from "@/utils/supabase/server";
  * @param formData
  */
 export async function login(
-	prevState: { message: string },
-	formData: FormData,
+    prevState: { message: string },
+    formData: FormData,
 ) {
-	const supabase = createClient();
+    const supabase = createClient();
 
-	const data = {
-		email: formData.get("email") as string,
-		password: formData.get("password") as string,
-	};
+    const data = {
+        email: formData.get("email") as string,
+        password: formData.get("password") as string,
+    };
 
-	const { error } = await supabase.auth.signInWithPassword(data);
+    const { error } = await supabase.auth.signInWithPassword(data);
 
-	if (error) {
-		return { message: error.message };
-	}
+    if (error) {
+        return { message: error.message };
+    }
 
-	revalidatePath("/", "layout");
-	redirect("/");
+    revalidatePath("/", "layout");
+    redirect("/");
 }
 
 /**
@@ -39,24 +39,24 @@ export async function login(
  * @param formData
  */
 export async function loginAnonymously(
-	prevState: { message: string },
-	formData: FormData,
+    prevState: { message: string },
+    formData: FormData,
 ) {
-	const supabase = createClient();
+    const supabase = createClient();
 
-	const input = {
-		display_name: formData.get("nickname") as string,
-	};
+    const input = {
+        display_name: formData.get("nickname") as string,
+    };
 
-	const { data, error } = await supabase.auth.signInAnonymously();
+    const { data, error } = await supabase.auth.signInAnonymously();
 
-	if (error) {
-		return { message: error.message };
-	}
-	await supabase.auth.updateUser({
-		data: input,
-	});
+    if (error) {
+        return { message: error.message };
+    }
+    await supabase.auth.updateUser({
+        data: input,
+    });
 
-	revalidatePath("/", "layout");
-	redirect("/");
+    revalidatePath("/", "layout");
+    redirect("/");
 }
