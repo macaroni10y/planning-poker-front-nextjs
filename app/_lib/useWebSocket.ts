@@ -192,9 +192,14 @@ const useWebSocket = ({
             if (participants.length === 0) {
                 return;
             }
-            if (participants.every((it) => {
-                return it.vote != "not yet" && it.vote === participants[0].vote;
-            })) {
+            if (
+                participants.every((it) => {
+                    return (
+                        it.vote !== "not yet" &&
+                        it.vote === participants[0].vote
+                    );
+                })
+            ) {
                 onAllVotesMatch();
             }
             setParticipants(participants);

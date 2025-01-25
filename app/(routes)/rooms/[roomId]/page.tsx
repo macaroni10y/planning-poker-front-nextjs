@@ -12,8 +12,8 @@ import type { Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
 import { useAtom } from "jotai/index";
 import React, { useCallback, useRef, useState } from "react";
-import { useWindowSize } from "react-use";
 import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
     const extractedRoomId = params.roomId.substring(0, 12);
@@ -101,7 +101,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 
     const handleAllVotesMatch = () => {
         setShowConfetti(true);
-    }
+    };
 
     const timerElement = (
         <Timer
@@ -122,7 +122,9 @@ const Page = ({ params }: { params: { roomId: string } }) => {
     return (
         <>
             <div className="h-screen bg-pink-50">
-                {showConfetti && <Confetti width={width} height={height} recycle={false} />}
+                {showConfetti && (
+                    <Confetti width={width} height={height} recycle={false} />
+                )}
                 <Header
                     roomId={extractedRoomId}
                     onTapUserName={() => setIsDialogOpen(true)}
