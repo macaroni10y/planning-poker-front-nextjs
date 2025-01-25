@@ -8,33 +8,33 @@ const siteName = "macaroni poker";
 const description = "online planning poker application";
 const url = "https://macaroni-poker.vercel.app";
 export const metadata: Metadata = {
-	title: siteName,
-	description: description,
-	metadataBase: new URL(url),
-	openGraph: {
-		title: siteName,
-		description,
-		url,
-		siteName,
-	},
-	twitter: {
-		title: siteName,
-		description,
-		card: "summary_large_image",
-	},
-	other: {
-		google: "notranslate",
-	},
+    title: siteName,
+    description: description,
+    metadataBase: new URL(url),
+    openGraph: {
+        title: siteName,
+        description,
+        url,
+        siteName,
+    },
+    twitter: {
+        title: siteName,
+        description,
+        card: "summary_large_image",
+    },
+    other: {
+        google: "notranslate",
+    },
 };
 
 export default function RootLayout({
-	children,
+    children,
 }: {
-	children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-	return (
-		<html lang="en">
-			<body className={inter.className}>{children}</body>
-		</html>
-	);
+    return (
+        <html lang="en">
+            <body className={inter.className}>{children}</body>
+        </html>
+    );
 }

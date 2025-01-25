@@ -16,8 +16,8 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - name: Apply Biome Format and Lint
-        run: npx @biomejs/biome check --apply .
+        run: npx @biomejs/biome check --write .
 
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Apply Changes by Biome
