@@ -177,7 +177,7 @@ const useWebSocket = ({
 				name: value.name,
 				vote: value.cardNumber,
 			}));
-			if(participants.length === 0) {
+			if (participants.length === 0) {
 				return;
 			}
 			setParticipants(participants);
