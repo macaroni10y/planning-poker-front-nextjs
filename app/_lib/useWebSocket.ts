@@ -35,6 +35,11 @@ interface Props {
      * a function invoked when "resume" operation is from a websocket message
      */
     onReceiveResumeTimerMessage: (time: number) => void;
+
+    /**
+     * a function invoked when all participants' votes are identical
+     */
+    onAllVotesMatch: () => void;
 }
 
 const useWebSocket = ({
@@ -44,6 +49,7 @@ const useWebSocket = ({
     onReceiveResetTimerMessage,
     onReceivePauseTimerMessage,
     onReceiveResumeTimerMessage,
+    onAllVotesMatch,
 }: Props): UseWebSocket => {
     const socket = useRef<WebSocket | null>(null);
     const [participants, setParticipants] = useState<Participant[]>([]);
@@ -185,6 +191,11 @@ const useWebSocket = ({
             }));
             if (participants.length === 0) {
                 return;
+            }
+            if (participants.every((it) => {
+                return it.vote != "not yet" && it.vote === participants[0].vote;
+            })) {
+                onAllVotesMatch();
             }
             setParticipants(participants);
         };

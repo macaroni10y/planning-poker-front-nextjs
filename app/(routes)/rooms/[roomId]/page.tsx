@@ -12,6 +12,8 @@ import type { Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
 import { useAtom } from "jotai/index";
 import React, { useCallback, useRef, useState } from "react";
+import { useWindowSize } from "react-use";
+import Confetti from "react-confetti";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
     const extractedRoomId = params.roomId.substring(0, 12);
@@ -20,6 +22,10 @@ const Page = ({ params }: { params: { roomId: string } }) => {
 
     // dialog
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+
+    // confetti
+    const [showConfetti, setShowConfetti] = useState<boolean>(false);
+    const { width, height } = useWindowSize();
 
     // timer
     const [currentTime, setCurrentTime] = useState<number>(0);
@@ -30,13 +36,16 @@ const Page = ({ params }: { params: { roomId: string } }) => {
     const connection = useWebSocket({
         roomId: extractedRoomId,
         userName: userName,
-        onResetVote: useCallback(() => selectCardNumber(() => "not yet"), []),
+        onResetVote: useCallback(() => {
+            selectCardNumber(() => "not yet");
+        }, []),
         onReceiveResetTimerMessage: () =>
             handleReceptionOfResetTimerOperation(),
         onReceivePauseTimerMessage: (time: number) =>
             handleReceptionOfPauseTimerOperation(time),
         onReceiveResumeTimerMessage: (time: number) =>
             handleReceptionOfResumeTimerOperation(time),
+        onAllVotesMatch: () => handleAllVotesMatch(),
     });
 
     const supabase = createClient();
@@ -90,6 +99,10 @@ const Page = ({ params }: { params: { roomId: string } }) => {
         startTimer();
     };
 
+    const handleAllVotesMatch = () => {
+        setShowConfetti(true);
+    }
+
     const timerElement = (
         <Timer
             currentTime={currentTime}
@@ -109,6 +122,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
     return (
         <>
             <div className="h-screen bg-pink-50">
+                {showConfetti && <Confetti width={width} height={height} recycle={false} />}
                 <Header
                     roomId={extractedRoomId}
                     onTapUserName={() => setIsDialogOpen(true)}
