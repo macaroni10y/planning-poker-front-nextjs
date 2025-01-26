@@ -37,6 +37,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
         roomId: extractedRoomId,
         userName: userName,
         onResetVote: useCallback(() => {
+            setShowConfetti(false);
             selectCardNumber(() => "not yet");
         }, []),
         onReceiveResetTimerMessage: () =>
