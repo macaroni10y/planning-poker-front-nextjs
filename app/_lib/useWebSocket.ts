@@ -1,5 +1,5 @@
 import { nameNotSet } from "@/app/_lib/atoms";
-import type { Participant, Vote } from "@/app/_types/types";
+import type { Participant, ReactionType, Vote } from "@/app/_types/types";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UseWebSocket {
@@ -13,6 +13,9 @@ interface UseWebSocket {
         reset: (roomId: string) => void;
         resume: (roomId: string, time: number) => void;
         pause: (roomId: string, time: number) => void;
+    };
+    reactionControls: {
+        send: (kind: ReactionType) => void;
     };
 }
 
@@ -37,6 +40,12 @@ interface Props {
     onReceiveResumeTimerMessage: (time: number) => void;
 
     /**
+     * Callback function triggered when a reaction is received.
+     *
+     */
+    onReceiveReaction: (kind: ReactionType, sender: string) => void;
+
+    /**
      * a function invoked when all participants' votes are identical
      */
     onAllVotesMatch: () => void;
@@ -49,6 +58,7 @@ const useWebSocket = ({
     onReceiveResetTimerMessage,
     onReceivePauseTimerMessage,
     onReceiveResumeTimerMessage,
+    onReceiveReaction,
     onAllVotesMatch,
 }: Props): UseWebSocket => {
     const socket = useRef<WebSocket | null>(null);
@@ -141,6 +151,17 @@ const useWebSocket = ({
         );
     }, []);
 
+    const sendReaction = useCallback((kind: ReactionType) => {
+        socket.current?.send(
+            JSON.stringify({
+                action: "reaction",
+                roomId,
+                kind,
+                spread: false,
+            }),
+        );
+    }, []);
+
     useEffect(() => {
         if (userName === nameNotSet) return () => {};
         if (socket.current?.readyState === WebSocket.OPEN) {
@@ -173,6 +194,11 @@ const useWebSocket = ({
             }
             if (data.type === "resumeTimer") {
                 onReceiveResumeTimerMessage(data.time);
+                return;
+            }
+
+            if (data.type === "reaction") {
+                onReceiveReaction(data.kind, data.from);
                 return;
             }
 
@@ -219,6 +245,9 @@ const useWebSocket = ({
             reset: resetTimer,
             resume: resumeTimer,
             pause: pauseTimer,
+        },
+        reactionControls: {
+            send: sendReaction,
         },
     };
 };
