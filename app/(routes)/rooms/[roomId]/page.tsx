@@ -2,15 +2,20 @@
 import ButtonsContainer from "@/app/_components/containers/ButtonsContainer";
 import Cards from "@/app/_components/containers/Cards";
 import ParticipantList from "@/app/_components/containers/ParticipantsList";
+import ReactionButtonContainer from "@/app/_components/containers/ReactionButtonContainer";
 import VoteResultsContainer from "@/app/_components/containers/VoteResultsContainer";
 import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
+import ReactionButton from "@/app/_components/uiparts/ReactionButton";
+import ReactionPopup from "@/app/_components/uiparts/ReactionPopup";
+import TheButton from "@/app/_components/uiparts/TheButton";
 import Timer from "@/app/_components/uiparts/Timer";
 import { userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";
-import type { Vote } from "@/app/_types/types";
+import type { Reaction, ReactionType, Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
 import { useAtom } from "jotai/index";
+import { random } from "nanoid";
 import React, { useCallback, useRef, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
@@ -26,6 +31,9 @@ const Page = ({ params }: { params: { roomId: string } }) => {
     // confetti
     const [showConfetti, setShowConfetti] = useState<boolean>(false);
     const { width, height } = useWindowSize();
+
+    // reaction
+    const [reactions, setReactions] = useState<Reaction[]>([]);
 
     // timer
     const [currentTime, setCurrentTime] = useState<number>(0);
@@ -46,6 +54,8 @@ const Page = ({ params }: { params: { roomId: string } }) => {
             handleReceptionOfPauseTimerOperation(time),
         onReceiveResumeTimerMessage: (time: number) =>
             handleReceptionOfResumeTimerOperation(time),
+        onReceiveReaction: (kind, sender) =>
+            handleReceiveReaction(kind, sender),
         onAllVotesMatch: () => handleAllVotesMatch(),
     });
 
@@ -100,6 +110,25 @@ const Page = ({ params }: { params: { roomId: string } }) => {
         startTimer();
     };
 
+    /**
+     * an operation when a reaction comes
+     * @param kind reaction type
+     * @param sender sender client name
+     */
+    const handleReceiveReaction = (kind: ReactionType, sender: string) => {
+        const newReaction: Reaction = {
+            id: random(1).toString(),
+            username: sender,
+            type: kind,
+        };
+        setReactions((prevReactions) => [...prevReactions, newReaction]);
+    };
+    const removeReaction = (id: string) => {
+        setReactions((prevReactions) =>
+            prevReactions.filter((reaction) => reaction.id !== id),
+        );
+    };
+
     const handleAllVotesMatch = () => {
         setShowConfetti(true);
     };
@@ -126,6 +155,14 @@ const Page = ({ params }: { params: { roomId: string } }) => {
                 {showConfetti && (
                     <Confetti width={width} height={height} recycle={false} />
                 )}
+                {reactions.map((reaction) => (
+                    <ReactionPopup
+                        key={reaction.id}
+                        reaction={reaction.type}
+                        username={reaction.username}
+                        onRemove={() => removeReaction(reaction.id)}
+                    />
+                ))}
                 <Header
                     roomId={extractedRoomId}
                     onTapUserName={() => setIsDialogOpen(true)}
@@ -157,6 +194,9 @@ const Page = ({ params }: { params: { roomId: string } }) => {
                             );
                         }}
                         selectedCard={selectedCardNumber}
+                    />
+                    <ReactionButtonContainer
+                        onClick={connection.reactionControls.send}
                     />
                 </div>
             </div>

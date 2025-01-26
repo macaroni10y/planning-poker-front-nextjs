@@ -20,3 +20,22 @@ export const isVote = (maybeVote: string | number): maybeVote is Vote => {
     const asNumber = Number(maybeVote);
     return allCards.some((card) => card === asNumber);
 };
+
+export type ReactionType = "like" | "dislike" | "bomb" | "question" | "laugh";
+export const reactionMap: {
+    [key in ReactionType]: { emoji: string; label: string };
+} = {
+    like: { emoji: "👍", label: "like" },
+    dislike: { emoji: "😤", label: "dislike" },
+    laugh: { emoji: "😁", label: "laugh" },
+    question: { emoji: "❓", label: "question" },
+    bomb: { emoji: "🤯", label: "bomb" },
+};
+
+export const reactionKeys = Object.keys(reactionMap) as ReactionType[];
+
+export type Reaction = {
+    id: string;
+    username: string;
+    type: ReactionType;
+};
