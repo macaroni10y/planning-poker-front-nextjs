@@ -32,19 +32,4 @@ const ReactionPopup: React.FC<ReactionPopupProps> = ({
     );
 };
 
-const emoji = (reactionType: ReactionType) => {
-    switch (reactionType) {
-        case "like":
-            return "👍";
-        case "dislike":
-            return "😤";
-        case "laugh":
-            return "😁";
-        case "question":
-            return "❓";
-        case "bomb":
-            return "🤯";
-    }
-};
-
 export default ReactionPopup;
