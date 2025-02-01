@@ -1,6 +1,7 @@
-import TheButton from "@/app/_components/uiparts/TheButton";
+import { Button } from "@/app/_components/uiparts/Button";
 import { Dialog, DialogContent } from "@mui/material";
 import React, { useState } from "react";
+import { BiCheck } from "react-icons/bi";
 import { IoCloseSharp } from "react-icons/io5";
 
 interface Props {
@@ -39,12 +40,14 @@ const EditNameDialog = (props: Props) => {
                             setNameCandidate(event.target.value)
                         }
                     />
-                    <TheButton
-                        isActive={isValid(nameCandidate)}
-                        className="w-10 h-10"
+                    <Button
+                        size="icon"
+                        disabled={!isValid(nameCandidate)}
                         onClick={handleSubmit}
-                        text="→"
-                    />
+                        className="ml-4"
+                    >
+                        <BiCheck />
+                    </Button>
                 </div>
             </DialogContent>
         </Dialog>

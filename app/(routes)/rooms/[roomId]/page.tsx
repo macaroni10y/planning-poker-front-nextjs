@@ -6,9 +6,7 @@ import ReactionButtonContainer from "@/app/_components/containers/ReactionButton
 import VoteResultsContainer from "@/app/_components/containers/VoteResultsContainer";
 import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
-import ReactionButton from "@/app/_components/uiparts/ReactionButton";
 import ReactionPopup from "@/app/_components/uiparts/ReactionPopup";
-import TheButton from "@/app/_components/uiparts/TheButton";
 import Timer from "@/app/_components/uiparts/Timer";
 import { userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";

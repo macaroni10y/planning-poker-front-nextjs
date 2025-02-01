@@ -1,13 +1,14 @@
 "use client";
+import { Button } from "@/app/_components/uiparts/Button";
 import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
-import TheButton from "@/app/_components/uiparts/TheButton";
 import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import { createClient } from "@/utils/supabase/client";
 import { useAtom } from "jotai/index";
 import { useRouter } from "next/navigation";
 import React, { type KeyboardEventHandler, useEffect, useState } from "react";
+import { BiCheck } from "react-icons/bi";
 
 const Page = () => {
     const router = useRouter();
@@ -51,7 +52,7 @@ const Page = () => {
                         <div className="text-2xl font-bold text-center">
                             Join room
                         </div>
-                        <div className="flex justify-center">
+                        <div className="flex justify-center items-center">
                             <input
                                 maxLength={12}
                                 className="w-1/2 h-12 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 mx-2 my-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-pink-300"
@@ -62,22 +63,26 @@ const Page = () => {
                                 }
                                 onKeyDown={handleKeyDown}
                             />
-                            <TheButton
-                                className="w-12 h-12"
+                            <Button
+                                size="icon"
+                                disabled={!isValid()}
                                 onClick={() => enter(roomId)}
-                                text="→"
-                                isActive={isValid()}
-                            />
+                                className="h-12 w-12"
+                            >
+                                <BiCheck />
+                            </Button>
                         </div>
                     </div>
                     <HorizontalLine innerText="or" />
                     <div className="flex justify-center">
-                        <TheButton
+                        <Button
                             onClick={() =>
                                 enter(Math.random().toString(32).substring(6))
                             }
-                            text="Create new room"
-                        />
+                            size="xlg"
+                        >
+                            Create new room
+                        </Button>
                     </div>
                 </div>
             </div>
