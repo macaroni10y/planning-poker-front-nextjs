@@ -1,8 +1,8 @@
 "use client";
 import ButtonsContainer from "@/app/_components/containers/ButtonsContainer";
-import Cards from "@/app/_components/containers/Cards";
 import ParticipantList from "@/app/_components/containers/ParticipantsList";
 import ReactionButtonContainer from "@/app/_components/containers/ReactionButtonContainer";
+import ScrumCards from "@/app/_components/containers/ScrumCards";
 import VoteResultsContainer from "@/app/_components/containers/VoteResultsContainer";
 import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
@@ -183,7 +183,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
                             connection.cardControls.revealAll(extractedRoomId)
                         }
                     />
-                    <Cards
+                    <ScrumCards
                         onSelect={(target) => {
                             selectCardNumber(target);
                             connection.cardControls.submit(

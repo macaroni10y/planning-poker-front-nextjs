@@ -8,7 +8,7 @@ interface Props {
     selectedCard: Vote;
 }
 
-const Cards = ({ onSelect, selectedCard }: Props) => (
+const ScrumCards = ({ onSelect, selectedCard }: Props) => (
     <div className="ml-12 flex justify-center items-center">
         {allCards.map((it) => (
             <div
@@ -24,4 +24,4 @@ const Cards = ({ onSelect, selectedCard }: Props) => (
         ))}
     </div>
 );
-export default Cards;
+export default ScrumCards;

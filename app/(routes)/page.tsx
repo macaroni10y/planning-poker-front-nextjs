@@ -1,5 +1,12 @@
 "use client";
 import { Button } from "@/app/_components/uiparts/Button";
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/app/_components/uiparts/Card";
 import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
@@ -47,16 +54,18 @@ const Page = () => {
                     onTapUserName={() => setIsDialogOpen(true)}
                 />
             </div>
-            <div className="h-screen bg-pink-50 flex items-center justify-center">
-                <div className="bg-white rounded-xl w-2/3 max-w-sm h-2/5 flex flex-col justify-evenly shadow-xl">
-                    <div className="flex flex-col">
-                        <div className="text-2xl font-bold text-center">
+            <div className="h-screen bg-pink-50 flex flex-col items-center justify-center">
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-2xl font-bold text-center">
                             Join room
-                        </div>
-                        <div className="flex justify-center items-center">
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid grid-flow-col gap-4">
                             <Input
                                 maxLength={12}
-                                className="w-1/2 h-12 py-2 px-4 mx-2 my-4 border-gray-200"
+                                className="h-12 border-gray-200"
                                 type="text"
                                 placeholder="Room ID"
                                 onChange={(event) =>
@@ -73,19 +82,22 @@ const Page = () => {
                                 <BiCheck />
                             </Button>
                         </div>
-                    </div>
-                    <HorizontalLine innerText="or" />
-                    <div className="flex justify-center">
+                    </CardContent>
+                    <CardContent>
+                        <HorizontalLine innerText="or" />
+                    </CardContent>
+                    <CardFooter>
                         <Button
                             onClick={() =>
                                 enter(Math.random().toString(32).substring(6))
                             }
+                            className="w-full"
                             size="xlg"
                         >
                             Create new room
                         </Button>
-                    </div>
-                </div>
+                    </CardFooter>
+                </Card>
             </div>
             <EditNameDialog
                 isOpen={isDialogOpen}

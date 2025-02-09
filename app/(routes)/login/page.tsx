@@ -6,6 +6,13 @@ import { useFormState, useFormStatus } from "react-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "@/app/_components/uiparts/Button";
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/app/_components/uiparts/Card";
 import { Input } from "@/app/_components/uiparts/input";
 
 const Page = () => {
@@ -32,29 +39,38 @@ const Page = () => {
             <div className="absolute w-full">
                 <Header />
             </div>
-            <div className="h-screen bg-pink-50 flex items-center justify-center flex-col">
-                <div className="h-1/3 bg-white rounded-xl w-2/3 max-w-sm flex flex-col justify-center shadow-xl items-center">
-                    <h1 className="text-2xl font-bold">Sign In</h1>
-                    <form className="flex flex-col w-10/12 items-center">
-                        <label
-                            className="m-1 text-xs text-left w-full"
-                            htmlFor="nickname"
-                        >
-                            Nickname
-                        </label>
-                        <Input
-                            maxLength={24}
-                            className="full text-xs h-10 py-2 px-4"
-                            type="text"
-                            name="nickname"
-                            placeholder="John Doe"
-                            required={true}
-                        />
-                        <div className="mt-6">
-                            <FormButton formAction={formAction} />
-                        </div>
+            <div className="h-screen bg-pink-50 flex justify-center items-center">
+                <Card className="w-2/3 max-w-sm">
+                    <CardHeader>
+                        <CardTitle className="text-2xl text-center">
+                            Sign In
+                        </CardTitle>
+                    </CardHeader>
+                    <form>
+                        <CardContent>
+                            <label
+                                className="m-1 text-xs text-left w-full"
+                                htmlFor="nickname"
+                            >
+                                Nickname
+                            </label>
+                            <Input
+                                maxLength={24}
+                                className="full text-xs h-10 py-2 px-4"
+                                type="text"
+                                name="nickname"
+                                placeholder="John Doe"
+                                required={true}
+                            />
+                        </CardContent>
+                        <CardFooter>
+                            <FormButton
+                                className="w-full"
+                                formAction={formAction}
+                            />
+                        </CardFooter>
                     </form>
-                </div>
+                </Card>
             </div>
             <ToastContainer
                 className={"absolute"}
@@ -76,12 +92,18 @@ const Page = () => {
 
 interface FormButtonProps {
     formAction: (formData: FormData) => void;
+    className?: string;
 }
 
 const FormButton = (props: FormButtonProps) => {
     const { pending } = useFormStatus();
     return (
-        <Button size="xlg" formAction={props.formAction} disabled={pending}>
+        <Button
+            size="xlg"
+            className={props.className}
+            formAction={props.formAction}
+            disabled={pending}
+        >
             Continue
         </Button>
     );
