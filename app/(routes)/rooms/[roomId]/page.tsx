@@ -4,14 +4,17 @@ import ParticipantList from "@/app/_components/containers/ParticipantsList";
 import ReactionButtonContainer from "@/app/_components/containers/ReactionButtonContainer";
 import ScrumCards from "@/app/_components/containers/ScrumCards";
 import VoteResultsContainer from "@/app/_components/containers/VoteResultsContainer";
+import CopyToClipBoard from "@/app/_components/uiparts/CopyToClipBoard";
 import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
+import HeaderItem from "@/app/_components/uiparts/HeaderItem";
 import ReactionPopup from "@/app/_components/uiparts/ReactionPopup";
 import Timer from "@/app/_components/uiparts/Timer";
 import { userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";
 import type { Reaction, ReactionType, Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
+import { UserIcon } from "@storybook/icons";
 import { useAtom } from "jotai/index";
 import { random } from "nanoid";
 import React, { useCallback, useRef, useState } from "react";
@@ -161,12 +164,24 @@ const Page = ({ params }: { params: { roomId: string } }) => {
                         onRemove={() => removeReaction(reaction.id)}
                     />
                 ))}
-                <Header
-                    roomId={extractedRoomId}
-                    onTapUserName={() => setIsDialogOpen(true)}
-                    renderTimer={() => timerElement}
-                    userName={userName}
-                />
+                <Header>
+                    <HeaderItem className="max-sm:hidden sm:text-xl">
+                        {timerElement}
+                    </HeaderItem>
+                    <HeaderItem className="sm:text-xl">
+                        <CopyToClipBoard
+                            copyTarget={globalThis.window?.location.href}
+                        >
+                            {extractedRoomId}
+                        </CopyToClipBoard>
+                    </HeaderItem>
+                    <HeaderItem
+                        onClick={() => setIsDialogOpen(true)}
+                        className="px-2"
+                    >
+                        <UserIcon size={18} color={"white"} />
+                    </HeaderItem>
+                </Header>
                 <div className="flex flex-col items-center h-5/6">
                     <VoteResultsContainer
                         participantVotes={connection.participants.map(

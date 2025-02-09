@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 import { FcCheckmark } from "react-icons/fc";
 import { IoCopyOutline } from "react-icons/io5";
 
 interface Props {
-    displayName: string;
+    children: React.ReactNode;
     copyTarget: string;
 }
 
@@ -16,12 +17,8 @@ const CopyToClipBoard = (props: Props) => {
         setTimeout(() => setCopied(false), 2000);
     };
     return (
-        <div
-            className="flex-1 bg-gray-600 rounded flex items-center cursor-pointer md:text-xl m-2"
-            onClick={copy}
-            onKeyUp={copy}
-        >
-            <div className="mx-2">{props.displayName}</div>
+        <div className="flex items-center gap-2" onClick={copy} onKeyUp={copy}>
+            {props.children}
             {copied ? <FcCheckmark /> : <IoCopyOutline />}
         </div>
     );
