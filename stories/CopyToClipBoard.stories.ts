@@ -8,10 +8,6 @@ const meta = {
         layout: "centered",
     },
     argTypes: {
-        displayName: {
-            control: "text",
-            description: "a text to display",
-        },
         copyTarget: {
             control: "text",
             description: "a text copied to clipboard when clicked",
@@ -25,7 +21,7 @@ type Story = StoryObj<typeof meta>;
 export const url: Story = {
     name: "when copy target is page URL",
     args: {
-        displayName: "hoge",
+        children: "aaa",
         copyTarget: window.location.href,
     },
 };
