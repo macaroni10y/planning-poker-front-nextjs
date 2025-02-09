@@ -6,12 +6,9 @@ import { useFormState, useFormStatus } from "react-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "@/app/_components/uiparts/Button";
+import { Input } from "@/app/_components/uiparts/input";
 
 const Page = () => {
-    const inputStyle =
-        "w-full text-xs h-10 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-pink-300";
-    const labelStyle = "m-1 text-xs text-left w-full";
-
     const [state, formAction] = useFormState(loginAnonymously, { message: "" });
 
     useEffect(() => {
@@ -39,11 +36,15 @@ const Page = () => {
                 <div className="h-1/3 bg-white rounded-xl w-2/3 max-w-sm flex flex-col justify-center shadow-xl items-center">
                     <h1 className="text-2xl font-bold">Sign In</h1>
                     <form className="flex flex-col w-10/12 items-center">
-                        <label className={labelStyle} htmlFor="nickname">
+                        <label
+                            className="m-1 text-xs text-left w-full"
+                            htmlFor="nickname"
+                        >
                             Nickname
                         </label>
-                        <input
-                            className={inputStyle}
+                        <Input
+                            maxLength={24}
+                            className="full text-xs h-10 py-2 px-4"
                             type="text"
                             name="nickname"
                             placeholder="John Doe"

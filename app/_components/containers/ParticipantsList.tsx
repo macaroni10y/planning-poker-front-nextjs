@@ -40,7 +40,7 @@ const DummyNamesAndVotes = () => (
 const ParticipantList = (props: Props) => {
     return (
         <div className="flex justify-center w-full max-w-5xl h-1/2">
-            <div className="rounded-t-xl w-full bg-white flex flex-col">
+            <div className="rounded-xl w-full sm:w-11/12 xl:w-full bg-white flex flex-col">
                 <ListHeader />
                 <div className="overflow-y-auto max-h-full">
                     {props.participants.length !== 0 ? (

@@ -3,6 +3,7 @@ import { Button } from "@/app/_components/uiparts/Button";
 import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
+import { Input } from "@/app/_components/uiparts/input";
 import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import { createClient } from "@/utils/supabase/client";
 import { useAtom } from "jotai/index";
@@ -53,9 +54,9 @@ const Page = () => {
                             Join room
                         </div>
                         <div className="flex justify-center items-center">
-                            <input
+                            <Input
                                 maxLength={12}
-                                className="w-1/2 h-12 bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 mx-2 my-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-pink-300"
+                                className="w-1/2 h-12 py-2 px-4 mx-2 my-4 border-gray-200"
                                 type="text"
                                 placeholder="Room ID"
                                 onChange={(event) =>
