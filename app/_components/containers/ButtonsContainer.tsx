@@ -1,4 +1,4 @@
-import TheButton from "@/app/_components/uiparts/TheButton";
+import { Button } from "@/app/_components/uiparts/Button";
 import type { MouseEventHandler } from "react";
 
 interface Props {
@@ -7,9 +7,13 @@ interface Props {
 }
 
 const ButtonsContainer = (props: Props) => (
-    <div className="flex p-3 w-full max-w-5xl bg-white justify-center rounded-b-xl">
-        <TheButton onClick={props.onClickReveal} text="Reveal" />
-        <TheButton onClick={props.onClickNextVote} text="Next Vote" />
+    <div className="flex justify-center gap-4 m-4">
+        <Button size="xlg" className="w-44" onClick={props.onClickReveal}>
+            Reveal
+        </Button>
+        <Button size="xlg" className="w-44" onClick={props.onClickNextVote}>
+            Next Vote
+        </Button>
     </div>
 );
 

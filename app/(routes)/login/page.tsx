@@ -1,11 +1,11 @@
 "use client";
 import { loginAnonymously } from "@/app/(routes)/login/action";
-import ActionButton from "@/app/_components/uiparts/ActionButton";
 import Header from "@/app/_components/uiparts/Header";
 import React, { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Button } from "@/app/_components/uiparts/Button";
 
 const Page = () => {
     const inputStyle =
@@ -39,7 +39,7 @@ const Page = () => {
                 <div className="h-1/3 bg-white rounded-xl w-2/3 max-w-sm flex flex-col justify-center shadow-xl items-center">
                     <h1 className="text-2xl font-bold">Sign In</h1>
                     <form className="flex flex-col w-10/12 items-center">
-                        <label className={labelStyle} htmlFor="email">
+                        <label className={labelStyle} htmlFor="nickname">
                             Nickname
                         </label>
                         <input
@@ -49,7 +49,9 @@ const Page = () => {
                             placeholder="John Doe"
                             required={true}
                         />
-                        <FormButton formAction={formAction} />
+                        <div className="mt-6">
+                            <FormButton formAction={formAction} />
+                        </div>
                     </form>
                 </div>
             </div>
@@ -78,11 +80,9 @@ interface FormButtonProps {
 const FormButton = (props: FormButtonProps) => {
     const { pending } = useFormStatus();
     return (
-        <ActionButton
-            text="Continue"
-            formAction={props.formAction}
-            isActive={!pending}
-        />
+        <Button size="xlg" formAction={props.formAction} disabled={pending}>
+            Continue
+        </Button>
     );
 };
 
