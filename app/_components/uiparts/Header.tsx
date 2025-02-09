@@ -1,16 +1,10 @@
-import CopyToClipBoard from "@/app/_components/uiparts/CopyToClipBoard";
 import localImage from "@/app/icon.png";
-import { UserIcon } from "@storybook/icons";
 import Image from "next/image";
 import Link from "next/link";
 import type React from "react";
-import { type ReactElement } from "react";
 
 interface Props {
-    roomId?: string;
-    onTapUserName?: () => void;
-    renderTimer?: () => ReactElement;
-    userName?: string;
+    children?: React.ReactNode;
 }
 const Header = (props: Props) => {
     return (
@@ -30,22 +24,7 @@ const Header = (props: Props) => {
                         macaroni poker
                     </Link>
                 </div>
-                <div className="flex flex-row">
-                    <div className="max-sm:hidden flex">
-                        {props.renderTimer?.()}
-                    </div>
-                    {props.roomId && (
-                        <CopyToClipBoard
-                            copyTarget={globalThis.window?.location.href}
-                            displayName={props.roomId}
-                        />
-                    )}
-                    {props.userName && (
-                        <div onClick={props.onTapUserName} className="flex-1 bg-gray-600 rounded flex items-center cursor-pointer m-2 px-1">
-                                <UserIcon size={18} color={"white"} />
-                        </div>
-                    )}
-                </div>
+                <div className="flex gap-4">{props.children}</div>
             </div>
         </nav>
     );

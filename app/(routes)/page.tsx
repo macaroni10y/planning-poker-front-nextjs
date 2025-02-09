@@ -9,10 +9,12 @@ import {
 } from "@/app/_components/uiparts/Card";
 import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
+import HeaderItem from "@/app/_components/uiparts/HeaderItem";
 import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
 import { Input } from "@/app/_components/uiparts/input";
 import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import { createClient } from "@/utils/supabase/client";
+import { UserIcon } from "@storybook/icons";
 import { useAtom } from "jotai/index";
 import { useRouter } from "next/navigation";
 import React, { type KeyboardEventHandler, useEffect, useState } from "react";
@@ -49,10 +51,14 @@ const Page = () => {
     return (
         <>
             <div className="absolute w-full">
-                <Header
-                    userName={userName}
-                    onTapUserName={() => setIsDialogOpen(true)}
-                />
+                <Header>
+                    <HeaderItem
+                        onClick={() => setIsDialogOpen(true)}
+                        className="h-full p-2"
+                    >
+                        <UserIcon size={18} color={"white"} />
+                    </HeaderItem>
+                </Header>
             </div>
             <div className="h-screen bg-pink-50 flex flex-col items-center justify-center">
                 <Card>
