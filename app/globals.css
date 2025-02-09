@@ -33,21 +33,21 @@
         --card-foreground: 240 10% 3.9%;
         --popover: 0 0% 100%;
         --popover-foreground: 240 10% 3.9%;
-        --primary: 333 100% 90%; /* 鮮やかなピンク */
+        --primary: 333 100% 90%;
         --primary-foreground: 333 80% 10%;
-        --secondary: 340 50% 90%; /* 淡いピンク */
+        --secondary: 330 100% 80%;
         --secondary-foreground: 340 50% 20%;
-        --muted: 340 40% 85%; /* くすんだピンク */
-        --muted-foreground: 340 30% 40%;
+        --muted: 340 40% 85%;
+        --muted-foreground: 333 10% 80%;
         --accent: 340 50% 90%;
         --accent-foreground: 340 50% 20%;
         --destructive: 0 84.2% 60.2%;
         --destructive-foreground: 0 0% 98%;
-        --border: 340 40% 85%;
-        --input: 340 40% 85%;
-        --ring: 330 100% 70%;
+        --border: 0 0% 90%;
+        --input: 0 0% 90%;
+        --ring: 0 0% 60%;
         --radius: 0.75rem;
-        --chart-1: 330 100% 70%;
+        --chart-1: 330 100% 60%;
         --chart-2: 340 80% 65%;
         --chart-3: 350 70% 60%;
         --chart-4: 10 90% 75%;

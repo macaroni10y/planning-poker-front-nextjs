@@ -12,7 +12,7 @@ const ScrumCard = (props: Props) => {
             onClick={onSelectSelf}
             onKeyUp={onSelectSelf}
             className={`transition select-none rounded shadow-lg relative flex flex-col items-center justify-between cursor-pointer w-16 h-28 sm:w-20 sm:h-32 ${
-                props.selected ? "bg-pink-400" : "bg-white hover:bg-pink-200"
+                props.selected ? "bg-secondary" : "bg-white hover:bg-primary"
             }`}
         >
             <div className="self-start">{props.cardSymbol}</div>
