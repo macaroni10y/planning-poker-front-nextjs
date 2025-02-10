@@ -14,7 +14,6 @@ import { userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";
 import type { Reaction, ReactionType, Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
-import { UserIcon } from "@storybook/icons";
 import { useAtom } from "jotai/index";
 import { random } from "nanoid";
 import React, { useCallback, useRef, useState } from "react";
@@ -25,9 +24,6 @@ const Page = ({ params }: { params: { roomId: string } }) => {
     const extractedRoomId = params.roomId.substring(0, 12);
     const [selectedCardNumber, selectCardNumber] = useState<Vote>("not yet");
     const [userName, setUserName] = useAtom(userNameAtom);
-
-    // dialog
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
     // confetti
     const [showConfetti, setShowConfetti] = useState<boolean>(false);
@@ -151,79 +147,68 @@ const Page = ({ params }: { params: { roomId: string } }) => {
     );
 
     return (
-        <>
-            <div className="h-screen bg-pink-50">
-                {showConfetti && (
-                    <Confetti width={width} height={height} recycle={false} />
-                )}
-                {reactions.map((reaction) => (
-                    <ReactionPopup
-                        key={reaction.id}
-                        reaction={reaction.type}
-                        username={reaction.username}
-                        onRemove={() => removeReaction(reaction.id)}
-                    />
-                ))}
-                <Header>
-                    <HeaderItem className="max-sm:hidden sm:text-xl">
-                        {timerElement}
-                    </HeaderItem>
-                    <HeaderItem className="sm:text-xl">
-                        <CopyToClipBoard
-                            copyTarget={globalThis.window?.location.href}
-                        >
-                            {extractedRoomId}
-                        </CopyToClipBoard>
-                    </HeaderItem>
-                    <HeaderItem
-                        onClick={() => setIsDialogOpen(true)}
-                        className="px-2"
+        <div className="h-screen bg-pink-50">
+            {showConfetti && (
+                <Confetti width={width} height={height} recycle={false} />
+            )}
+            {reactions.map((reaction) => (
+                <ReactionPopup
+                    key={reaction.id}
+                    reaction={reaction.type}
+                    username={reaction.username}
+                    onRemove={() => removeReaction(reaction.id)}
+                />
+            ))}
+            <Header>
+                <HeaderItem className="max-sm:hidden sm:text-xl">
+                    {timerElement}
+                </HeaderItem>
+                <HeaderItem className="sm:text-xl">
+                    <CopyToClipBoard
+                        copyTarget={globalThis.window?.location.href}
                     >
-                        <UserIcon size={18} color={"white"} />
-                    </HeaderItem>
-                </Header>
-                <div className="flex flex-col items-center h-5/6">
-                    <VoteResultsContainer
-                        participantVotes={connection.participants.map(
-                            (it) => it.vote,
-                        )}
-                    />
-                    <ParticipantList participants={connection.participants} />
-                    <ButtonsContainer
-                        onClickNextVote={() => {
-                            connection.cardControls.reset(extractedRoomId);
-                            connection.timerControls.reset(extractedRoomId);
+                        {extractedRoomId}
+                    </CopyToClipBoard>
+                </HeaderItem>
+                <HeaderItem className="px-2">
+                    <EditNameDialog
+                        onSubmit={async (candidate: string) => {
+                            await supabase.auth.updateUser({
+                                data: { display_name: candidate },
+                            });
+                            setUserName(candidate);
                         }}
-                        onClickReveal={() =>
-                            connection.cardControls.revealAll(extractedRoomId)
-                        }
                     />
-                    <ScrumCards
-                        onSelect={(target) => {
-                            selectCardNumber(target);
-                            connection.cardControls.submit(
-                                extractedRoomId,
-                                target,
-                            );
-                        }}
-                        selectedCard={selectedCardNumber}
-                    />
-                    <ReactionButtonContainer
-                        onClick={connection.reactionControls.send}
-                    />
-                </div>
+                </HeaderItem>
+            </Header>
+            <div className="flex flex-col items-center h-5/6">
+                <VoteResultsContainer
+                    participantVotes={connection.participants.map(
+                        (it) => it.vote,
+                    )}
+                />
+                <ParticipantList participants={connection.participants} />
+                <ButtonsContainer
+                    onClickNextVote={() => {
+                        connection.cardControls.reset(extractedRoomId);
+                        connection.timerControls.reset(extractedRoomId);
+                    }}
+                    onClickReveal={() =>
+                        connection.cardControls.revealAll(extractedRoomId)
+                    }
+                />
+                <ScrumCards
+                    onSelect={(target) => {
+                        selectCardNumber(target);
+                        connection.cardControls.submit(extractedRoomId, target);
+                    }}
+                    selectedCard={selectedCardNumber}
+                />
+                <ReactionButtonContainer
+                    onClick={connection.reactionControls.send}
+                />
             </div>
-            <EditNameDialog
-                isOpen={isDialogOpen}
-                onSubmit={async (candidate: string) => {
-                    await supabase.auth.updateUser({
-                        data: { display_name: candidate },
-                    });
-                    setUserName(candidate);
-                }}
-                onClose={() => setIsDialogOpen(false)}
-            />
-        </>
+        </div>
     );
 };
 
