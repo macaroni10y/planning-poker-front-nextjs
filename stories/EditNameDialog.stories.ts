@@ -8,15 +8,8 @@ const meta = {
         layout: "centered",
     },
     argTypes: {
-        isOpen: {
-            control: "boolean",
-            description: "whether this dialog is shown or not",
-        },
         onSubmit: {
             description: "behavior on click",
-        },
-        onClose: {
-            description: "behavior on close",
         },
     },
 } satisfies Meta<typeof EditNameDialog>;
@@ -27,8 +20,6 @@ type Story = StoryObj<typeof meta>;
 export const hoge: Story = {
     name: "text is hoge",
     args: {
-        isOpen: true,
         onSubmit: () => alert("clicked"),
-        onClose: () => alert("closed"),
     },
 };
