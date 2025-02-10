@@ -14,7 +14,6 @@ import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
 import { Input } from "@/app/_components/uiparts/input";
 import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import { createClient } from "@/utils/supabase/client";
-import { UserIcon } from "@storybook/icons";
 import { useAtom } from "jotai/index";
 import { useRouter } from "next/navigation";
 import React, { type KeyboardEventHandler, useEffect, useState } from "react";
@@ -24,7 +23,6 @@ const Page = () => {
     const router = useRouter();
     const [roomId, setRoomId] = useState<string>("");
     const [userName, setUserName] = useAtom(userNameAtom);
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
     const isValid = () =>
         !!roomId && !/\s/.test(roomId) && !roomId.includes("/");
@@ -52,11 +50,15 @@ const Page = () => {
         <>
             <div className="absolute w-full">
                 <Header>
-                    <HeaderItem
-                        onClick={() => setIsDialogOpen(true)}
-                        className="h-full p-2"
-                    >
-                        <UserIcon size={18} color={"white"} />
+                    <HeaderItem className="h-full p-2">
+                        <EditNameDialog
+                            onSubmit={async (candidate: string) => {
+                                await supabase.auth.updateUser({
+                                    data: { display_name: candidate },
+                                });
+                                setUserName(candidate);
+                            }}
+                        />
                     </HeaderItem>
                 </Header>
             </div>
@@ -105,16 +107,6 @@ const Page = () => {
                     </CardFooter>
                 </Card>
             </div>
-            <EditNameDialog
-                isOpen={isDialogOpen}
-                onSubmit={async (candidate: string) => {
-                    setUserName(candidate);
-                    await supabase.auth.updateUser({
-                        data: { display_name: candidate },
-                    });
-                }}
-                onClose={() => setIsDialogOpen(false)}
-            />
         </>
     );
 };
