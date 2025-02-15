@@ -29,7 +29,7 @@ const EditNameDialog = (props: Props) => {
             <DialogTrigger>
                 <UserIcon size={18} color={"white"} />
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="bg-white">
                 <DialogHeader>
                     <DialogTitle>Change Name</DialogTitle>
                 </DialogHeader>
