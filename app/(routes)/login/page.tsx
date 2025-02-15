@@ -39,7 +39,7 @@ const Page = () => {
             <div className="absolute w-full">
                 <Header />
             </div>
-            <div className="h-screen bg-pink-50 flex justify-center items-center">
+            <div className="h-screen bg-background flex justify-center items-center">
                 <Card className="w-2/3 max-w-sm">
                     <CardHeader>
                         <CardTitle className="text-2xl text-center">

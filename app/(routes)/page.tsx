@@ -62,7 +62,7 @@ const Page = () => {
                     </HeaderItem>
                 </Header>
             </div>
-            <div className="h-screen bg-pink-50 flex flex-col items-center justify-center">
+            <div className="h-screen bg-background flex flex-col items-center justify-center">
                 <Card>
                     <CardHeader>
                         <CardTitle className="text-2xl font-bold text-center">

@@ -147,7 +147,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
     );
 
     return (
-        <div className="h-screen bg-pink-50">
+        <div className="h-screen bg-background">
             {showConfetti && (
                 <Confetti width={width} height={height} recycle={false} />
             )}
