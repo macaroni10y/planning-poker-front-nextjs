@@ -46,5 +46,7 @@ export const reactionKeys = Object.keys(reactionMap) as ReactionType[];
 export type Reaction = {
     id: string;
     username: string;
+    x: number;
+    y: number;
     type: ReactionType;
 };
