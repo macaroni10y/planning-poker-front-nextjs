@@ -18,11 +18,12 @@ const ReactionPopup: React.FC<ReactionPopupProps> = ({
     const { emoji } = reactionMap[reaction];
 
     return (
-        <div className="absolute flex justify-center items-center w-full top-1/2 emoji-animation"
-             style={{
-                 marginLeft: x,
-                 marginTop: y,
-             }}
+        <div
+            className="absolute flex justify-center items-center w-full top-1/2 emoji-animation"
+            style={{
+                marginLeft: x,
+                marginTop: y,
+            }}
         >
             <div className="text-2xl flex items-center">
                 <span className="text-sm text-gray-700 mr-2">{username}</span>
