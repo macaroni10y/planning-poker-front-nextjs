@@ -107,6 +107,11 @@ const Page = ({ params }: { params: { roomId: string } }) => {
         startTimer();
     };
 
+    const removeReaction = (id: string) => {
+        setReactions((prevReactions) =>
+            prevReactions.filter((reaction) => reaction.id !== id),
+        );
+    };
     /**
      * an operation when a reaction comes
      * @param kind reaction type
@@ -115,15 +120,13 @@ const Page = ({ params }: { params: { roomId: string } }) => {
     const handleReceiveReaction = (kind: ReactionType, sender: string) => {
         const newReaction: Reaction = {
             id: random(1).toString(),
+            x: Math.random() * 1000 - 500,
+            y: Math.random() * 100 - 50,
             username: sender,
             type: kind,
         };
         setReactions((prevReactions) => [...prevReactions, newReaction]);
-    };
-    const removeReaction = (id: string) => {
-        setReactions((prevReactions) =>
-            prevReactions.filter((reaction) => reaction.id !== id),
-        );
+        setTimeout(() => removeReaction(newReaction.id), 2500);
     };
 
     const handleAllVotesMatch = () => {
@@ -155,8 +158,9 @@ const Page = ({ params }: { params: { roomId: string } }) => {
                 <ReactionPopup
                     key={reaction.id}
                     reaction={reaction.type}
+                    x={reaction.x}
+                    y={reaction.y}
                     username={reaction.username}
-                    onRemove={() => removeReaction(reaction.id)}
                 />
             ))}
             <Header>
