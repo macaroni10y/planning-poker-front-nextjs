@@ -15,7 +15,6 @@ import useWebSocket from "@/app/_lib/useWebSocket";
 import type { Reaction, ReactionType, Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
 import { useAtom } from "jotai/index";
-import { random } from "nanoid";
 import React, { useCallback, useRef, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
@@ -119,8 +118,8 @@ const Page = ({ params }: { params: { roomId: string } }) => {
      */
     const handleReceiveReaction = (kind: ReactionType, sender: string) => {
         const newReaction: Reaction = {
-            id: random(1).toString(),
-            x: Math.random() * 1000 - 500,
+            id: Math.floor(Math.random() * 100000).toString(),
+            x: Math.random() * 800 - 400,
             y: Math.random() * 100 - 50,
             username: sender,
             type: kind,

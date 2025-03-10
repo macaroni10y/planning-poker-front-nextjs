@@ -19,7 +19,7 @@ const ReactionPopup: React.FC<ReactionPopupProps> = ({
 
     return (
         <div
-            className="absolute flex justify-center items-center w-full top-1/2 emoji-animation"
+            className="absolute flex justify-center items-center left-1/2 top-1/2 emoji-animation"
             style={{
                 marginLeft: x,
                 marginTop: y,
