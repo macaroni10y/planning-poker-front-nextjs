@@ -10,7 +10,7 @@ const Header = (props: Props) => {
     return (
         <nav className="bg-gray-800 h-20 sm:h-16 p-2 sm:p-4 text-white flex">
             <div className="container mx-auto flex justify-between items-center">
-                <div className="flex">
+                <div className="flex gap-2">
                     <Image
                         width={30}
                         height={30}
