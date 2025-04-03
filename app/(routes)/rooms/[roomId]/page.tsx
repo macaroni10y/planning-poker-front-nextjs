@@ -8,6 +8,7 @@ import CopyToClipBoard from "@/app/_components/uiparts/CopyToClipBoard";
 import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import HeaderItem from "@/app/_components/uiparts/HeaderItem";
+import ThemeSelector from "@/app/_components/uiparts/ThemeSelector";
 import ReactionPopup from "@/app/_components/uiparts/ReactionPopup";
 import Timer from "@/app/_components/uiparts/Timer";
 import { userNameAtom } from "@/app/_lib/atoms";
@@ -182,6 +183,9 @@ const Page = ({ params }: { params: { roomId: string } }) => {
                             setUserName(candidate);
                         }}
                     />
+                </HeaderItem>
+                <HeaderItem>
+                    <ThemeSelector />
                 </HeaderItem>
             </Header>
             <div className="flex flex-col items-center h-5/6">

@@ -10,6 +10,7 @@ import {
 import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import HeaderItem from "@/app/_components/uiparts/HeaderItem";
+import ThemeSelector from "@/app/_components/uiparts/ThemeSelector";
 import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
 import { Input } from "@/app/_components/uiparts/input";
 import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
@@ -59,6 +60,9 @@ const Page = () => {
                                 setUserName(candidate);
                             }}
                         />
+                    </HeaderItem>
+                    <HeaderItem>
+                        <ThemeSelector />
                     </HeaderItem>
                 </Header>
             </div>

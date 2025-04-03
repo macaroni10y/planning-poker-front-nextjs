@@ -14,6 +14,8 @@ import {
     CardTitle,
 } from "@/app/_components/uiparts/Card";
 import { Input } from "@/app/_components/uiparts/input";
+import HeaderItem from "@/app/_components/uiparts/HeaderItem";
+import ThemeSelector from "@/app/_components/uiparts/ThemeSelector";
 
 const Page = () => {
     const [state, formAction] = useFormState(loginAnonymously, { message: "" });
@@ -37,7 +39,11 @@ const Page = () => {
     return (
         <>
             <div className="absolute w-full">
-                <Header />
+                <Header>
+                    <HeaderItem>
+                        <ThemeSelector />
+                    </HeaderItem>
+                </Header>
             </div>
             <div className="h-screen bg-background flex justify-center items-center">
                 <Card className="w-2/3 max-w-sm">
