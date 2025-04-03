@@ -171,7 +171,9 @@ const Page = ({ params }: { params: { roomId: string } }) => {
                     <CopyToClipBoard
                         copyTarget={globalThis.window?.location.href}
                     >
-                        {extractedRoomId}
+                        <div className="max-md:hidden">
+                            {extractedRoomId}
+                        </div>
                     </CopyToClipBoard>
                 </HeaderItem>
                 <HeaderItem className="px-2">
