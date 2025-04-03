@@ -8,8 +8,8 @@ import CopyToClipBoard from "@/app/_components/uiparts/CopyToClipBoard";
 import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import HeaderItem from "@/app/_components/uiparts/HeaderItem";
-import ThemeSelector from "@/app/_components/uiparts/ThemeSelector";
 import ReactionPopup from "@/app/_components/uiparts/ReactionPopup";
+import ThemeSelector from "@/app/_components/uiparts/ThemeSelector";
 import Timer from "@/app/_components/uiparts/Timer";
 import { userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";
@@ -171,9 +171,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
                     <CopyToClipBoard
                         copyTarget={globalThis.window?.location.href}
                     >
-                        <div className="max-md:hidden">
-                            {extractedRoomId}
-                        </div>
+                        <div className="max-md:hidden">{extractedRoomId}</div>
                     </CopyToClipBoard>
                 </HeaderItem>
                 <HeaderItem className="px-2">
