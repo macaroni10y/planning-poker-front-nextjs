@@ -17,9 +17,11 @@ const CopyToClipBoard = (props: Props) => {
         setTimeout(() => setCopied(false), 2000);
     };
     return (
-        <div className="flex items-center gap-2" onClick={copy} onKeyUp={copy}>
+        <div className="flex items-center gap-1" onClick={copy} onKeyUp={copy}>
             {props.children}
-            {copied ? <FcCheckmark /> : <IoCopyOutline />}
+            <div className="px-1">
+                {copied ? <FcCheckmark /> : <IoCopyOutline />}
+            </div>
         </div>
     );
 };

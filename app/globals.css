@@ -24,6 +24,7 @@
 
 @layer base {
     :root {
+        /* Default pink theme variables as fallback during initial load */
         --background: 330 70% 97%;
         --foreground: 240 10% 3.9%;
         --card: 0 0% 100%;
@@ -49,33 +50,6 @@
         --chart-3: 350 70% 60%;
         --chart-4: 10 90% 75%;
         --chart-5: 20 85% 65%;
-    }
-
-    .dark {
-        --background: 320 20% 10%;
-        --foreground: 0 0% 95%;
-        --card: 320 25% 15%;
-        --card-foreground: 0 0% 95%;
-        --popover: 320 25% 12%;
-        --popover-foreground: 0 0% 95%;
-        --primary: 330 100% 70%;
-        --primary-foreground: 345 100% 97%;
-        --secondary: 320 30% 20%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 320 25% 25%;
-        --muted-foreground: 320 20% 50%;
-        --accent: 330 30% 30%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 85.7% 97.3%;
-        --border: 320 30% 20%;
-        --input: 320 30% 20%;
-        --ring: 330 100% 70%;
-        --chart-1: 330 80% 60%;
-        --chart-2: 340 70% 55%;
-        --chart-3: 350 65% 50%;
-        --chart-4: 10 85% 60%;
-        --chart-5: 20 75% 50%;
     }
 }
 @layer base {

@@ -9,6 +9,7 @@ import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import HeaderItem from "@/app/_components/uiparts/HeaderItem";
 import ReactionPopup from "@/app/_components/uiparts/ReactionPopup";
+import ThemeSelector from "@/app/_components/uiparts/ThemeSelector";
 import Timer from "@/app/_components/uiparts/Timer";
 import { userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";
@@ -170,7 +171,7 @@ const Page = ({ params }: { params: { roomId: string } }) => {
                     <CopyToClipBoard
                         copyTarget={globalThis.window?.location.href}
                     >
-                        {extractedRoomId}
+                        <div className="max-md:hidden">{extractedRoomId}</div>
                     </CopyToClipBoard>
                 </HeaderItem>
                 <HeaderItem className="px-2">
@@ -182,6 +183,9 @@ const Page = ({ params }: { params: { roomId: string } }) => {
                             setUserName(candidate);
                         }}
                     />
+                </HeaderItem>
+                <HeaderItem>
+                    <ThemeSelector />
                 </HeaderItem>
             </Header>
             <div className="flex flex-col items-center h-5/6">

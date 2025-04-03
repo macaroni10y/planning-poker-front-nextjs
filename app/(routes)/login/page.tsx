@@ -13,6 +13,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/app/_components/uiparts/Card";
+import HeaderItem from "@/app/_components/uiparts/HeaderItem";
+import ThemeSelector from "@/app/_components/uiparts/ThemeSelector";
 import { Input } from "@/app/_components/uiparts/input";
 
 const Page = () => {
@@ -37,7 +39,11 @@ const Page = () => {
     return (
         <>
             <div className="absolute w-full">
-                <Header />
+                <Header>
+                    <HeaderItem>
+                        <ThemeSelector />
+                    </HeaderItem>
+                </Header>
             </div>
             <div className="h-screen bg-background flex justify-center items-center">
                 <Card className="w-2/3 max-w-sm">
