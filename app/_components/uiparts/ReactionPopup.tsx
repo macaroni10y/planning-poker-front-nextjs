@@ -1,4 +1,4 @@
-import { type ReactionType } from "@/app/_types/types";
+import type { ReactionType } from "@/app/_types/types";
 import type React from "react";
 
 type ReactionPopupProps = {

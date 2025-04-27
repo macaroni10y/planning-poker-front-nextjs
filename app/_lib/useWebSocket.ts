@@ -151,16 +151,19 @@ const useWebSocket = ({
         );
     }, []);
 
-    const sendReaction = useCallback((emoji: string) => {
-        socket.current?.send(
-            JSON.stringify({
-                action: "reaction",
-                roomId,
-                kind: emoji,
-                spread: false,
-            }),
-        );
-    }, [roomId]);
+    const sendReaction = useCallback(
+        (emoji: string) => {
+            socket.current?.send(
+                JSON.stringify({
+                    action: "reaction",
+                    roomId,
+                    kind: emoji,
+                    spread: false,
+                }),
+            );
+        },
+        [roomId],
+    );
 
     useEffect(() => {
         if (userName === nameNotSet) return () => {};

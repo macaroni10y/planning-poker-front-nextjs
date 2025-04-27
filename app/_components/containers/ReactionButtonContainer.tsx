@@ -6,7 +6,7 @@ import {
 } from "@/app/_components/uiparts/EmojiPicker";
 import ReactionButton from "@/app/_components/uiparts/ReactionButton";
 import { standardEmojis } from "@/app/_types/types";
-import { Emoji } from "frimousse";
+import type { Emoji } from "frimousse";
 import type React from "react";
 import { useEffect, useState } from "react";
 import { BiPlus, BiSmile } from "react-icons/bi";
@@ -21,26 +21,24 @@ const ReactionButtonContainer: React.FC<ReactionButtonContainerProps> = ({
 }) => {
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
-    const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);
-    
+
     useEffect(() => {
         if (showEmojiPicker) {
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = "hidden";
         } else {
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = "auto";
         }
-        
+
         return () => {
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = "auto";
         };
     }, [showEmojiPicker]);
-    
+
     const handleEmojiSelect = (emoji: Emoji) => {
-        setSelectedEmoji(emoji.emoji);
         onClick(emoji);
         setShowEmojiPicker(false);
     };
-    
+
     return (
         <div className="max-sm:hidden relative flex flex-col items-center justify-center">
             {/* リアクションボタン */}
@@ -60,11 +58,11 @@ const ReactionButtonContainer: React.FC<ReactionButtonContainerProps> = ({
                     className="select-none flex items-center justify-center w-12 h-12 m-1 bg-white rounded-full shadow-lg hover:bg-gray-100 border border-gray-300 transition transform active:scale-90"
                 >
                     <span className="text-xl">
-                        <BiPlus/>
+                        <BiPlus />
                     </span>
                 </button>
             </div>
-            
+
             <button
                 type="button"
                 className="flex items-center justify-center w-12 h-12 m-1 bg-white rounded-full shadow-lg hover:bg-gray-100 border border-gray-300"
@@ -72,12 +70,17 @@ const ReactionButtonContainer: React.FC<ReactionButtonContainerProps> = ({
             >
                 {isExpanded ? <CgClose /> : <BiSmile />}
             </button>
-            
+
             {showEmojiPicker && (
-                <div 
+                <div
                     className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
                     onClick={(e) => {
                         if (e.target === e.currentTarget) {
+                            setShowEmojiPicker(false);
+                        }
+                    }}
+                    onKeyDown={(e) => {
+                        if (e.key === "Escape") {
                             setShowEmojiPicker(false);
                         }
                     }}
@@ -93,7 +96,10 @@ const ReactionButtonContainer: React.FC<ReactionButtonContainerProps> = ({
                                 <CgClose />
                             </button>
                         </div>
-                        <EmojiPicker onEmojiSelect={handleEmojiSelect} className="h-80 w-full">
+                        <EmojiPicker
+                            onEmojiSelect={handleEmojiSelect}
+                            className="h-80 w-full"
+                        >
                             <EmojiPickerSearch placeholder="search emojis..." />
                             <EmojiPickerContent />
                             <EmojiPickerFooter />

@@ -1,14 +1,11 @@
-import { Emoji } from "frimousse";
+import type { Emoji } from "frimousse";
 import type React from "react";
 type ReactionButtonProps = {
-    emoji: Emoji
+    emoji: Emoji;
     onClick: () => void;
 };
 
-const ReactionButton: React.FC<ReactionButtonProps> = ({
-    emoji,
-    onClick,
-}) => {    
+const ReactionButton: React.FC<ReactionButtonProps> = ({ emoji, onClick }) => {
     return (
         <button
             type={"button"}

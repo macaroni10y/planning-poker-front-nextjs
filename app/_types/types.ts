@@ -22,8 +22,8 @@ export const isVote = (maybeVote: string | number): maybeVote is Vote => {
 };
 
 export type ReactionType = string;
-  
-export type Emoji = { emoji: string; label: string }
+
+export type Emoji = { emoji: string; label: string };
 
 export const standardEmojis: Emoji[] = [
     { emoji: "👍", label: "like" },
@@ -33,7 +33,7 @@ export const standardEmojis: Emoji[] = [
     { emoji: "❓", label: "question" },
     { emoji: "🤯", label: "bomb" },
     { emoji: "☕️", label: "tea" },
-]
+];
 
 export type Reaction = {
     id: string;
