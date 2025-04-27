@@ -212,7 +212,9 @@ const Page = ({ params }: { params: { roomId: string } }) => {
                     selectedCard={selectedCardNumber}
                 />
                 <ReactionButtonContainer
-                    onClick={connection.reactionControls.send}
+                    onClick={(emoji) =>
+                        connection.reactionControls.send(emoji.emoji)
+                    }
                 />
             </div>
         </div>

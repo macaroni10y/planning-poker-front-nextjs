@@ -15,7 +15,7 @@ interface UseWebSocket {
         pause: (roomId: string, time: number) => void;
     };
     reactionControls: {
-        send: (kind: ReactionType) => void;
+        send: (emoji: string) => void;
     };
 }
 
@@ -43,7 +43,7 @@ interface Props {
      * Callback function triggered when a reaction is received.
      *
      */
-    onReceiveReaction: (kind: ReactionType, sender: string) => void;
+    onReceiveReaction: (emoji: string, sender: string) => void;
 
     /**
      * a function invoked when all participants' votes are identical
@@ -151,16 +151,19 @@ const useWebSocket = ({
         );
     }, []);
 
-    const sendReaction = useCallback((kind: ReactionType) => {
-        socket.current?.send(
-            JSON.stringify({
-                action: "reaction",
-                roomId,
-                kind,
-                spread: false,
-            }),
-        );
-    }, []);
+    const sendReaction = useCallback(
+        (emoji: string) => {
+            socket.current?.send(
+                JSON.stringify({
+                    action: "reaction",
+                    roomId,
+                    kind: emoji,
+                    spread: false,
+                }),
+            );
+        },
+        [roomId],
+    );
 
     useEffect(() => {
         if (userName === nameNotSet) return () => {};
