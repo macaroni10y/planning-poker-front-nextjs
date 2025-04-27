@@ -1,6 +1,5 @@
-import { type ReactionType, reactionMap } from "@/app/_types/types";
+import { type ReactionType } from "@/app/_types/types";
 import type React from "react";
-import { useEffect } from "react";
 
 type ReactionPopupProps = {
     reaction: ReactionType;
@@ -15,8 +14,7 @@ const ReactionPopup: React.FC<ReactionPopupProps> = ({
     y,
     username,
 }) => {
-    const { emoji } = reactionMap[reaction];
-
+    const emoji = reaction;
     return (
         <div
             className="absolute flex justify-center items-center left-1/2 top-1/2 emoji-animation"
