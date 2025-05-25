@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @config '../tailwind.config.js';
 
@@ -11,35 +11,35 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentcolor);
+    }
 }
 
 @layer utilities {
-  @keyframes floatUp {
-    0% {
-      opacity: 1;
-      transform: translateY(80px);
+    @keyframes floatUp {
+        0% {
+            opacity: 1;
+            transform: translateY(80px);
+        }
+        10% {
+            transform: translateY(50px);
+        }
+        80% {
+            opacity: 0.8;
+        }
+        100% {
+            opacity: 0;
+        }
     }
-    10% {
-      transform: translateY(50px);
-    }
-    80% {
-      opacity: 0.8;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
 
-  .emoji-animation {
-    animation: floatUp 1.5s ease-out forwards;
-  }
+    .emoji-animation {
+        animation: floatUp 1.5s ease-out forwards;
+    }
 }
 
 @layer base {
