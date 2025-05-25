@@ -1,25 +1,45 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@keyframes floatUp {
-    0% {
-        opacity: 1;
-        transform: translateY(80px);
-    }
-    10% {
-        transform: translateY(50px);
-    }
-    80% {
-        opacity: 0.8;
-    }
-    100% {
-        opacity: 0;
+@config '../tailwind.config.js';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentcolor);
     }
 }
 
-.emoji-animation {
-    animation: floatUp 1.5s ease-out forwards;
+@layer utilities {
+    @keyframes floatUp {
+        0% {
+            opacity: 1;
+            transform: translateY(80px);
+        }
+        10% {
+            transform: translateY(50px);
+        }
+        80% {
+            opacity: 0.8;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .emoji-animation {
+        animation: floatUp 1.5s ease-out forwards;
+    }
 }
 
 @layer base {
