@@ -1,9 +1,9 @@
 "use client";
 
-import { themeColorAtom } from "@/app/_lib/atoms";
-import { applyTheme } from "@/app/_lib/themes";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
+import { themeColorAtom } from "@/app/_lib/atoms";
+import { applyTheme } from "@/app/_lib/themes";
 
 interface ThemeProviderProps {
     children: React.ReactNode;

@@ -1,4 +1,8 @@
 "use client";
+import { useAtom } from "jotai/index";
+import { useRouter } from "next/navigation";
+import { type KeyboardEventHandler, useEffect, useState } from "react";
+import { BiCheck } from "react-icons/bi";
 import { Button } from "@/app/_components/uiparts/Button";
 import {
     Card,
@@ -11,19 +15,15 @@ import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import Header from "@/app/_components/uiparts/Header";
 import HeaderItem from "@/app/_components/uiparts/HeaderItem";
 import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
-import ThemeSelector from "@/app/_components/uiparts/ThemeSelector";
 import { Input } from "@/app/_components/uiparts/input";
+import ThemeSelector from "@/app/_components/uiparts/ThemeSelector";
 import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import { createClient } from "@/utils/supabase/client";
-import { useAtom } from "jotai/index";
-import { useRouter } from "next/navigation";
-import React, { type KeyboardEventHandler, useEffect, useState } from "react";
-import { BiCheck } from "react-icons/bi";
 
 const Page = () => {
     const router = useRouter();
     const [roomId, setRoomId] = useState<string>("");
-    const [userName, setUserName] = useAtom(userNameAtom);
+    const [_userName, setUserName] = useAtom(userNameAtom);
 
     const isValid = () =>
         !!roomId && !/\s/.test(roomId) && !roomId.includes("/");

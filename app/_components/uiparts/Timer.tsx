@@ -1,5 +1,3 @@
-import HeaderItem from "@/app/_components/uiparts/HeaderItem";
-import React from "react";
 import { FiPause, FiPlay } from "react-icons/fi";
 import { GrPowerReset } from "react-icons/gr";
 

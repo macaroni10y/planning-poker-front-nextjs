@@ -8,11 +8,11 @@ import { createClient } from "@/utils/supabase/server";
 /**
  * Login the user
  * expects email and password in the form data
- * @param prevState
+ * @param _prevState
  * @param formData
  */
 export async function login(
-    prevState: { message: string },
+    _prevState: { message: string },
     formData: FormData,
 ) {
     const supabase = createClient();
@@ -35,11 +35,11 @@ export async function login(
 /**
  * Login the user anonymously
  * expects nickname in the form data
- * @param prevState
+ * @param _prevState
  * @param formData
  */
 export async function loginAnonymously(
-    prevState: { message: string },
+    _prevState: { message: string },
     formData: FormData,
 ) {
     const supabase = createClient();
@@ -48,7 +48,7 @@ export async function loginAnonymously(
         display_name: formData.get("nickname") as string,
     };
 
-    const { data, error } = await supabase.auth.signInAnonymously();
+    const { error } = await supabase.auth.signInAnonymously();
 
     if (error) {
         return { message: error.message };

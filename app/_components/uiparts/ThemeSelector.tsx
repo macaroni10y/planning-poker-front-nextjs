@@ -1,10 +1,10 @@
 "use client";
 
-import { themeColorAtom } from "@/app/_lib/atoms";
-import { applyTheme, themeColors } from "@/app/_lib/themes";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import { IoColorPaletteOutline } from "react-icons/io5";
+import { themeColorAtom } from "@/app/_lib/atoms";
+import { applyTheme, themeColors } from "@/app/_lib/themes";
 import { Button } from "./Button";
 
 interface ThemeSelectorProps {
@@ -64,7 +64,7 @@ const ThemeSelector = ({ className = "" }: ThemeSelectorProps) => {
           ${isOpen ? "w-10 max-h-[200px] opacity-100" : "max-h-0 opacity-0"}
         `}
             >
-                {Object.entries(themeColors).map(([theme, data], index) => (
+                {Object.entries(themeColors).map(([theme, data], _index) => (
                     <button
                         type="button"
                         key={theme}

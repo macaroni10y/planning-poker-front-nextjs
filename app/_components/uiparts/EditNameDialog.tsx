@@ -1,3 +1,5 @@
+import { UserIcon } from "@storybook/icons";
+import { useState } from "react";
 import { Button } from "@/app/_components/uiparts/Button";
 import {
     Dialog,
@@ -9,8 +11,6 @@ import {
     DialogTrigger,
 } from "@/app/_components/uiparts/Dialog";
 import { Input } from "@/app/_components/uiparts/input";
-import { UserIcon } from "@storybook/icons";
-import React, { useState } from "react";
 
 interface Props {
     onSubmit: (value: string) => void;

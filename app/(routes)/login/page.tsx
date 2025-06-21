@@ -1,9 +1,9 @@
 "use client";
-import { loginAnonymously } from "@/app/(routes)/login/action";
-import Header from "@/app/_components/uiparts/Header";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
+import Header from "@/app/_components/uiparts/Header";
+import { loginAnonymously } from "@/app/(routes)/login/action";
 import "react-toastify/dist/ReactToastify.css";
 import { Button } from "@/app/_components/uiparts/Button";
 import {
@@ -14,8 +14,8 @@ import {
     CardTitle,
 } from "@/app/_components/uiparts/Card";
 import HeaderItem from "@/app/_components/uiparts/HeaderItem";
-import ThemeSelector from "@/app/_components/uiparts/ThemeSelector";
 import { Input } from "@/app/_components/uiparts/input";
+import ThemeSelector from "@/app/_components/uiparts/ThemeSelector";
 
 const Page = () => {
     const [state, formAction] = useFormState(loginAnonymously, { message: "" });

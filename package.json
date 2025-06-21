@@ -6,7 +6,7 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint",
+        "lint": "biome check --write",
         "storybook": "storybook dev -p 6006",
         "build-storybook": "storybook build"
     },
@@ -37,7 +37,7 @@
         "tailwindcss-animate": "^1.0.7"
     },
     "devDependencies": {
-        "@biomejs/biome": "1.9.4",
+        "@biomejs/biome": "2.0.0",
         "@chromatic-com/storybook": "^3.2.6",
         "@storybook/addon-essentials": "^8.6.12",
         "@storybook/addon-interactions": "^8.6.12",
