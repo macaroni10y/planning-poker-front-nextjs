@@ -1,5 +1,5 @@
-import Timer from "@/app/_components/uiparts/Timer";
 import type { Meta, StoryObj } from "@storybook/react";
+import Timer from "@/app/_components/uiparts/Timer";
 
 const meta = {
     title: "Timer",

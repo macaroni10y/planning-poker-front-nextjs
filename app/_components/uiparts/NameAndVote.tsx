@@ -1,6 +1,6 @@
-import type { Vote } from "@/app/_types/types";
 import { Box, CircularProgress } from "@mui/material";
 import { FaCheck } from "react-icons/fa";
+import type { Vote } from "@/app/_types/types";
 
 interface Props {
     name: string;

@@ -1,3 +1,8 @@
+import type { Emoji } from "frimousse";
+import type React from "react";
+import { useEffect, useState } from "react";
+import { BiPlus, BiSmile } from "react-icons/bi";
+import { CgClose } from "react-icons/cg";
 import {
     EmojiPicker,
     EmojiPickerContent,
@@ -6,11 +11,6 @@ import {
 } from "@/app/_components/uiparts/EmojiPicker";
 import ReactionButton from "@/app/_components/uiparts/ReactionButton";
 import { standardEmojis } from "@/app/_types/types";
-import type { Emoji } from "frimousse";
-import type React from "react";
-import { useEffect, useState } from "react";
-import { BiPlus, BiSmile } from "react-icons/bi";
-import { CgClose } from "react-icons/cg";
 
 type ReactionButtonContainerProps = {
     onClick: (emoji: Emoji) => void;

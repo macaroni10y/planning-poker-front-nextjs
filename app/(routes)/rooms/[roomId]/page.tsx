@@ -1,4 +1,8 @@
 "use client";
+import { useAtom } from "jotai/index";
+import { useCallback, useRef, useState } from "react";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 import ButtonsContainer from "@/app/_components/containers/ButtonsContainer";
 import ParticipantList from "@/app/_components/containers/ParticipantsList";
 import ReactionButtonContainer from "@/app/_components/containers/ReactionButtonContainer";
@@ -15,10 +19,6 @@ import { userNameAtom } from "@/app/_lib/atoms";
 import useWebSocket from "@/app/_lib/useWebSocket";
 import type { Reaction, ReactionType, Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
-import { useAtom } from "jotai/index";
-import React, { useCallback, useRef, useState } from "react";
-import Confetti from "react-confetti";
-import { useWindowSize } from "react-use";
 
 const Page = ({ params }: { params: { roomId: string } }) => {
     const extractedRoomId = params.roomId.substring(0, 12);

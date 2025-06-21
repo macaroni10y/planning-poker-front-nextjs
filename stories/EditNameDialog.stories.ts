@@ -1,5 +1,5 @@
-import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 import type { Meta, StoryObj } from "@storybook/react";
+import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
 
 const meta = {
     title: "Dialog",

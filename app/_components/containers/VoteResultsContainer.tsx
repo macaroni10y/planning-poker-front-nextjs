@@ -3,8 +3,8 @@ import OneVoteResult from "@/app/_components/uiparts/OneVoteResult";
 import { average, mode, scrumDecision } from "@/app/_lib/voteResultCalculate";
 import {
     type CountableVote,
-    type Vote,
     isCountableVote,
+    type Vote,
 } from "@/app/_types/types";
 
 interface Props {

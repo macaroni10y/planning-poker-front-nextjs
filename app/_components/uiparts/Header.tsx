@@ -1,7 +1,7 @@
-import localImage from "@/app/icon.png";
 import Image from "next/image";
 import Link from "next/link";
 import type React from "react";
+import localImage from "@/app/icon.png";
 
 interface Props {
     children?: React.ReactNode;

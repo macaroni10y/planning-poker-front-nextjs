@@ -1,5 +1,5 @@
-import { Button } from "@/app/_components/uiparts/Button";
 import type { MouseEventHandler } from "react";
+import { Button } from "@/app/_components/uiparts/Button";
 
 interface Props {
     onClickReveal: MouseEventHandler<HTMLButtonElement>;

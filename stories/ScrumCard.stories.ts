@@ -1,5 +1,5 @@
-import ScrumCard from "@/app/_components/uiparts/ScrumCard";
 import type { Meta, StoryObj } from "@storybook/react";
+import ScrumCard from "@/app/_components/uiparts/ScrumCard";
 
 const meta = {
     title: "ScrumCard",
