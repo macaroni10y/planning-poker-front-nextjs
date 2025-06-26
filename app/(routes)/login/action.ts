@@ -15,7 +15,7 @@ export async function login(
     _prevState: { message: string },
     formData: FormData,
 ) {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const data = {
         email: formData.get("email") as string,
@@ -42,7 +42,7 @@ export async function loginAnonymously(
     _prevState: { message: string },
     formData: FormData,
 ) {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const input = {
         display_name: formData.get("nickname") as string,
