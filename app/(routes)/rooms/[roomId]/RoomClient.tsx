@@ -146,9 +146,7 @@ const RoomClient = ({ roomId }: RoomClientProps) => {
             onTapResumeButton={() =>
                 connection.timerControls.resume(roomId, currentTime)
             }
-            onTapResetButton={() =>
-                connection.timerControls.reset(roomId)
-            }
+            onTapResetButton={() => connection.timerControls.reset(roomId)}
         />
     );
 
