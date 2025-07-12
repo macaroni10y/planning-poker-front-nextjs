@@ -73,7 +73,7 @@ const ReactionButtonContainer: React.FC<ReactionButtonContainerProps> = ({
 
             {showEmojiPicker && (
                 <div
-                    className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                    className="fixed inset-0 flex items-center justify-center bg-black/20 z-50"
                     onClick={(e) => {
                         if (e.target === e.currentTarget) {
                             setShowEmojiPicker(false);
