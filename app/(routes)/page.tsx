@@ -3,20 +3,20 @@ import { useAtom } from "jotai/index";
 import { useRouter } from "next/navigation";
 import { type KeyboardEventHandler, useEffect, useState } from "react";
 import { BiCheck } from "react-icons/bi";
-import { Button } from "@/app/_components/uiparts/Button";
+import EditNameDialog from "@/app/_components/features/room/EditNameDialog";
+import ThemeSelector from "@/app/_components/features/voting/ThemeSelector";
+import { Button } from "@/app/_components/ui/base/Button";
 import {
     Card,
     CardContent,
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/app/_components/uiparts/Card";
-import EditNameDialog from "@/app/_components/uiparts/EditNameDialog";
-import Header from "@/app/_components/uiparts/Header";
-import HeaderItem from "@/app/_components/uiparts/HeaderItem";
-import HorizontalLine from "@/app/_components/uiparts/HorizontalLine";
-import { Input } from "@/app/_components/uiparts/input";
-import ThemeSelector from "@/app/_components/uiparts/ThemeSelector";
+} from "@/app/_components/ui/base/Card";
+import { Input } from "@/app/_components/ui/base/Input";
+import Header from "@/app/_components/ui/layout/Header";
+import HeaderItem from "@/app/_components/ui/layout/HeaderItem";
+import HorizontalLine from "@/app/_components/ui/layout/HorizontalLine";
 import { nameNotSet, userNameAtom } from "@/app/_lib/atoms";
 import { createClient } from "@/utils/supabase/client";
 

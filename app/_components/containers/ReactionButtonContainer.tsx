@@ -8,8 +8,8 @@ import {
     EmojiPickerContent,
     EmojiPickerFooter,
     EmojiPickerSearch,
-} from "@/app/_components/uiparts/EmojiPicker";
-import ReactionButton from "@/app/_components/uiparts/ReactionButton";
+} from "@/app/_components/features/reactions/EmojiPicker";
+import ReactionButton from "@/app/_components/features/reactions/ReactionButton";
 import { standardEmojis } from "@/app/_types/types";
 
 type ReactionButtonContainerProps = {

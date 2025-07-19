@@ -3,9 +3,9 @@
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import { IoColorPaletteOutline } from "react-icons/io5";
+import { Button } from "@/app/_components/ui/base/Button";
 import { themeColorAtom } from "@/app/_lib/atoms";
 import { applyTheme, themeColors } from "@/app/_lib/themes";
-import { Button } from "./Button";
 
 interface ThemeSelectorProps {
     className?: string;

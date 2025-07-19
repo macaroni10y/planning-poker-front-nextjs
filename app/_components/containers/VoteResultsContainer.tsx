@@ -1,5 +1,5 @@
-import DummyOneVoteResult from "@/app/_components/uiparts/DummyOneVoteResult";
-import OneVoteResult from "@/app/_components/uiparts/OneVoteResult";
+import DummyOneVoteResult from "@/app/_components/features/participants/DummyOneVoteResult";
+import OneVoteResult from "@/app/_components/features/participants/OneVoteResult";
 import { average, mode, scrumDecision } from "@/app/_lib/voteResultCalculate";
 import {
     type CountableVote,

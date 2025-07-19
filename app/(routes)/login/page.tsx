@@ -2,20 +2,20 @@
 import { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
-import Header from "@/app/_components/uiparts/Header";
+import Header from "@/app/_components/ui/layout/Header";
 import { loginAnonymously } from "@/app/(routes)/login/action";
 import "react-toastify/dist/ReactToastify.css";
-import { Button } from "@/app/_components/uiparts/Button";
+import ThemeSelector from "@/app/_components/features/voting/ThemeSelector";
+import { Button } from "@/app/_components/ui/base/Button";
 import {
     Card,
     CardContent,
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/app/_components/uiparts/Card";
-import HeaderItem from "@/app/_components/uiparts/HeaderItem";
-import { Input } from "@/app/_components/uiparts/input";
-import ThemeSelector from "@/app/_components/uiparts/ThemeSelector";
+} from "@/app/_components/ui/base/Card";
+import { Input } from "@/app/_components/ui/base/Input";
+import HeaderItem from "@/app/_components/ui/layout/HeaderItem";
 
 const Page = () => {
     const [state, formAction] = useFormState(loginAnonymously, { message: "" });
