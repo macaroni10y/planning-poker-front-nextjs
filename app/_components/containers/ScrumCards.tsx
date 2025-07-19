@@ -1,4 +1,4 @@
-import ScrumCard from "@/app/_components/uiparts/ScrumCard";
+import ScrumCard from "@/app/_components/features/voting/ScrumCard";
 import { allCards } from "@/app/_lib/variables";
 import type { Vote } from "@/app/_types/types";
 
