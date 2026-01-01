@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import HorizontalLine from "@/app/_components/ui/layout/HorizontalLine";
 
 const meta = {

@@ -1,5 +1,11 @@
+// This file has been automatically migrated to valid ESM format by Storybook.
+
 import * as path from "node:path";
-import type { StorybookConfig } from "@storybook/nextjs";
+import { fileURLToPath } from "node:url";
+import type { StorybookConfig } from "@storybook/nextjs-vite";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const config: StorybookConfig = {
     stories: [
@@ -8,18 +14,17 @@ const config: StorybookConfig = {
     ],
     addons: [
         "@storybook/addon-links",
-        "@storybook/addon-essentials",
         "@storybook/addon-onboarding",
-        "@storybook/addon-interactions",
         "@chromatic-com/storybook",
+        "@storybook/addon-docs",
     ],
     framework: {
-        name: "@storybook/nextjs",
+        name: "@storybook/nextjs-vite",
         options: {},
     },
     docs: {},
     staticDirs: ["../public"],
-    webpackFinal: (config) => {
+    viteFinal: (config) => {
         if (!config.resolve) return config;
         config.resolve.alias = {
             ...config.resolve.alias,
