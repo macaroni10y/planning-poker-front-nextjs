@@ -66,13 +66,14 @@ const ParticipantCardsGrid = ({ participants }: Props) => {
             className="content-center h-full grid gap-3 justify-items-center w-fit mx-auto grid-cols-[repeat(var(--grid-cols-base),minmax(0,1fr))] sm:grid-cols-[repeat(var(--grid-cols-sm),minmax(0,1fr))] md:grid-cols-[repeat(var(--grid-cols-md),minmax(0,1fr))] lg:grid-cols-[repeat(var(--grid-cols-lg),minmax(0,1fr))] xl:grid-cols-[repeat(var(--grid-cols-xl),minmax(0,1fr))]"
             style={gridStyle}
         >
-            {participants.map((participant) => (
+            {participants.map((participant, index) => (
                 <ParticipantCard
                     key={participant.clientId}
                     name={participant.name}
                     vote={participant.vote}
                     showVote={showVote}
                     size={cardSize}
+                    index={index}
                 />
             ))}
         </div>

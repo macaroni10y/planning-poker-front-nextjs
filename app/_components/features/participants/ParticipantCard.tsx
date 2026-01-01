@@ -8,9 +8,10 @@ interface Props {
     vote: Vote;
     showVote: boolean;
     size?: "normal" | "large";
+    index?: number;
 }
 
-const ParticipantCard = ({ name, vote, showVote, size = "normal" }: Props) => {
+const ParticipantCard = ({ name, vote, showVote, size = "normal", index = 0 }: Props) => {
     const isWaiting = vote === "not yet";
     const isFlipped = showVote;
     const isLarge = size === "large";
@@ -31,25 +32,48 @@ const ParticipantCard = ({ name, vote, showVote, size = "normal" }: Props) => {
                         "flip-card-inner relative w-full h-full",
                         isFlipped && "flipped",
                     )}
+                    style={{ transitionDelay: `${index * 50}ms` }}
                 >
                     {/* Front Face */}
-                    <div className="flip-card-face flip-card-front rounded-xl bg-card shadow-lg border border-border flex items-center justify-center">
-                        {isWaiting ? (
-                            <Spinner size={20} />
-                        ) : (
-                            <Check
-                                size={20}
-                                strokeWidth={3}
-                                className="text-green-500"
-                            />
-                        )}
+                    <div className="flip-card-face flip-card-front bg-white dark:bg-card rounded-xl shadow-lg border border-primary flex items-center justify-center p-2">
+                        <div className="w-full h-full bg-primary rounded-lg flex items-center justify-center">
+                            {isWaiting ? (
+                                <Spinner size={isLarge ? 24 : 20} />
+                            ) : (
+                                <Check
+                                    size={isLarge ? 24 : 20}
+                                    strokeWidth={3}
+                                />
+                            )}
+                        </div>
                     </div>
 
                     {/* Back Face */}
-                    <div className="flip-card-face flip-card-back rounded-xl bg-secondary shadow-lg border border-border flex items-center justify-center">
-                        <span className="font-bold text-secondary-foreground text-base md:text-lg lg:text-xl xl:text-2xl">
+                    <div className="flip-card-face flip-card-back rounded-xl bg-white dark:bg-card shadow-lg border border-border flex flex-col items-center justify-between p-1">
+                        <div
+                            className={cn(
+                                "self-start",
+                                isLarge ? "text-sm" : "text-xs",
+                            )}
+                        >
                             {vote === "not yet" ? "" : vote}
-                        </span>
+                        </div>
+                        <div
+                            className={cn(
+                                "font-bold",
+                                isLarge ? "text-2xl" : "text-lg",
+                            )}
+                        >
+                            {vote === "not yet" ? "" : vote}
+                        </div>
+                        <div
+                            className={cn(
+                                "self-end",
+                                isLarge ? "text-sm" : "text-xs",
+                            )}
+                        >
+                            {vote === "not yet" ? "" : vote}
+                        </div>
                     </div>
                 </div>
             </div>
