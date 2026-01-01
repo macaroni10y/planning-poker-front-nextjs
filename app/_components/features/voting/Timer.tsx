@@ -1,5 +1,4 @@
-import { FiPause, FiPlay } from "react-icons/fi";
-import { GrPowerReset } from "react-icons/gr";
+import { Pause, Play, RotateCcw } from "lucide-react";
 
 interface Props {
     /**
@@ -11,15 +10,15 @@ interface Props {
      */
     isPaused: boolean;
     /**
-     * executed when the reset 🔄 button is tapped
+     * executed when the reset button is tapped
      */
     onTapResetButton: () => void;
     /**
-     * executed when the pause(⏸) button is tapped
+     * executed when the pause button is tapped
      */
     onTapPauseButton: () => void;
     /**
-     * executed when the resume(▶) button is tapped
+     * executed when the resume button is tapped
      */
     onTapResumeButton: () => void;
 }
@@ -44,7 +43,7 @@ const PauseResumeButton = (props: Props) => {
     const onTap = props.isPaused
         ? props.onTapResumeButton
         : props.onTapPauseButton;
-    const icon = props.isPaused ? <FiPlay /> : <FiPause />;
+    const icon = props.isPaused ? <Play size={16} /> : <Pause size={16} />;
     return (
         <div className="m-1" onClick={onTap} onKeyUp={onTap}>
             {icon}
@@ -62,7 +61,7 @@ const Timer = (props: Props) => {
                 onClick={props.onTapResetButton}
                 onKeyUp={props.onTapResetButton}
             >
-                <GrPowerReset />
+                <RotateCcw size={16} />
             </div>
         </>
     );

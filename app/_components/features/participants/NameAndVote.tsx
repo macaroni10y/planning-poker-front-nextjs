@@ -1,5 +1,5 @@
-import { Box, CircularProgress } from "@mui/material";
-import { FaCheck } from "react-icons/fa";
+import { Check } from "lucide-react";
+import { Spinner } from "@/app/_components/ui/base/Spinner";
 import type { Vote } from "@/app/_types/types";
 
 interface Props {
@@ -17,13 +17,11 @@ const NameAndVote = (props: Props) => (
         <div className="p-2 flex-1 flex justify-center">{props.name}</div>
         <div className="p-2 flex-1 flex justify-center">
             {props.vote === "not yet" ? (
-                <Box sx={{ display: "flex" }}>
-                    <CircularProgress size={16} color="inherit" />
-                </Box>
+                <Spinner size={16} />
             ) : props.showVote ? (
                 props.vote
             ) : (
-                <FaCheck />
+                <Check size={16} strokeWidth={4}/>
             )}
         </div>
     </div>

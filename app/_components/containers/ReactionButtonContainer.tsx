@@ -1,8 +1,7 @@
 import type { Emoji } from "frimousse";
+import { Plus, Smile, X } from "lucide-react";
 import type React from "react";
 import { useEffect, useState } from "react";
-import { BiPlus, BiSmile } from "react-icons/bi";
-import { CgClose } from "react-icons/cg";
 import {
     EmojiPicker,
     EmojiPickerContent,
@@ -58,7 +57,7 @@ const ReactionButtonContainer: React.FC<ReactionButtonContainerProps> = ({
                     className="select-none flex items-center justify-center w-12 h-12 m-1 bg-white rounded-full shadow-lg hover:bg-gray-100 border border-gray-300 transition transform active:scale-90"
                 >
                     <span className="text-xl">
-                        <BiPlus />
+                        <Plus size={20} />
                     </span>
                 </button>
             </div>
@@ -68,7 +67,7 @@ const ReactionButtonContainer: React.FC<ReactionButtonContainerProps> = ({
                 className="flex items-center justify-center w-12 h-12 m-1 bg-white rounded-full shadow-lg hover:bg-gray-100 border border-gray-300"
                 onClick={() => setIsExpanded((prev) => !prev)}
             >
-                {isExpanded ? <CgClose /> : <BiSmile />}
+                {isExpanded ? <X size={20} /> : <Smile size={20} />}
             </button>
 
             {showEmojiPicker && (
@@ -93,7 +92,7 @@ const ReactionButtonContainer: React.FC<ReactionButtonContainerProps> = ({
                                 className="text-gray-500 hover:text-gray-700"
                                 onClick={() => setShowEmojiPicker(false)}
                             >
-                                <CgClose />
+                                <X size={20} />
                             </button>
                         </div>
                         <EmojiPicker
