@@ -1,6 +1,7 @@
 // This file has been automatically migrated to valid ESM format by Storybook.
-import { fileURLToPath } from "node:url";
+
 import * as path from "node:path";
+import { fileURLToPath } from "node:url";
 import type { StorybookConfig } from "@storybook/nextjs-vite";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -15,7 +16,7 @@ const config: StorybookConfig = {
         "@storybook/addon-links",
         "@storybook/addon-onboarding",
         "@chromatic-com/storybook",
-        "@storybook/addon-docs"
+        "@storybook/addon-docs",
     ],
     framework: {
         name: "@storybook/nextjs-vite",
