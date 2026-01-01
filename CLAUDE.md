@@ -102,7 +102,6 @@ The `useWebSocket` hook handles all real-time features:
 
 ## Key Dependencies
 ### UI & Styling
-- **@mui/material** (6.1.0) - Material Design components
 - **@radix-ui/react-dialog** & **@radix-ui/react-slot** - Accessible UI primitives
 - **lucide-react** - Modern icon library
 - **class-variance-authority** & **clsx** - Utility-first styling
