@@ -11,7 +11,13 @@ interface Props {
     index?: number;
 }
 
-const ParticipantCard = ({ name, vote, showVote, size = "normal", index = 0 }: Props) => {
+const ParticipantCard = ({
+    name,
+    vote,
+    showVote,
+    size = "normal",
+    index = 0,
+}: Props) => {
     const isWaiting = vote === "not yet";
     const isFlipped = showVote;
     const isLarge = size === "large";

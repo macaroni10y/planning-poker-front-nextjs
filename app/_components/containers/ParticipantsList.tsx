@@ -72,9 +72,7 @@ const ParticipantList = (props: Props) => {
                 <div className="overflow-y-auto flex-grow">
                     {props.participants.length !== 0 ? (
                         viewMode === "table" ? (
-                            <NamesAndVotes
-                                participants={props.participants}
-                            />
+                            <NamesAndVotes participants={props.participants} />
                         ) : (
                             <ParticipantCardsGrid
                                 participants={props.participants}
