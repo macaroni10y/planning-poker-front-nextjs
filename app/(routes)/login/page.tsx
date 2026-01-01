@@ -17,7 +17,9 @@ import { Input } from "@/app/_components/ui/base/Input";
 import HeaderItem from "@/app/_components/ui/layout/HeaderItem";
 
 const Page = () => {
-    const [state, formAction, pending] = useActionState(loginAnonymously, { message: "" });
+    const [state, formAction, pending] = useActionState(loginAnonymously, {
+        message: "",
+    });
 
     useEffect(() => {
         if (state.message) {
