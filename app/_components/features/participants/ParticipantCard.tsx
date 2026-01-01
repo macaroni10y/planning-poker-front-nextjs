@@ -7,15 +7,25 @@ interface Props {
     name: string;
     vote: Vote;
     showVote: boolean;
+    size?: "normal" | "large";
 }
 
-const ParticipantCard = ({ name, vote, showVote }: Props) => {
+const ParticipantCard = ({ name, vote, showVote, size = "normal" }: Props) => {
     const isWaiting = vote === "not yet";
     const isFlipped = showVote;
+    const isLarge = size === "large";
+
+    const cardSizeClass = isLarge
+        ? "w-16 h-24 sm:w-20 sm:h-30 lg:w-20 lg:h-30 xl:w-24 xl:h-36"
+        : "w-12 h-18 sm:w-16 sm:h-24 lg:w-16 lg:h-24 xl:w-20 xl:h-30";
+
+    const nameLabelClass = isLarge
+        ? "w-16 md:w-20 lg:w-24 xl:w-28"
+        : "w-12 md:w-16 lg:w-20 xl:w-24";
 
     return (
         <div className="flex flex-col items-center">
-            <div className="flip-card-container w-16 h-24 md:w-20 md:h-30 lg:w-24 lg:h-36 xl:w-28 xl:h-40">
+            <div className={cn("flip-card-container", cardSizeClass)}>
                 <div
                     className={cn(
                         "flip-card-inner relative w-full h-full",
@@ -37,13 +47,18 @@ const ParticipantCard = ({ name, vote, showVote }: Props) => {
 
                     {/* Back Face */}
                     <div className="flip-card-face flip-card-back rounded-xl bg-secondary shadow-lg border border-border flex items-center justify-center">
-                        <span className="font-bold text-secondary-foreground text-lg md:text-xl lg:text-2xl xl:text-3xl">
+                        <span className="font-bold text-secondary-foreground text-base md:text-lg lg:text-xl xl:text-2xl">
                             {vote === "not yet" ? "" : vote}
                         </span>
                     </div>
                 </div>
             </div>
-            <div className="mt-1 text-xs font-medium truncate w-16 md:w-20 lg:w-24 xl:w-28 text-center text-card-foreground">
+            <div
+                className={cn(
+                    "mt-1 text-xs font-medium truncate text-center text-card-foreground",
+                    nameLabelClass,
+                )}
+            >
                 {name}
             </div>
         </div>

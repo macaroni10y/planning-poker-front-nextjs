@@ -16,17 +16,6 @@ interface Props {
     participants: Participant[];
 }
 
-const ListHeader = () => (
-    <div className="justify-around items-center flex">
-        <div className="p-2 font-bold flex justify-center items-center">
-            name
-        </div>
-        <div className="p-2 font-bold flex justify-center items-center">
-            vote
-        </div>
-    </div>
-);
-
 const NamesAndVotes = (props: Props) =>
     props.participants.map((participant) => (
         <NameAndVote
@@ -80,25 +69,19 @@ const ParticipantList = (props: Props) => {
                     </div>
                 </div>
                 {/* Conditional view rendering */}
-                <div className="overflow-y-auto max-h-full">
+                <div className="overflow-y-auto flex-grow">
                     {props.participants.length !== 0 ? (
                         viewMode === "table" ? (
-                            <>
-                                <ListHeader />
-                                <NamesAndVotes
-                                    participants={props.participants}
-                                />
-                            </>
+                            <NamesAndVotes
+                                participants={props.participants}
+                            />
                         ) : (
                             <ParticipantCardsGrid
                                 participants={props.participants}
                             />
                         )
                     ) : viewMode === "table" ? (
-                        <>
-                            <ListHeader />
-                            <DummyNamesAndVotes />
-                        </>
+                        <DummyNamesAndVotes />
                     ) : (
                         <DummyParticipantCardsGrid />
                     )}

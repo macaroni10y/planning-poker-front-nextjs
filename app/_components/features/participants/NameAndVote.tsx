@@ -13,8 +13,10 @@ interface Props {
  * @constructor
  */
 const NameAndVote = (props: Props) => (
-    <div className="flex justify-around items-center border-black">
-        <div className="p-2 flex-1 flex justify-center">{props.name}</div>
+    <div className="flex justify-between items-center">
+        <div className="p-2 flex-1 flex justify-center">
+            <span className="truncate max-w-32">{props.name}</span>
+        </div>
         <div className="p-2 flex-1 flex justify-center">
             {props.vote === "not yet" ? (
                 <Spinner size={16} />
