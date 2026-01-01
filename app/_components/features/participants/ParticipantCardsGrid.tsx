@@ -80,7 +80,7 @@ const ParticipantCardsGrid = ({ participants }: Props) => {
 };
 
 const DummyParticipantCardsGrid = () => (
-    <div className="grid grid-cols-3 gap-3 justify-items-center w-fit mx-auto">
+    <div className="content-center h-full grid grid-cols-3 gap-3 justify-items-center w-fit mx-auto">
         <DummyParticipantCard />
         <DummyParticipantCard />
         <DummyParticipantCard />
