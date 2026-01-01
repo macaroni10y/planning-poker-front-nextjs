@@ -1,0 +1,37 @@
+[14:10:34.348] [INFO] storybook v10.1.11
+[14:10:35.555] [ERROR] [38;2;241;97;97mSB_CORE-SERVER_0007 (MainFileEvaluationError): Storybook couldn't evaluate your [33m.storybook/main.ts[39m file.
+
+Original error:
+[37mError: Transform failed with 1 error:
+<stdin>:3:16: ERROR: Expected "from" but found ","
+    at failureErrorWithLog (/node_modules/esbuild/lib/main.js:1467:15)
+    at /node_modules/esbuild/lib/main.js:736:50
+    at responseCallbacks.<computed> (/node_modules/esbuild/lib/main.js:603:9)
+    at handleIncomingPacket (/node_modules/esbuild/lib/main.js:658:12)
+    at Socket.readFromStdout (/node_modules/esbuild/lib/main.js:581:7)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)[39m[39m
+    at loadMainConfig (file://./node_modules/storybook/dist/_node-chunks/chunk-Q4DOC7HF.js:11701:11)
+    at async buildDevStandalone (file://./node_modules/storybook/dist/core-server/index.js:7149:16)
+    at async withTelemetry (file://./node_modules/storybook/dist/_node-chunks/chunk-2372JZ52.js:209:12)
+    at async dev (file://./node_modules/storybook/dist/bin/core.js:2734:3)
+    at async _Command.<anonymous> (file://./node_modules/storybook/dist/bin/core.js:2801:92)
+[14:10:35.556] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.
+[14:10:35.557] [WARN]   Failed to load preset: "/Users/yuppi/IdeaProjects/planning-poker-front-nextjs/.storybook/main.ts"
+[14:10:35.557] [ERROR] [38;2;241;97;97mError: Transform failed with 1 error:
+<stdin>:3:16: ERROR: Expected "from" but found ","[39m
+    at failureErrorWithLog (./node_modules/esbuild/lib/main.js:1467:15)
+    at ./node_modules/esbuild/lib/main.js:736:50
+    at responseCallbacks.<computed> (./node_modules/esbuild/lib/main.js:603:9)
+    at handleIncomingPacket (./node_modules/esbuild/lib/main.js:658:12)
+    at Socket.readFromStdout (./node_modules/esbuild/lib/main.js:581:7)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+[14:10:38.365] [PROMPT] Would you like to send anonymous crash reports to improve Storybook and fix bugs faster? {"choice":false}
