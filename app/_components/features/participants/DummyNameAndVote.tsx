@@ -1,4 +1,4 @@
-import styles from "../../../page.module.css";
+import { Skeleton } from "@/app/_components/ui/base/Skeleton";
 
 /**
  * dummy component for NameAndVote
@@ -7,14 +7,10 @@ import styles from "../../../page.module.css";
 const DummyNameAndVote = () => (
     <div className="flex justify-around items-center border-black">
         <div className="p-2 flex-1 flex justify-center">
-            <div
-                className={`bg-gray-400 h-6 w-20 rounded ${styles.animatePlaceholder}`}
-            />
+            <Skeleton className="h-6 w-20" />
         </div>
         <div className="p-2 flex-1 flex justify-center">
-            <div
-                className={`bg-gray-400 h-6 w-6 rounded ${styles.animatePlaceholder}`}
-            />
+            <Skeleton className="h-6 w-6" />
         </div>
     </div>
 );

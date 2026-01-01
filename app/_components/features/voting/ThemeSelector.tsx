@@ -1,8 +1,8 @@
 "use client";
 
 import { useAtom } from "jotai";
+import { Palette } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { IoColorPaletteOutline } from "react-icons/io5";
 import { Button } from "@/app/_components/ui/base/Button";
 import { themeColorAtom } from "@/app/_lib/atoms";
 import { applyTheme, themeColors } from "@/app/_lib/themes";
@@ -54,12 +54,12 @@ const ThemeSelector = ({ className = "" }: ThemeSelectorProps) => {
                 className="flex items-center justify-center p-2"
                 aria-label="Change theme color"
             >
-                <IoColorPaletteOutline className="h-5 w-5" />
+                <Palette className="h-5 w-5" />
             </Button>
 
             <div
                 className={`
-          absolute -right-1 top-full mt-2 py-1 z-50 
+          absolute -right-1 top-full mt-2 py-1 z-50
           flex flex-col items-center gap-2 overflow-hidden transition-all duration-300 ease-in-out
           ${isOpen ? "w-10 max-h-[200px] opacity-100" : "max-h-0 opacity-0"}
         `}

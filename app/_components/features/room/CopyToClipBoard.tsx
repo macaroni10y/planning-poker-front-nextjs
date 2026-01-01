@@ -1,7 +1,6 @@
+import { Check, Copy } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
-import { FcCheckmark } from "react-icons/fc";
-import { IoCopyOutline } from "react-icons/io5";
 
 interface Props {
     children: React.ReactNode;
@@ -20,7 +19,11 @@ const CopyToClipBoard = (props: Props) => {
         <div className="flex items-center gap-1" onClick={copy} onKeyUp={copy}>
             {props.children}
             <div className="px-1">
-                {copied ? <FcCheckmark /> : <IoCopyOutline />}
+                {copied ? (
+                    <Check size={16} className="text-green-500" />
+                ) : (
+                    <Copy size={16} />
+                )}
             </div>
         </div>
     );

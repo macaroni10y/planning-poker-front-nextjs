@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Spinner } from "@/app/_components/ui/base/Spinner";
 
 interface Props {
     title: string;
@@ -18,9 +18,7 @@ const OneVoteResult = (voteResult: Props) => (
             <div className="font-semibold text-2xl">{voteResult.value}</div>
         ) : (
             <div className="p-1">
-                <Box sx={{ display: "flex" }}>
-                    <CircularProgress size={24} color="inherit" />
-                </Box>
+                <Spinner size={24} />
             </div>
         )}
     </div>

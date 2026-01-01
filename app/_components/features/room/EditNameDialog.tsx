@@ -1,4 +1,4 @@
-import { UserIcon } from "@storybook/icons";
+import { User } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/app/_components/ui/base/Button";
 import {
@@ -27,7 +27,7 @@ const EditNameDialog = (props: Props) => {
     return (
         <Dialog>
             <DialogTrigger>
-                <UserIcon size={18} color={"white"} />
+                <User size={18} color={"white"} />
             </DialogTrigger>
             <DialogContent className="bg-white">
                 <DialogHeader>

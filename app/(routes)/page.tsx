@@ -1,8 +1,8 @@
 "use client";
 import { useAtom } from "jotai/index";
+import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { type KeyboardEventHandler, useEffect, useState } from "react";
-import { BiCheck } from "react-icons/bi";
 import EditNameDialog from "@/app/_components/features/room/EditNameDialog";
 import ThemeSelector from "@/app/_components/features/voting/ThemeSelector";
 import { Button } from "@/app/_components/ui/base/Button";
@@ -91,7 +91,7 @@ const Page = () => {
                                 onClick={() => enter(roomId)}
                                 className="h-12 w-12"
                             >
-                                <BiCheck />
+                                <Check size={20} strokeWidth={4} />
                             </Button>
                         </div>
                     </CardContent>

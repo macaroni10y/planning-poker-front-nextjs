@@ -1,4 +1,4 @@
-import styles from "@/app/page.module.css";
+import { Skeleton } from "@/app/_components/ui/base/Skeleton";
 
 interface Props {
     title: string;
@@ -12,9 +12,7 @@ interface Props {
 const DummyOneVoteResult = (voteResult: Props) => (
     <div className="flex flex-col justify-center items-center flex-1 m-1">
         <div>{voteResult.title}</div>
-        <div
-            className={`bg-gray-400 h-8 w-8 rounded ${styles.animatePlaceholder}`}
-        />
+        <Skeleton className="h-8 w-8" />
     </div>
 );
 
