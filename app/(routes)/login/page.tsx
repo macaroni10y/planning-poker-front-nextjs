@@ -1,6 +1,5 @@
 "use client";
-import { useEffect } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState, useEffect } from "react";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import Header from "@/app/_components/ui/layout/Header";
 import { loginAnonymously } from "@/app/(routes)/login/action";
@@ -18,7 +17,7 @@ import { Input } from "@/app/_components/ui/base/Input";
 import HeaderItem from "@/app/_components/ui/layout/HeaderItem";
 
 const Page = () => {
-    const [state, formAction] = useFormState(loginAnonymously, { message: "" });
+    const [state, formAction, pending] = useActionState(loginAnonymously, { message: "" });
 
     useEffect(() => {
         if (state.message) {
@@ -73,6 +72,7 @@ const Page = () => {
                             <FormButton
                                 className="w-full"
                                 formAction={formAction}
+                                pending={pending}
                             />
                         </CardFooter>
                     </form>
@@ -98,17 +98,17 @@ const Page = () => {
 
 interface FormButtonProps {
     formAction: (formData: FormData) => void;
+    pending?: boolean;
     className?: string;
 }
 
 const FormButton = (props: FormButtonProps) => {
-    const { pending } = useFormStatus();
     return (
         <Button
             size="xlg"
             className={props.className}
             formAction={props.formAction}
-            disabled={pending}
+            disabled={props.pending}
         >
             Continue
         </Button>
