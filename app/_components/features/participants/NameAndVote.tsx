@@ -21,7 +21,7 @@ const NameAndVote = (props: Props) => (
             ) : props.showVote ? (
                 props.vote
             ) : (
-                <Check size={16} strokeWidth={4}/>
+                <Check size={16} strokeWidth={4} />
             )}
         </div>
     </div>
