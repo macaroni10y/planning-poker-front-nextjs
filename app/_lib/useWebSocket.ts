@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { nameNotSet } from "@/app/_lib/atoms";
 import type { Participant, Vote } from "@/app/_types/types";
+import { createClient } from "@/utils/supabase/client";
 
 interface UseWebSocket {
     participants: Participant[];
@@ -167,74 +168,110 @@ const useWebSocket = ({
 
     useEffect(() => {
         if (userName === nameNotSet) return () => {};
-        if (socket.current?.readyState === WebSocket.OPEN) {
-            socket.current.close();
-        }
-        socket.current = new WebSocket(url);
-        const currentSocket = socket.current;
 
-        currentSocket.onopen = () => {
-            const heartbeatInterval = setInterval(
-                () => socket.current?.send("ping"),
-                1000 * 60 * 5,
-            );
-            joinRoom(roomId, userName);
-            return () => {
-                currentSocket?.close();
-                clearInterval(heartbeatInterval);
-            };
-        };
-        currentSocket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
+        let isCancelled = false;
+        let heartbeatInterval: NodeJS.Timeout | null = null;
 
-            if (data.type === "resetTimer") {
-                onReceiveResetTimerMessage();
-                return;
-            }
-            if (data.type === "pauseTimer") {
-                onReceivePauseTimerMessage(data.time);
-                return;
-            }
-            if (data.type === "resumeTimer") {
-                onReceiveResumeTimerMessage(data.time);
-                return;
-            }
+        const connectWithAuth = async () => {
+            try {
+                // Supabase JWTトークンを取得
+                const supabase = createClient();
+                const { data, error } = await supabase.auth.getSession();
 
-            if (data.type === "reaction") {
-                onReceiveReaction(data.kind, data.from);
-                return;
-            }
+                if (isCancelled) return;
 
-            if (data.shouldReset) {
-                onResetVote();
-            }
-            const users: {
-                clientId: string;
-                name: string;
-                cardNumber: Vote;
-            }[] = data.users || [];
-            const participants: Participant[] = users.map((value) => ({
-                clientId: value.clientId,
-                name: value.name,
-                vote: value.cardNumber,
-            }));
-            if (participants.length === 0) {
-                return;
-            }
-            if (
-                participants.every((it) => {
-                    return (
-                        it.vote !== "not yet" &&
-                        it.vote === participants[0].vote
+                if (error || !data.session?.access_token) {
+                    console.error("Failed to get auth token:", error);
+                    return;
+                }
+
+                const token = data.session.access_token;
+
+                // 既存の接続をクローズ
+                if (socket.current?.readyState === WebSocket.OPEN) {
+                    socket.current.close();
+                }
+
+                // JWTをクエリパラメータとして接続
+                const authenticatedUrl = `${url}?token=${encodeURIComponent(token)}`;
+                socket.current = new WebSocket(authenticatedUrl);
+                const currentSocket = socket.current;
+
+                currentSocket.onopen = () => {
+                    heartbeatInterval = setInterval(
+                        () => socket.current?.send("ping"),
+                        1000 * 60 * 5,
                     );
-                })
-            ) {
-                onAllVotesMatch();
+                    joinRoom(roomId, userName);
+                };
+
+                currentSocket.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+
+                    if (data.type === "resetTimer") {
+                        onReceiveResetTimerMessage();
+                        return;
+                    }
+                    if (data.type === "pauseTimer") {
+                        onReceivePauseTimerMessage(data.time);
+                        return;
+                    }
+                    if (data.type === "resumeTimer") {
+                        onReceiveResumeTimerMessage(data.time);
+                        return;
+                    }
+
+                    if (data.type === "reaction") {
+                        onReceiveReaction(data.kind, data.from);
+                        return;
+                    }
+
+                    if (data.shouldReset) {
+                        onResetVote();
+                    }
+                    const users: {
+                        clientId: string;
+                        name: string;
+                        cardNumber: Vote;
+                    }[] = data.users || [];
+                    const participants: Participant[] = users.map((value) => ({
+                        clientId: value.clientId,
+                        name: value.name,
+                        vote: value.cardNumber,
+                    }));
+                    if (participants.length === 0) {
+                        return;
+                    }
+                    if (
+                        participants.every((it) => {
+                            return (
+                                it.vote !== "not yet" &&
+                                it.vote === participants[0].vote
+                            );
+                        })
+                    ) {
+                        onAllVotesMatch();
+                    }
+                    setParticipants(participants);
+                };
+
+                currentSocket.onclose = () => {};
+            } catch (err) {
+                if (!isCancelled) {
+                    console.error("WebSocket connection error:", err);
+                }
             }
-            setParticipants(participants);
         };
-        currentSocket.onclose = () => {};
-        return () => currentSocket.close();
+
+        connectWithAuth();
+
+        return () => {
+            isCancelled = true;
+            if (heartbeatInterval) {
+                clearInterval(heartbeatInterval);
+            }
+            socket.current?.close();
+        };
     }, [userName, roomId, onResetVote, joinRoom]);
 
     return {
