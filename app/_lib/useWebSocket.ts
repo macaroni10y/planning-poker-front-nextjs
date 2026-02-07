@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { nameNotSet } from "@/app/_lib/atoms";
 import type { Participant, Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
@@ -62,6 +62,74 @@ interface Props {
 const MAX_RETRY_COUNT = 10;
 const MAX_RETRY_DELAY_MS = 30000;
 
+type WebSocketMessage =
+    | { type: "resetTimer" }
+    | { type: "pauseTimer"; time: number }
+    | { type: "resumeTimer"; time: number }
+    | { type: "reaction"; kind: string; from: string }
+    | {
+          users: Array<{
+              clientId: string;
+              name: string;
+              cardNumber: Vote;
+          }>;
+          shouldReset?: boolean;
+      };
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+    typeof value === "object" && value !== null;
+
+const isVoteValue = (value: unknown): value is Vote => {
+    if (value === "skip" || value === "not yet") return true;
+    return typeof value === "number" && Number.isFinite(value);
+};
+
+const isUserEntry = (
+    value: unknown,
+): value is { clientId: string; name: string; cardNumber: Vote } =>
+    isRecord(value) &&
+    typeof value.clientId === "string" &&
+    typeof value.name === "string" &&
+    isVoteValue(value.cardNumber);
+
+const parseWebSocketMessage = (data: unknown): WebSocketMessage | null => {
+    if (!isRecord(data)) return null;
+
+    if (typeof data.type === "string") {
+        if (data.type === "resetTimer") {
+            return { type: "resetTimer" };
+        }
+        if (data.type === "pauseTimer" && typeof data.time === "number") {
+            return { type: "pauseTimer", time: data.time };
+        }
+        if (data.type === "resumeTimer" && typeof data.time === "number") {
+            return { type: "resumeTimer", time: data.time };
+        }
+        if (
+            data.type === "reaction" &&
+            typeof data.kind === "string" &&
+            typeof data.from === "string"
+        ) {
+            return { type: "reaction", kind: data.kind, from: data.from };
+        }
+    }
+
+    if (Array.isArray(data.users) && data.users.every(isUserEntry)) {
+        if (
+            "shouldReset" in data &&
+            typeof data.shouldReset !== "boolean"
+        ) {
+            return null;
+        }
+        return {
+            users: data.users,
+            shouldReset: data.shouldReset,
+        };
+    }
+
+    return null;
+};
+
 const useWebSocket = ({
     roomId,
     userName,
@@ -100,33 +168,18 @@ const useWebSocket = ({
         };
     });
 
-    const joinRoom = useCallback((roomId: string, userName: string) => {
-        if (socket.current?.readyState === WebSocket.OPEN) {
-            socket.current?.send(
-                JSON.stringify({
-                    action: "joinRoom",
-                    roomId,
-                    userName,
-                }),
-            );
-        }
-    }, []);
+    const submitCard = (roomId: string, selectedCardNumber: Vote) => {
+        if (socket.current?.readyState !== WebSocket.OPEN) return;
+        socket.current.send(
+            JSON.stringify({
+                action: "submitCard",
+                roomId,
+                cardNumber: selectedCardNumber,
+            }),
+        );
+    };
 
-    const submitCard = useCallback(
-        (roomId: string, selectedCardNumber: Vote) => {
-            if (socket.current?.readyState !== WebSocket.OPEN) return;
-            socket.current.send(
-                JSON.stringify({
-                    action: "submitCard",
-                    roomId,
-                    cardNumber: selectedCardNumber,
-                }),
-            );
-        },
-        [],
-    );
-
-    const resetRoom = useCallback((roomId: string) => {
+    const resetRoom = (roomId: string) => {
         if (socket.current?.readyState !== WebSocket.OPEN) return;
         socket.current.send(
             JSON.stringify({
@@ -134,9 +187,9 @@ const useWebSocket = ({
                 roomId,
             }),
         );
-    }, []);
+    };
 
-    const revealAllCards = useCallback((roomId: string) => {
+    const revealAllCards = (roomId: string) => {
         if (socket.current?.readyState !== WebSocket.OPEN) return;
         socket.current.send(
             JSON.stringify({
@@ -144,9 +197,9 @@ const useWebSocket = ({
                 roomId,
             }),
         );
-    }, []);
+    };
 
-    const resetTimer = useCallback((roomId: string) => {
+    const resetTimer = (roomId: string) => {
         if (socket.current?.readyState !== WebSocket.OPEN) return;
         socket.current.send(
             JSON.stringify({
@@ -154,9 +207,9 @@ const useWebSocket = ({
                 roomId,
             }),
         );
-    }, []);
+    };
 
-    const resumeTimer = useCallback((roomId: string, time: number) => {
+    const resumeTimer = (roomId: string, time: number) => {
         if (socket.current?.readyState !== WebSocket.OPEN) return;
         socket.current.send(
             JSON.stringify({
@@ -165,9 +218,9 @@ const useWebSocket = ({
                 time,
             }),
         );
-    }, []);
+    };
 
-    const pauseTimer = useCallback((roomId: string, time: number) => {
+    const pauseTimer = (roomId: string, time: number) => {
         if (socket.current?.readyState !== WebSocket.OPEN) return;
         socket.current.send(
             JSON.stringify({
@@ -176,28 +229,37 @@ const useWebSocket = ({
                 time,
             }),
         );
-    }, []);
+    };
 
-    const sendReaction = useCallback(
-        (emoji: string) => {
-            if (socket.current?.readyState !== WebSocket.OPEN) return;
-            socket.current.send(
-                JSON.stringify({
-                    action: "reaction",
-                    roomId,
-                    kind: emoji,
-                    spread: false,
-                }),
-            );
-        },
-        [roomId],
-    );
+    const sendReaction = (emoji: string) => {
+        if (socket.current?.readyState !== WebSocket.OPEN) return;
+        socket.current.send(
+            JSON.stringify({
+                action: "reaction",
+                roomId,
+                kind: emoji,
+                spread: false,
+            }),
+        );
+    };
 
     useEffect(() => {
         if (userName === nameNotSet) return () => {};
 
         let isCancelled = false;
         let heartbeatInterval: NodeJS.Timeout | null = null;
+
+        const joinRoom = (roomId: string, userName: string) => {
+            if (socket.current?.readyState === WebSocket.OPEN) {
+                socket.current?.send(
+                    JSON.stringify({
+                        action: "joinRoom",
+                        roomId,
+                        userName,
+                    }),
+                );
+            }
+        };
 
         const connectWithAuth = async () => {
             try {
@@ -251,46 +313,50 @@ const useWebSocket = ({
                         return;
                     }
 
-                    const msg = data as Record<string, unknown>;
+                    const msg = parseWebSocketMessage(data);
+                    if (!msg) {
+                        return;
+                    }
 
-                    if (msg.type === "resetTimer") {
+                    if ("type" in msg && msg.type === "resetTimer") {
                         callbacksRef.current.onReceiveResetTimerMessage();
                         return;
                     }
-                    if (msg.type === "pauseTimer") {
+                    if ("type" in msg && msg.type === "pauseTimer") {
                         callbacksRef.current.onReceivePauseTimerMessage(
-                            msg.time as number,
+                            msg.time,
                         );
                         return;
                     }
-                    if (msg.type === "resumeTimer") {
+                    if ("type" in msg && msg.type === "resumeTimer") {
                         callbacksRef.current.onReceiveResumeTimerMessage(
-                            msg.time as number,
+                            msg.time,
                         );
                         return;
                     }
 
-                    if (msg.type === "reaction") {
+                    if ("type" in msg && msg.type === "reaction") {
                         callbacksRef.current.onReceiveReaction(
-                            msg.kind as string,
-                            msg.from as string,
+                            msg.kind,
+                            msg.from,
                         );
                         return;
                     }
 
-                    if (msg.shouldReset) {
+                    if ("users" in msg && msg.shouldReset) {
                         callbacksRef.current.onResetVote();
                     }
-                    const users: {
-                        clientId: string;
-                        name: string;
-                        cardNumber: Vote;
-                    }[] = (msg.users as never[]) || [];
-                    const participants: Participant[] = users.map((value) => ({
-                        clientId: value.clientId,
-                        name: value.name,
-                        vote: value.cardNumber,
-                    }));
+                    if (!("users" in msg)) {
+                        return;
+                    }
+
+                    const participants: Participant[] = msg.users.map(
+                        (value) => ({
+                            clientId: value.clientId,
+                            name: value.name,
+                            vote: value.cardNumber,
+                        }),
+                    );
                     if (participants.length === 0) {
                         return;
                     }
@@ -349,7 +415,7 @@ const useWebSocket = ({
             }
             socket.current?.close();
         };
-    }, [userName, roomId, joinRoom]);
+    }, [userName, roomId]);
 
     return {
         participants,

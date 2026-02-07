@@ -1,6 +1,6 @@
 "use client";
 import { useAtom } from "jotai/index";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,6 +26,8 @@ interface RoomClientProps {
     roomId: string;
 }
 
+const supabase = createClient();
+
 const RoomClient = ({ roomId }: RoomClientProps) => {
     const [selectedCardNumber, selectCardNumber] = useState<Vote>("not yet");
     const [userName, setUserName] = useAtom(userNameAtom);
@@ -46,10 +48,10 @@ const RoomClient = ({ roomId }: RoomClientProps) => {
     const connection = useWebSocket({
         roomId: roomId,
         userName: userName,
-        onResetVote: useCallback(() => {
+        onResetVote: () => {
             setShowConfetti(false);
             selectCardNumber(() => "not yet");
-        }, []),
+        },
         onReceiveResetTimerMessage: () =>
             handleReceptionOfResetTimerOperation(),
         onReceivePauseTimerMessage: (time: number) =>
@@ -86,8 +88,6 @@ const RoomClient = ({ roomId }: RoomClientProps) => {
             });
         }
     }, [connection.connectionState]);
-
-    const supabase = createClient();
 
     /**
      * start new timer

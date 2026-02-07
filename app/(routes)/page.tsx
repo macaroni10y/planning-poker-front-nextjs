@@ -1,5 +1,5 @@
 "use client";
-import { useAtom } from "jotai/index";
+import { useSetAtom } from "jotai/index";
 import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { type KeyboardEventHandler, useEffect, useState } from "react";
@@ -23,7 +23,7 @@ import { createClient } from "@/utils/supabase/client";
 const Page = () => {
     const router = useRouter();
     const [roomId, setRoomId] = useState<string>("");
-    const [_userName, setUserName] = useAtom(userNameAtom);
+    const setUserName = useSetAtom(userNameAtom);
 
     const isValid = () =>
         !!roomId && !/\s/.test(roomId) && !roomId.includes("/");
@@ -101,7 +101,11 @@ const Page = () => {
                     <CardFooter>
                         <Button
                             onClick={() =>
-                                enter(Math.random().toString(32).substring(6))
+                                enter(
+                                    globalThis.crypto
+                                        .randomUUID()
+                                        .substring(0, 8),
+                                )
                             }
                             className="w-full"
                             size="xlg"

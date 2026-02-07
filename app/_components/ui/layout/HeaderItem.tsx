@@ -1,10 +1,13 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-const HeaderItem = React.forwardRef<
-    HTMLDivElement,
-    React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
+const HeaderItem = ({
+    className,
+    ref,
+    ...props
+}: React.HTMLAttributes<HTMLDivElement> & {
+    ref?: React.Ref<HTMLDivElement>;
+}) => (
     <div
         ref={ref}
         className={cn(
@@ -13,6 +16,6 @@ const HeaderItem = React.forwardRef<
         )}
         {...props}
     />
-));
+);
 
 export default HeaderItem;

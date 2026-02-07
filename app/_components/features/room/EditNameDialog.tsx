@@ -5,6 +5,7 @@ import {
     Dialog,
     DialogClose,
     DialogContent,
+    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
@@ -32,6 +33,9 @@ const EditNameDialog = (props: Props) => {
             <DialogContent className="bg-white">
                 <DialogHeader>
                     <DialogTitle>Change Name</DialogTitle>
+                    <DialogDescription>
+                        Enter a display name to use in this room.
+                    </DialogDescription>
                 </DialogHeader>
                 <Input
                     maxLength={15}
