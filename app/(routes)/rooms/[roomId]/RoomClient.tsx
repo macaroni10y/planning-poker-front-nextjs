@@ -1,7 +1,9 @@
 "use client";
 import { useAtom } from "jotai/index";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Confetti from "react-confetti";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useWindowSize } from "react-use";
 import ButtonsContainer from "@/app/_components/containers/ButtonsContainer";
 import ParticipantList from "@/app/_components/containers/ParticipantsList";
@@ -58,6 +60,32 @@ const RoomClient = ({ roomId }: RoomClientProps) => {
             handleReceiveReaction(kind, sender),
         onAllVotesMatch: () => handleAllVotesMatch(),
     });
+
+    const hasConnectedOnce = useRef(false);
+    useEffect(() => {
+        if (connection.connectionState === "connected") {
+            if (hasConnectedOnce.current) {
+                toast.success("Reconnected", {
+                    position: "bottom-center",
+                    autoClose: 3000,
+                    theme: "light",
+                    transition: Bounce,
+                });
+            }
+            hasConnectedOnce.current = true;
+        }
+        if (
+            connection.connectionState === "disconnected" &&
+            hasConnectedOnce.current
+        ) {
+            toast.warning("Connection lost. Reconnecting...", {
+                position: "bottom-center",
+                autoClose: 3000,
+                theme: "light",
+                transition: Bounce,
+            });
+        }
+    }, [connection.connectionState]);
 
     const supabase = createClient();
 
@@ -151,7 +179,7 @@ const RoomClient = ({ roomId }: RoomClientProps) => {
     );
 
     return (
-        <div className="h-screen bg-background">
+        <div className="h-screen bg-background relative">
             {showConfetti && (
                 <Confetti width={width} height={height} recycle={false} />
             )}
@@ -218,6 +246,20 @@ const RoomClient = ({ roomId }: RoomClientProps) => {
                     }
                 />
             </div>
+            <ToastContainer
+                className={"absolute"}
+                position="bottom-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition={Bounce}
+            />
         </div>
     );
 };
