@@ -115,10 +115,7 @@ const parseWebSocketMessage = (data: unknown): WebSocketMessage | null => {
     }
 
     if (Array.isArray(data.users) && data.users.every(isUserEntry)) {
-        if (
-            "shouldReset" in data &&
-            typeof data.shouldReset !== "boolean"
-        ) {
+        if ("shouldReset" in data && typeof data.shouldReset !== "boolean") {
             return null;
         }
         return {
