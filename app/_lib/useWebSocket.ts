@@ -120,7 +120,10 @@ const parseWebSocketMessage = (data: unknown): WebSocketMessage | null => {
         }
         return {
             users: data.users,
-            shouldReset: data.shouldReset,
+            shouldReset:
+                typeof data.shouldReset === "boolean"
+                    ? data.shouldReset
+                    : undefined,
         };
     }
 
