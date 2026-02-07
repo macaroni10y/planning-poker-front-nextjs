@@ -3,8 +3,15 @@ import { nameNotSet } from "@/app/_lib/atoms";
 import type { Participant, Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
 
+type ConnectionState =
+    | "connecting"
+    | "connected"
+    | "disconnected"
+    | "reconnecting";
+
 interface UseWebSocket {
     participants: Participant[];
+    connectionState: ConnectionState;
     cardControls: {
         submit: (roomId: string, selectedCardNumber: Vote) => void;
         reset: (roomId: string) => void;
@@ -52,6 +59,9 @@ interface Props {
     onAllVotesMatch: () => void;
 }
 
+const MAX_RETRY_COUNT = 10;
+const MAX_RETRY_DELAY_MS = 30000;
+
 const useWebSocket = ({
     roomId,
     userName,
@@ -64,7 +74,31 @@ const useWebSocket = ({
 }: Props): UseWebSocket => {
     const socket = useRef<WebSocket | null>(null);
     const [participants, setParticipants] = useState<Participant[]>([]);
+    const [connectionState, setConnectionState] =
+        useState<ConnectionState>("disconnected");
     const url = "wss://sjy1ekd1t6.execute-api.ap-northeast-1.amazonaws.com/v1/";
+
+    const retryCount = useRef(0);
+    const reconnectTimeout = useRef<NodeJS.Timeout | null>(null);
+
+    const callbacksRef = useRef({
+        onResetVote,
+        onReceiveResetTimerMessage,
+        onReceivePauseTimerMessage,
+        onReceiveResumeTimerMessage,
+        onReceiveReaction,
+        onAllVotesMatch,
+    });
+    useEffect(() => {
+        callbacksRef.current = {
+            onResetVote,
+            onReceiveResetTimerMessage,
+            onReceivePauseTimerMessage,
+            onReceiveResumeTimerMessage,
+            onReceiveReaction,
+            onAllVotesMatch,
+        };
+    });
 
     const joinRoom = useCallback((roomId: string, userName: string) => {
         if (socket.current?.readyState === WebSocket.OPEN) {
@@ -80,7 +114,8 @@ const useWebSocket = ({
 
     const submitCard = useCallback(
         (roomId: string, selectedCardNumber: Vote) => {
-            socket.current?.send(
+            if (socket.current?.readyState !== WebSocket.OPEN) return;
+            socket.current.send(
                 JSON.stringify({
                     action: "submitCard",
                     roomId,
@@ -92,7 +127,8 @@ const useWebSocket = ({
     );
 
     const resetRoom = useCallback((roomId: string) => {
-        socket.current?.send(
+        if (socket.current?.readyState !== WebSocket.OPEN) return;
+        socket.current.send(
             JSON.stringify({
                 action: "resetRoom",
                 roomId,
@@ -101,7 +137,8 @@ const useWebSocket = ({
     }, []);
 
     const revealAllCards = useCallback((roomId: string) => {
-        socket.current?.send(
+        if (socket.current?.readyState !== WebSocket.OPEN) return;
+        socket.current.send(
             JSON.stringify({
                 action: "revealAllCards",
                 roomId,
@@ -109,12 +146,9 @@ const useWebSocket = ({
         );
     }, []);
 
-    /**
-     * send a message to reset timers for specified room
-     * @param roomId
-     */
     const resetTimer = useCallback((roomId: string) => {
-        socket.current?.send(
+        if (socket.current?.readyState !== WebSocket.OPEN) return;
+        socket.current.send(
             JSON.stringify({
                 action: "resetTimer",
                 roomId,
@@ -122,13 +156,9 @@ const useWebSocket = ({
         );
     }, []);
 
-    /**
-     * send a message to resume timers for specified room
-     * @param roomId
-     * @param time continue with
-     */
     const resumeTimer = useCallback((roomId: string, time: number) => {
-        socket.current?.send(
+        if (socket.current?.readyState !== WebSocket.OPEN) return;
+        socket.current.send(
             JSON.stringify({
                 action: "resumeTimer",
                 roomId,
@@ -137,13 +167,9 @@ const useWebSocket = ({
         );
     }, []);
 
-    /**
-     * send a message to pause timers for specified room
-     * @param roomId
-     * @param time pause with
-     */
     const pauseTimer = useCallback((roomId: string, time: number) => {
-        socket.current?.send(
+        if (socket.current?.readyState !== WebSocket.OPEN) return;
+        socket.current.send(
             JSON.stringify({
                 action: "pauseTimer",
                 roomId,
@@ -154,7 +180,8 @@ const useWebSocket = ({
 
     const sendReaction = useCallback(
         (emoji: string) => {
-            socket.current?.send(
+            if (socket.current?.readyState !== WebSocket.OPEN) return;
+            socket.current.send(
                 JSON.stringify({
                     action: "reaction",
                     roomId,
@@ -174,6 +201,10 @@ const useWebSocket = ({
 
         const connectWithAuth = async () => {
             try {
+                setConnectionState(
+                    retryCount.current > 0 ? "reconnecting" : "connecting",
+                );
+
                 // Supabase JWTトークンを取得
                 const supabase = createClient();
                 const { data, error } = await supabase.auth.getSession();
@@ -182,6 +213,7 @@ const useWebSocket = ({
 
                 if (error || !data.session?.access_token) {
                     console.error("Failed to get auth token:", error);
+                    setConnectionState("disconnected");
                     return;
                 }
 
@@ -198,6 +230,8 @@ const useWebSocket = ({
                 const currentSocket = socket.current;
 
                 currentSocket.onopen = () => {
+                    setConnectionState("connected");
+                    retryCount.current = 0;
                     heartbeatInterval = setInterval(
                         () => socket.current?.send("ping"),
                         1000 * 60 * 5,
@@ -206,34 +240,52 @@ const useWebSocket = ({
                 };
 
                 currentSocket.onmessage = (event) => {
-                    const data = JSON.parse(event.data);
-
-                    if (data.type === "resetTimer") {
-                        onReceiveResetTimerMessage();
-                        return;
-                    }
-                    if (data.type === "pauseTimer") {
-                        onReceivePauseTimerMessage(data.time);
-                        return;
-                    }
-                    if (data.type === "resumeTimer") {
-                        onReceiveResumeTimerMessage(data.time);
+                    let data: unknown;
+                    try {
+                        data = JSON.parse(event.data);
+                    } catch {
+                        console.error(
+                            "Failed to parse WebSocket message:",
+                            event.data,
+                        );
                         return;
                     }
 
-                    if (data.type === "reaction") {
-                        onReceiveReaction(data.kind, data.from);
+                    const msg = data as Record<string, unknown>;
+
+                    if (msg.type === "resetTimer") {
+                        callbacksRef.current.onReceiveResetTimerMessage();
+                        return;
+                    }
+                    if (msg.type === "pauseTimer") {
+                        callbacksRef.current.onReceivePauseTimerMessage(
+                            msg.time as number,
+                        );
+                        return;
+                    }
+                    if (msg.type === "resumeTimer") {
+                        callbacksRef.current.onReceiveResumeTimerMessage(
+                            msg.time as number,
+                        );
                         return;
                     }
 
-                    if (data.shouldReset) {
-                        onResetVote();
+                    if (msg.type === "reaction") {
+                        callbacksRef.current.onReceiveReaction(
+                            msg.kind as string,
+                            msg.from as string,
+                        );
+                        return;
+                    }
+
+                    if (msg.shouldReset) {
+                        callbacksRef.current.onResetVote();
                     }
                     const users: {
                         clientId: string;
                         name: string;
                         cardNumber: Vote;
-                    }[] = data.users || [];
+                    }[] = (msg.users as never[]) || [];
                     const participants: Participant[] = users.map((value) => ({
                         clientId: value.clientId,
                         name: value.name,
@@ -250,15 +302,37 @@ const useWebSocket = ({
                             );
                         })
                     ) {
-                        onAllVotesMatch();
+                        callbacksRef.current.onAllVotesMatch();
                     }
                     setParticipants(participants);
                 };
 
-                currentSocket.onclose = () => {};
+                currentSocket.onerror = () => {
+                    console.error("WebSocket error");
+                };
+
+                currentSocket.onclose = () => {
+                    setConnectionState("disconnected");
+                    if (heartbeatInterval) {
+                        clearInterval(heartbeatInterval);
+                        heartbeatInterval = null;
+                    }
+
+                    if (!isCancelled && retryCount.current < MAX_RETRY_COUNT) {
+                        const delay = Math.min(
+                            1000 * 2 ** retryCount.current,
+                            MAX_RETRY_DELAY_MS,
+                        );
+                        retryCount.current += 1;
+                        reconnectTimeout.current = setTimeout(() => {
+                            connectWithAuth();
+                        }, delay);
+                    }
+                };
             } catch (err) {
                 if (!isCancelled) {
                     console.error("WebSocket connection error:", err);
+                    setConnectionState("disconnected");
                 }
             }
         };
@@ -270,12 +344,16 @@ const useWebSocket = ({
             if (heartbeatInterval) {
                 clearInterval(heartbeatInterval);
             }
+            if (reconnectTimeout.current) {
+                clearTimeout(reconnectTimeout.current);
+            }
             socket.current?.close();
         };
-    }, [userName, roomId, onResetVote, joinRoom]);
+    }, [userName, roomId, joinRoom]);
 
     return {
         participants,
+        connectionState,
         cardControls: {
             submit: submitCard,
             reset: resetRoom,

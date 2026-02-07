@@ -16,7 +16,12 @@ const CopyToClipBoard = (props: Props) => {
         setTimeout(() => setCopied(false), 2000);
     };
     return (
-        <div className="flex items-center gap-1" onClick={copy} onKeyUp={copy}>
+        <button
+            type="button"
+            className="flex items-center gap-1 border-none bg-transparent p-0 cursor-pointer"
+            onClick={copy}
+            aria-label="Copy to clipboard"
+        >
             {props.children}
             <div className="px-1">
                 {copied ? (
@@ -25,7 +30,7 @@ const CopyToClipBoard = (props: Props) => {
                     <Copy size={16} />
                 )}
             </div>
-        </div>
+        </button>
     );
 };
 

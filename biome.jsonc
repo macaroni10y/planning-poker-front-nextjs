@@ -14,7 +14,7 @@
                 "useExhaustiveDependencies": "off"
             },
             "a11y": {
-                "noStaticElementInteractions": "off"
+                "noStaticElementInteractions": "warn"
             },
             "complexity": {
                 "noForEach": "off"

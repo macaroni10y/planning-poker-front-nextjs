@@ -45,9 +45,14 @@ const PauseResumeButton = (props: Props) => {
         : props.onTapPauseButton;
     const icon = props.isPaused ? <Play size={16} /> : <Pause size={16} />;
     return (
-        <div className="m-1" onClick={onTap} onKeyUp={onTap}>
+        <button
+            type="button"
+            className="m-1 border-none bg-transparent p-0 cursor-pointer"
+            onClick={onTap}
+            aria-label={props.isPaused ? "再開" : "一時停止"}
+        >
             {icon}
-        </div>
+        </button>
     );
 };
 
@@ -56,13 +61,14 @@ const Timer = (props: Props) => {
         <>
             <div className="mx-2">{formatSeconds(props.currentTime)}</div>
             <PauseResumeButton {...props} />
-            <div
-                className="m-1"
+            <button
+                type="button"
+                className="m-1 border-none bg-transparent p-0 cursor-pointer"
                 onClick={props.onTapResetButton}
-                onKeyUp={props.onTapResetButton}
+                aria-label="reset timer"
             >
                 <RotateCcw size={16} />
-            </div>
+            </button>
         </>
     );
 };
