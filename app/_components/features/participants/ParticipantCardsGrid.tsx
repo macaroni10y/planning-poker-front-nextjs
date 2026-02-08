@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import { useWindowSize } from "react-use";
 import DummyParticipantCard from "@/app/_components/features/participants/DummyParticipantCard";
 import ParticipantCard from "@/app/_components/features/participants/ParticipantCard";
@@ -44,22 +43,20 @@ const ParticipantCardsGrid = ({ participants }: Props) => {
     const isSingleRow = count <= currentMaxCols;
     const cardSize = isSingleRow ? "large" : "normal";
 
-    const gridStyle = useMemo(() => {
-        const cols = {
-            base: Math.min(count, MAX_COLS.base),
-            sm: Math.min(count, MAX_COLS.sm),
-            md: Math.min(count, MAX_COLS.md),
-            lg: Math.min(count, MAX_COLS.lg),
-            xl: Math.min(count, MAX_COLS.xl),
-        };
-        return {
-            "--grid-cols-base": cols.base,
-            "--grid-cols-sm": cols.sm,
-            "--grid-cols-md": cols.md,
-            "--grid-cols-lg": cols.lg,
-            "--grid-cols-xl": cols.xl,
-        } as React.CSSProperties;
-    }, [count]);
+    const cols = {
+        base: Math.min(count, MAX_COLS.base),
+        sm: Math.min(count, MAX_COLS.sm),
+        md: Math.min(count, MAX_COLS.md),
+        lg: Math.min(count, MAX_COLS.lg),
+        xl: Math.min(count, MAX_COLS.xl),
+    };
+    const gridStyle = {
+        "--grid-cols-base": cols.base,
+        "--grid-cols-sm": cols.sm,
+        "--grid-cols-md": cols.md,
+        "--grid-cols-lg": cols.lg,
+        "--grid-cols-xl": cols.xl,
+    } as React.CSSProperties;
 
     return (
         <div
