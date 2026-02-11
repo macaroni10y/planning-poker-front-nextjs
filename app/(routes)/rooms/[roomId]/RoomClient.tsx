@@ -1,8 +1,8 @@
 "use client";
 import { useAtom } from "jotai/index";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Confetti from "react-confetti";
-import { Bounce, ToastContainer, toast } from "react-toastify";
+import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useWindowSize } from "react-use";
 import ButtonsContainer from "@/app/_components/containers/ButtonsContainer";
@@ -18,8 +18,11 @@ import Timer from "@/app/_components/features/voting/Timer";
 import Header from "@/app/_components/ui/layout/Header";
 import HeaderItem from "@/app/_components/ui/layout/HeaderItem";
 import { userNameAtom } from "@/app/_lib/atoms";
+import { useConnectionNotification } from "@/app/_lib/useConnectionNotification";
+import { useReactions } from "@/app/_lib/useReactions";
+import { useTimer } from "@/app/_lib/useTimer";
 import useWebSocket from "@/app/_lib/useWebSocket";
-import type { Reaction, ReactionType, Vote } from "@/app/_types/types";
+import type { Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
 
 interface RoomClientProps {
@@ -37,12 +40,16 @@ const RoomClient = ({ roomId }: RoomClientProps) => {
     const { width, height } = useWindowSize();
 
     // reaction
-    const [reactions, setReactions] = useState<Reaction[]>([]);
+    const { reactions, handleReceiveReaction } = useReactions();
 
     // timer
-    const [currentTime, setCurrentTime] = useState<number>(0);
-    const timerId = useRef<NodeJS.Timeout | null>(null);
-    const [isPaused, setIsPaused] = useState(true);
+    const {
+        currentTime,
+        isPaused,
+        handleResetTimer,
+        handlePauseTimer,
+        handleResumeTimer,
+    } = useTimer();
 
     // websocket
     const connection = useWebSocket({
@@ -52,117 +59,15 @@ const RoomClient = ({ roomId }: RoomClientProps) => {
             setShowConfetti(false);
             selectCardNumber(() => "not yet");
         },
-        onReceiveResetTimerMessage: () =>
-            handleReceptionOfResetTimerOperation(),
-        onReceivePauseTimerMessage: (time: number) =>
-            handleReceptionOfPauseTimerOperation(time),
-        onReceiveResumeTimerMessage: (time: number) =>
-            handleReceptionOfResumeTimerOperation(time),
+        onReceiveResetTimerMessage: () => handleResetTimer(),
+        onReceivePauseTimerMessage: (time: number) => handlePauseTimer(time),
+        onReceiveResumeTimerMessage: (time: number) => handleResumeTimer(time),
         onReceiveReaction: (kind, sender) =>
             handleReceiveReaction(kind, sender),
-        onAllVotesMatch: () => handleAllVotesMatch(),
+        onAllVotesMatch: () => setShowConfetti(true),
     });
 
-    const hasConnectedOnce = useRef(false);
-    useEffect(() => {
-        if (connection.connectionState === "connected") {
-            if (hasConnectedOnce.current) {
-                toast.success("Reconnected", {
-                    position: "bottom-center",
-                    autoClose: 3000,
-                    theme: "light",
-                    transition: Bounce,
-                });
-            }
-            hasConnectedOnce.current = true;
-        }
-        if (
-            connection.connectionState === "disconnected" &&
-            hasConnectedOnce.current
-        ) {
-            toast.warning("Connection lost. Reconnecting...", {
-                position: "bottom-center",
-                autoClose: 3000,
-                theme: "light",
-                transition: Bounce,
-            });
-        }
-    }, [connection.connectionState]);
-
-    /**
-     * start new timer
-     * @return a timeout created in this function
-     */
-    const startTimer = () => {
-        if (timerId.current) {
-            clearInterval(timerId.current);
-        }
-        const created = setInterval(() => {
-            setCurrentTime((current) => current + 1);
-        }, 1000);
-        timerId.current = created;
-        setIsPaused(false);
-        return () => clearInterval(created);
-    };
-
-    const clearTimer = () => {
-        if (timerId.current) {
-            clearInterval(timerId.current);
-            timerId.current = null;
-            setIsPaused(true);
-        }
-    };
-
-    /**
-     * an operation when a message to resume timers with specified time is received
-     */
-    const handleReceptionOfResumeTimerOperation = (resumeFrom: number) => {
-        setCurrentTime(resumeFrom);
-        startTimer();
-    };
-
-    /**
-     * an operation when a message to pause timers is received
-     */
-    const handleReceptionOfPauseTimerOperation = (time: number) => {
-        setCurrentTime(time);
-        clearTimer();
-    };
-
-    /**
-     * an operation when a message to reset timers is received
-     */
-    const handleReceptionOfResetTimerOperation = () => {
-        clearTimer();
-        setCurrentTime(0);
-        startTimer();
-    };
-
-    const removeReaction = (id: string) => {
-        setReactions((prevReactions) =>
-            prevReactions.filter((reaction) => reaction.id !== id),
-        );
-    };
-    /**
-     * an operation when a reaction comes
-     * @param kind reaction type
-     * @param sender sender client name
-     */
-    const handleReceiveReaction = (kind: ReactionType, sender: string) => {
-        const newReaction: Reaction = {
-            id: Math.floor(Math.random() * 100000).toString(),
-            x: Math.random() * 800 - 400,
-            y: Math.random() * 100 - 50,
-            username: sender,
-            type: kind,
-        };
-        setReactions((prevReactions) => [...prevReactions, newReaction]);
-        setTimeout(() => removeReaction(newReaction.id), 2500);
-    };
-
-    const handleAllVotesMatch = () => {
-        setShowConfetti(true);
-    };
+    useConnectionNotification(connection.connectionState);
 
     const timerElement = (
         <Timer
