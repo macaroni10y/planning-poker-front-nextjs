@@ -5,6 +5,7 @@ import Confetti from "react-confetti";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useWindowSize } from "react-use";
+import { useWebHaptics } from "web-haptics/react";
 import ButtonsContainer from "@/app/_components/containers/ButtonsContainer";
 import ParticipantList from "@/app/_components/containers/ParticipantsList";
 import ReactionButtonContainer from "@/app/_components/containers/ReactionButtonContainer";
@@ -68,6 +69,8 @@ const RoomClient = ({ roomId }: RoomClientProps) => {
     });
 
     useConnectionNotification(connection.connectionState);
+
+    const { trigger } = useWebHaptics();
 
     const timerElement = (
         <Timer
@@ -133,15 +136,18 @@ const RoomClient = ({ roomId }: RoomClientProps) => {
                     onClickNextVote={() => {
                         connection.cardControls.reset(roomId);
                         connection.timerControls.reset(roomId);
+                        trigger();
                     }}
-                    onClickReveal={() =>
-                        connection.cardControls.revealAll(roomId)
-                    }
+                    onClickReveal={() => {
+                        connection.cardControls.revealAll(roomId);
+                        trigger();
+                    }}
                 />
                 <ScrumCards
                     onSelect={(target) => {
                         selectCardNumber(target);
                         connection.cardControls.submit(roomId, target);
+                        trigger();
                     }}
                     selectedCard={selectedCardNumber}
                 />
