@@ -24,6 +24,8 @@ import { useTimer } from "@/app/_lib/useTimer";
 import useWebSocket from "@/app/_lib/useWebSocket";
 import type { Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
+import { useWebHaptics } from "web-haptics/react";
+
 
 interface RoomClientProps {
     roomId: string;
@@ -68,6 +70,8 @@ const RoomClient = ({ roomId }: RoomClientProps) => {
     });
 
     useConnectionNotification(connection.connectionState);
+
+    const { trigger } = useWebHaptics();
 
     const timerElement = (
         <Timer
@@ -133,15 +137,18 @@ const RoomClient = ({ roomId }: RoomClientProps) => {
                     onClickNextVote={() => {
                         connection.cardControls.reset(roomId);
                         connection.timerControls.reset(roomId);
+                        trigger();
                     }}
-                    onClickReveal={() =>
-                        connection.cardControls.revealAll(roomId)
-                    }
+                    onClickReveal={() => {
+                        connection.cardControls.revealAll(roomId);
+                        trigger();
+                    }}
                 />
                 <ScrumCards
                     onSelect={(target) => {
                         selectCardNumber(target);
                         connection.cardControls.submit(roomId, target);
+                        trigger();
                     }}
                     selectedCard={selectedCardNumber}
                 />
