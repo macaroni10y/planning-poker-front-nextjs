@@ -5,6 +5,7 @@ import Confetti from "react-confetti";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useWindowSize } from "react-use";
+import { useWebHaptics } from "web-haptics/react";
 import ButtonsContainer from "@/app/_components/containers/ButtonsContainer";
 import ParticipantList from "@/app/_components/containers/ParticipantsList";
 import ReactionButtonContainer from "@/app/_components/containers/ReactionButtonContainer";
@@ -24,8 +25,6 @@ import { useTimer } from "@/app/_lib/useTimer";
 import useWebSocket from "@/app/_lib/useWebSocket";
 import type { Vote } from "@/app/_types/types";
 import { createClient } from "@/utils/supabase/client";
-import { useWebHaptics } from "web-haptics/react";
-
 
 interface RoomClientProps {
     roomId: string;
